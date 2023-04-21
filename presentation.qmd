@@ -2133,6 +2133,51 @@ gt(correlations) |> tab_spanner(label = "Small flux", columns = 2:4) |> tab_span
 
 Continuous Vertical Sequestration
 
+## {{< fa bell >}} BCP and its export pathways
+
+```{r, bcp and its export pathways for converse, fig.width=6, fig.height=6}
+
+# df <- tibble(pump = c('BGP', 'BGP', 'VMP diel', 'VMP diel', 'VMP seasonal', 'VMP seasonal', 'Mixed layer', 'Mixed layer', 'Eddy subduction', 'Eddy subduction', 'Large-scale subduction', 'Large-scale subduction'),
+#              group = c(rep('BGP', 2), rep('VMP', 4), rep('Mixing', 6)),
+#              #type = c('POC', 'DOC','POC', 'DOC','POC', 'DOC','POC', 'DOC','POC', 'DOC','POC', 'DOC'),
+#              #start = c(0, NA, 200, NA, 600, NA, 200, 200, 150, 150, 200, 200),
+#              #start = rep(0,12),
+#              end = c(2500, NA, 600, NA, 1400, NA, 1000, 1000, 400, 400, 1000, 1000),
+#              depth = c(0, 100, 200, 300, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500))
+
+
+df <- tibble(pump = c('BGP', 'VMP diel', 'VMP seasonal', 'Mixed layer','Eddy subduction', 'Large-scale subduction'),
+             group = c(rep('BGP', 1), rep('VMP', 2), rep('Mixing', 3)),
+             end = c(2500, 600, 1400, 1000, 400, 1000),
+             depth = c(0, 100, 500, 1000, 1500, 2500))
+
+plot_ly(df, x = ~pump, y = ~end, type = 'bar', color = ~group, colors = c("#f5e8c8", "#e01f54", '#001852'), showlegend = F) |>
+  layout(xaxis = list(title = 'Pumps', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = F), 
+          yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), barmode = "group", autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
+          tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> config(displayModeBar = FALSE)
+
+# plot_ly(df, x = ~group, y = ~start, type = 'scatter', mode = 'markers', marker = list(color = 'white', showlegend = F)) |>
+#   add_trace(y = ~end, mode = 'markers', showlegend = F) |>
+#    add_segments(x = 'BGP', xend = 'BGP', y = 0, yend = 2500, line = list(width = 15, color = "#f5e8c8"), showlegend = F) |>
+#   add_segments(x = 'VMP diel', xend = 'VMP diel', y = 200, yend = 600, line = list(width = 15, color = "#001852"), showlegend = F) |>
+#   add_segments(x = 'VMP seasonal', xend = 'VMP seasonal', y = 600, yend = 1400, line = list(width = 15, color = "#001852"), showlegend = F) |>
+#   add_segments(x = 'Eddy subduction', xend = 'Eddy subduction', y = 150, yend = 400, line = list(width = 15, color = "#e01f54"), showlegend = F) |>
+#   add_segments(x = 'Mixed layer', xend = 'Mixed layer', y = 200, yend = 1000, line = list(width = 15, color = "#e01f54"), showlegend = F) |>
+#   add_segments(x = 'Large-scale subduction', xend = 'Large-scale subduction', y = 200, yend = 1000, line = list(width = 15, color = "#e01f54"), showlegend = F) |>
+#    layout(xaxis = list(title = 'Pumps', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T), 
+#           yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
+#           tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> config(displayModeBar = FALSE) #|>
+#   #add_trace(y = 2500, type = 'scatter', mode = 'line', line = list(color = 'black', dash = 'dash'), showlegend = F) 
+
+
+```
+
+::: {style="position:absolute;top:15%;left:45%;"}
+POC (all) and DOC (<span style="border-bottom: 4px solid red;">mixing</span>)<br><br>
+Gravitational settling or injection<br><br>
+Mixing + VMP merge back with BGP
+:::
+
 ## Sequestration can occur at any depth
 
 ![](converse/converse_fig1.svg){.absolute top=80 left=0 width="400" height="600" .my-image}
@@ -2151,31 +2196,57 @@ Continuous Vertical Sequestration
 <span style="font-size: 30px;"><span style="color: gray;">Ricour et al., (2023)</span> 
 :::
 
-## BCP and its export pathways
+## How can we compute F<sub>seq</sub> ?
 
-```{r, bcp and its export pathways for converse, fig.width=6, fig.height=6}
+![](converse/fig2_converse.svg){.absolute top=80 left=-80 width="800" height="600"}
 
-df <- tibble(group = c('BGP', 'BGP', 'VMP diel', 'VMP diel', 'VMP seasonal', 'VMP seasonal', 'Mixed layer', 'Mixed layer', 'Eddy subduction', 'Eddy subduction', 'Large-scale subduction', 'Large-scale subduction'),
-             type = c('POC', 'DOC','POC', 'DOC','POC', 'DOC','POC', 'DOC','POC', 'DOC','POC', 'DOC'),
-             start = c(0, NA, 200, NA, 600, NA, 200, 200, 150, 150, 200, 200),
-             end = c(2500, NA, 600, NA, 1400, NA, 1000, 1000, 400, 400, 1000, 1000),
-             depth = c(0, 100, 200, 300, 500, 750, 1000, 1250, 1500, 1750, 2000, 2500))
+::: {style="position:absolute;top:15%;left:60%;"}
 
-plot_ly(df, x = ~group, y = ~start, type = 'scatter', mode = 'markers', marker = list(color = 'white', showlegend = F)) |>
-  add_trace(y = ~end, mode = 'markers', showlegend = F) |>
-   add_segments(x = 'BGP', xend = 'BGP', y = 0, yend = 2500, line = list(width = 15, color = "#f5e8c8"), showlegend = F) |>
-  add_segments(x = 'VMP diel', xend = 'VMP diel', y = 200, yend = 600, line = list(width = 15, color = "#001852"), showlegend = F) |>
-  add_segments(x = 'VMP seasonal', xend = 'VMP seasonal', y = 600, yend = 1400, line = list(width = 15, color = "#001852"), showlegend = F) |>
-  add_segments(x = 'Eddy subduction', xend = 'Eddy subduction', y = 150, yend = 400, line = list(width = 15, color = "#e01f54"), showlegend = F) |>
-  add_segments(x = 'Mixed layer', xend = 'Mixed layer', y = 200, yend = 1000, line = list(width = 15, color = "#e01f54"), showlegend = F) |>
-  add_segments(x = 'Large-scale subduction', xend = 'Large-scale subduction', y = 200, yend = 1000, line = list(width = 15, color = "#e01f54"), showlegend = F) |>
-   layout(xaxis = list(title = 'Pumps', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T), 
-          yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
-          tickmode = "array", tickvals = c(200,400,1000,1400), ticktext = c("200","400","1000","1400"))) |> config(displayModeBar = FALSE) |>
-  add_trace(y = 2500, type = 'scatter', mode = 'line', line = list(color = 'black', dash = 'dash')) |>
-  add_annotations(x = 'BGP', y = 2550, text = 'sediment')
+<span style="font-size: 30px;">f<sub>100</sub> --- <em>fraction of a water parcel at a given location and depth that will remain in the ocean for $\geq$ 100 years</em><br><br></span> 
+<span style="font-size: 30px;">OCIM model <span style="color: gray;">(Devries et al., 2017)</span><br><br>
+<span style="font-size: 30px;">f<sub>100 (avg)</sub> (530 m) = 0.3<br></span>
+<span style="font-size: 30px;">f<sub>100 (avg)</sub> (> 1000 m) = 0.87<br><br></span>
+ 
+::: {.box}
+<span style="font-size: 30px;">F<sub>seq</sub> = f<sub>100</sub> x F<sub>remin</sub><br></span>
+:::
+
+:::
+
+## 7 CONVERSE versions to compute F<sub>remin</sub>
+
+![](converse/Fig4_PHDPREZ.svg){.absolute top=40 left=-60 width="800" height="800"}
+
+::: {style="position:absolute;top:15%;left:62%;"}
+```{r, converse Fremin}
+
+df <- data.frame(version = c('C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'),
+            b_factor = c(0.86, 'Variable', 'Regional', '', '', 0.86, 0.86),
+            export_depth = c(100, 100, 100, 'Zeu', 100, 100, 100),
+            export_value = c(3,3,3,8.6,7.3,3,3))
+            # bgp = rep('f(pixel, depth layer, C#)', 7),
+            # bgp = 'f(pixel, depth layer, C#)',
+            # mixing = rep('f(pixel, depth layer, C#)', 7),
+            # vmp = rep('f(pixel, C#)', 7))
+
+# df_transposed <- tibble::as_tibble(t(df))
+# colnames(df_transposed) <- df_transposed[1,]
+# df<- df_transposed[-1,]
+# 
+# rownames(df) <- c('b', 'Export depth', 'Export total flux')
+
+df |>
+  gt() |>
+  cols_label(version = md('**Version**'), 
+             b_factor = md('**b**'),
+             export_depth = md('**Export depth <br>(m)**'),
+             export_value = md('**Export value <br>(Pg C year<sup>-1</sup>)**'))
+  
 
 ```
+<span style="font-size: 30px;">F<sub>remin</sub> = f(pixel, depth layer, C#)<br></span>
+
+:::
 
 
 # Perspectives
