@@ -1,0 +1,43 @@
+/*-- scss:defaults --*/
+/*-- $presentation-heading-color: green; --*/
+
+/*-- scss:rules --*/
+
+.highlight-solubility {
+  background-color: #f5e8c8;
+  border-radius: 10px;
+}
+
+.highlight-carbonate {
+  background-color: #e01f54;
+  border-radius: 10px;
+  color: white;
+}
+
+.highlight-bcp {
+  background-color: #001852;
+  border-radius: 10px;
+  color: white;
+}
+
+.resize {
+    width: 80%;
+    height: auto;
+}
+
+.small-text {
+  font-size: 30px;
+}
+
+.tiny-text {
+  font-size: 12px;
+  align-items: center;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.my-image {
+  clip-path: inset(30px 0 0 0);
+}
