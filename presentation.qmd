@@ -129,7 +129,7 @@ Sys.setlocale("LC_TIME", "en_GB.utf8")
 ![](images/wc-cropped.svg){width="800" height="600"}
 :::
 
-# Introduction
+# Introduction {background-color="black"}
 
 ## Dissolved inorganic carbon (DIC) {.smaller}
 
@@ -639,7 +639,7 @@ Large uncertainties remain
 :::
 :::
 
-# UVP6 embedded classification
+# UVP6 embedded classification {background-color="black"}
 
 ## Underwater Vision Profiler 6 (UVP6)
 
@@ -758,28 +758,56 @@ Model size (loading time < 700 ms)<br><br>
 
 ::: columns
 ::: {.column width="60%"}
+::: {style="position:absolute;left:0%;"}
 ```{r, table of features, cache=T}
 
-tmp <- vroom::vroom('images/uvp6_images/features_test.csv') |> select(area, mean, eccentricity, labels, objid) |> mutate(image = "") |> select(image, labels, everything()) |> mutate(mean = floor(mean), eccentricity = round(eccentricity, 2))
+tmp <- vroom::vroom('images/uvp6_images/features_test.csv') |> select(area, mean, eccentricity, angle, hu_moment_1 = `hu_moment-1`, labels, objid) |> mutate(image = "") |> select(image, labels, everything()) |> mutate(mean = floor(mean), eccentricity = round(eccentricity, 2), angle = round(angle, 2), hu_moment_1 = round(hu_moment_1,2))
 tmp <- tmp |> filter(objid %in% c(294999773,287246779,287249133,287246708,287246365)) |> select(-objid) |> mutate(more = "...")
 tmp <- as.data.frame(tmp)
 
-tmp$area <- cell_spec(tmp$area, background = dplyr::if_else(tmp$area > 20000, "#FF9999", dplyr::if_else(tmp$area < 600, 'lightblue', '')))
-tmp$mean <- cell_spec(tmp$mean, background = dplyr::if_else(tmp$mean > 161, "#FF9999", dplyr::if_else(tmp$mean < 55, 'lightblue', '')))
-tmp$eccentricity <- cell_spec(tmp$eccentricity, background = dplyr::if_else(tmp$eccentricity > 0.98, "#FF9999", dplyr::if_else(tmp$eccentricity < 0.3, 'lightblue', '')))
+tmp$image <- c("/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/294999773_inverted.png", 
+               "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287246779_inverted.png",
+               "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287249133_inverted.png", 
+               "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287246708_inverted.png",
+               "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287246365_inverted.png")
 
+# tmp$area <- cell_spec(tmp$area, background = dplyr::if_else(tmp$area > 20000, "#FF9999", dplyr::if_else(tmp$area < 600, 'lightblue', '')))
+# tmp$mean <- cell_spec(tmp$mean, background = dplyr::if_else(tmp$mean > 161, "#FF9999", dplyr::if_else(tmp$mean < 55, 'lightblue', '')))
+# tmp$eccentricity <- cell_spec(tmp$eccentricity, background = dplyr::if_else(tmp$eccentricity > 0.98, "#FF9999", dplyr::if_else(tmp$eccentricity < 0.3, 'lightblue', '')))
+# 
+# 
+# fig <- tmp |> kbl(format = 'html', digits = 2, col.names = c('', 'Label', '# pixels', 'Mean gray level', 'Eccentricity', '52/55'), escape = F) |> column_spec(1, image = spec_image(c("/images/uvp6_images/alive_inverted/294999773_inverted.png", "/images/uvp6_images/alive_inverted/287246779_inverted.png",
+#                                                                     "/images/uvp6_images/alive_inverted/287249133_inverted.png", "/images/uvp6_images/alive_inverted/287246708_inverted.png",
+#                                                                 "/images/uvp6_images/alive_inverted/287246365_inverted.png"), 300, 200)) |>
+#   kable_paper("hover", full_width = F) |>
+#   kable_styling(bootstrap_options = "striped", font_size = 20, row_label_position = 'c')
+# 
+# fig
 
-fig <- tmp |> kbl(format = 'html', digits = 2, col.names = c('', 'Label', '# pixels', 'Mean gray level', 'Eccentricity', '52/55'), escape = F) |> column_spec(1, image = spec_image(c("/images/uvp6_images/alive_inverted/294999773_inverted.png", "/images/uvp6_images/alive_inverted/287246779_inverted.png",
-                                                                    "/images/uvp6_images/alive_inverted/287249133_inverted.png", "/images/uvp6_images/alive_inverted/287246708_inverted.png",
-                                                                "/images/uvp6_images/alive_inverted/287246365_inverted.png"), 300, 200)) |>
-  kable_paper("hover", full_width = F) |>
-  kable_styling(bootstrap_options = "striped", font_size = 20, row_label_position = 'c')
-
-fig
-
+tmp |>
+   gt() |>
+   gt_img_rows(columns = image, img_source = "local", height = 75) %>%
+   tab_options(data_row.padding = px(1)) |>
+   cols_label(image = md('**Image**'),
+             labels = md('**Label**'),
+             area = md('**Area**'),
+             mean = md('**Mean**'),
+             eccentricity = md('**Eccentricity**'),
+             angle = md('**Orientation angle**'),
+             hu_moment_1 = md('**Hu moment-1**'),
+             more = md('**50/55**')) |>
+  cols_align("center") |>
+  tab_style_body(
+    style = cell_fill(color = "#22a7f0"),
+    values = c(53, 591, 0.28, -1.45, 0.26)
+  ) |>
+    tab_style_body(
+    style = cell_fill(color = "#e14b31"),
+    values = c(210812,162,0.99,1.17,0.81)
+  ) 
 ```
 :::
-
+:::
 ::: {.column width="40%"}
 
 
@@ -1157,15 +1185,15 @@ cf_uvp6_xgboost_cnn |>
 ```
 :::
 
-## add a slide of conclusion?
+## {{< fa check >}} Take-home message #1
 
-## add a slide of transition
-
-bosser les transitions avec teintes de gris par rapport aux questions et faire une slide de rapport pour montrer le fil
-
-# UVP6 and OST in the Labrador Sea
+# UVP6 and OST in the Labrador Sea {background-color="black"}
 
 2 independent measurements of particle and carbon fluxes
+
+## {{< fa bell >}} Transition slide
+
+bosser les transitions avec teintes de gris par rapport aux questions et faire une slide de rapport pour montrer le fil
 
 ## Optical Sediment Trap (OST)
 
@@ -1540,6 +1568,29 @@ down_part
 ```
 ::: {style="position:absolute;top:30%;left:65%;"}
 Export event?
+:::
+
+### Float position
+
+::: {style="position:absolute;top:20%;left:-15%;"}
+```{r, float position ter}
+
+p +
+  geom_path(data = argo_map_geo, aes(lon, lat, colour = WMO), linewidth = 1) + 
+  geom_point(data = argo_map_geo, aes(x= lon, y = lat, colour = WMO), size = 2) +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  theme_bw() +
+  geom_point(data = transform_coord(argo_map_first), aes(lon, lat), shape = 17, size = 3) +
+  geom_point(data = argo_map_last_geo, aes(lon, lat, colour = WMO), size = 4) +
+  geom_point(data = argo_map_last_geo, aes(lon, lat), fill = 'black', size = 4, shape = 1) +
+  #https://aosmith.rbind.io/2020/07/09/ggplot2-override-aes/#suppress-aesthetics-from-part-of-the-legend
+  guides(color = guide_legend(override.aes = list(size = c(1.5,1.5,1.5,1.5),
+                                                  shape = c(NA, NA, NA, NA)))) +
+  annotation_scale(location = "br") + 
+  annotation_north_arrow(location = "tr", which_north = "true") 
+
+```
 :::
 
 :::
@@ -2050,18 +2101,18 @@ ggplot(comparison_flux_ost_uvp) + geom_line(aes(x = date, y = total_flux), colou
                       stat = 'summary',
                       #fun.min = function(z) {quantile(z, 0.25)},
                       #fun.max = function(z) {quantile(z, 0.75)},
-                      fun = median, colour = '#D95F02', width = 5) +
+                      fun = median, colour = '#4774c5', width = 5) +
     geom_line(aes(x = date, y = guidi_flux),
                       stat = 'summary',
-                      fun = median, colour = '#D95F02') +
+                      fun = median, colour = '#4774c5') +
     geom_errorbar(aes(x = date, y = iversen_flux),
                       stat = 'summary',
                       #fun.min = function(z) {quantile(z, 0.25)},
                       #fun.max = function(z) {quantile(z, 0.75)},
-                      fun = median, colour = '#E6AB02', width = 5) + # #003366
+                      fun = median, colour = '#D01556FF', width = 5) + # #003366
     geom_line(aes(x = date, y = iversen_flux),
                       stat = 'summary',
-                      fun = median, colour = '#E6AB02') + 
+                      fun = median, colour = '#D01556FF') + 
   scale_y_continuous(trans = 'log10') + theme_bw() + labs(x = 'Month', y = TeX('$F_{total}$ (mg C m$^{-2}$ day$^{-1}$)')) +
   scale_x_date(labels = date_format("%m"), date_breaks = '1 month')
 
@@ -2084,8 +2135,8 @@ F_{total,~UVP} = \sum_{i}^{N}C_{i}Ad_{i}^{B}
 :::
 
 ::: {style="position:absolute;top:60%;left:57%;"}
-<span style="color: #D95F02;">Guidi et al., (2008) --- (A, B) = (12.5, 3.81)</span><br>
-<span style="color: #E6AB02;">Iversen et al., (2010) --- (A, B) = (273.8, 4.27)</span><br>
+<span style="color: #4774c5;">Guidi et al., (2008) --- (A, B) = (12.5, 3.81)</span><br>
+<span style="color: #D01556FF;">Iversen et al., (2010) --- (A, B) = (273.8, 4.27)</span><br>
 
 :::
 
@@ -2108,30 +2159,42 @@ gt(correlations) |> tab_spanner(label = "Small flux", columns = 2:4) |> tab_span
              `cor_total_200 m` = '200 m',
              `cor_total_500 m` = '500 m',
              `cor_total_1000 m` = '1000 m') |>
-  data_color(rows = 1:4,
-             columns = 2:10,
-             palette = c("#1984c5", "#22a7f0", "#63bff0", "#a7d5ed", "#e2e2e2", "#e1a692", "#de6e56", "#e14b31", "#c23728"),
-             direction = "row")
-#          ) |>
-#   opt_interactive(
-#   active = TRUE,
-#   use_highlight = TRUE,
-#   use_pagination = F,
-#   use_sorting = F
-# )
+  # data_color(rows = 1:4,
+  #            columns = 2:10,
+  #            palette = c("#1984c5", "#22a7f0", "#63bff0", "#a7d5ed", "#e2e2e2", "#e1a692", "#de6e56", "#e14b31", "#c23728"),
+  #            direction = "row")
+  tab_style_body(
+    style = cell_fill(color = "#22a7f0"),
+    values = c(-0.05, -0.02, -0.02, 0.06, 0.06)
+  ) |>
+    tab_style_body(
+    style = cell_fill(color = "#e14b31"),
+    values = c(0.78, 0.72,0.83,0.75,0.78,0.86,0.76,0.83,0.77,0.78,0.81,0.87,0.84,0.7,0.87,0.74,0.82)
+  ) |>
+  grand_summary_rows(
+    columns = 2:10,
+    fns = list(
+      average ~ round(mean(.),2),
+      sd ~ round(sd(.), 2)
+    )
+  ) |>
+  tab_options(
+    grand_summary_row.background.color = "lightgray"
+  ) 
+
 
 ```
 :::
 
-## Conclusion after 1 year of data
+## {{< fa check >}} Take-home message #2
 
 - OST and UVP6 are well correlated, especially at 500 and 1000 m
 - Preliminary results
 - etc etc etc à discuter avec Hervé et Lionel
 
-# CONVERSE
+# CONVERSE {background-color="black"}
 
-Continuous Vertical Sequestration
+**CON**tinuous **VE**rtical **SE**questration
 
 ## {{< fa bell >}} BCP and its export pathways
 
@@ -2180,19 +2243,20 @@ Mixing + VMP merge back with BGP
 
 ## Sequestration can occur at any depth
 
-![](converse/converse_fig1.svg){.absolute top=80 left=0 width="400" height="600" .my-image}
+![](converse/converse_fig1.svg){.absolute top=80 left=0 width="420" height="600" .my-image}
 
-::: {style="position:absolute;top:20%;left:35%;"}
+::: {style="position:absolute;top:12%;left:40%;"}
 
 <span style="font-size: 30px;">BCP = BGP + VMP + Mixing pumps transport <span style="color: #528133;"><strong>F<sub>org</sub></strong></span><br><br></span> 
 <span style="font-size: 30px;"><span style="color: #528133;"><strong>F<sub>org</sub></strong></span> respired to CO<sub>2</sub> (<strong><span style="color: #D01556FF;"><strong>F<sub>remin</sub></strong></span></strong>) or sedimented <br><br></span>
 <span style="font-size: 30px;">Respiratory CO<sub>2</sub> = biogenic DIC (<strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span></strong>)<br><br></span>
 <span style="font-size: 30px;"><strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span> </strong> in the ocean for $\geq$ 100 years = sequestered (<strong><span style="color: #4774c5;"><strong>F<sub>seq</sub></strong></span></strong>)<br><br></span>
 <span style="font-size: 30px;">Flux ~~inventory~~ &#8594; Pg C year<sup>-1</sup><br><br></span> 
+<span style="font-size: 30px;">Continuous vs. fixed sequestration depth (e.g. 1000 m)<br><br></span> 
 <!-- <span style="font-size: 30px;"><span style="color: #528133;"><strong>F<sub>org</sub></strong></span> reaching sediment = very long-term sequestration<br><br></span> -->
 :::
 
-::: {style="position:absolute;top:90%;left:0%;"}
+::: {style="position:absolute;top:92%;left:0%;"}
 <span style="font-size: 30px;"><span style="color: gray;">Ricour et al., (2023)</span> 
 :::
 
@@ -2224,7 +2288,7 @@ df <- data.frame(version = c('C1', 'C2', 'C3', 'C4', 'C5', 'C6'),
             b_factor = c(0.86, 'Variable', 'Regional', '', '', 0.86),
             export_depth = c(100, 100, 100, 'Zeu', 100, 100),
             export_value = c(3,3,3,8.6,7.3,3),
-            group = c('Group1', 'Group1', 'Group1', 'Group2', 'Group2', 'Group3'),
+            group = c('Group 1', 'Group 1', 'Group 1', 'Group 2', 'Group 2', 'Group 3'),
             BGP = c('empirical', 'empirical', 'empirical', 'model', 'model', 'export ratio'),
             Mixing = c('export ratio', 'export ratio', 'export ratio', 'model', 'model', 'export ratio'),
             VMP = rep('empirical', 6))
@@ -2261,6 +2325,7 @@ df |> group_by(group) |>
 ```
 
 :::
+
 ::: {style="position:absolute;top:15%;left:60%;"}
 <span style="font-size: 30px;">F<sub>remin</sub> = f(pixel, depth layer, C#)<br><br></span>
 <span style="font-size: 30px;">BGP empirical --- Martin's flux attenuation curve<br><br></span>
@@ -2269,17 +2334,79 @@ df |> group_by(group) |>
 <span style="font-size: 30px;">VMP seasonal --- migration at 600 m<br>(NNA only)</span>
 <!-- $$F_{orgPOC}(z) = F_{expPOC} \times \left(\frac{z}{z_{exp}}\right)^{-b}$$ -->
 <!-- $$F_{reminPOC}(\Delta z) = F_{orgPOC}(z) - F_{orgPOC}(z+1)$$ -->
-
 :::
 
-## F<sub>remin</sub> x f<sub>100</sub> = F<sub>seq</sub>
+## Examples of stations --- <span style="color: #D01556FF;">F<sub>remin</sub></span> x <span style="color: #E6AB02;">f<sub>100</sub></span> = <span style="color: #4774c5;">F<sub>seq</sub></span>
 
-![](converse/Fig4_PHDPREZ.svg){.absolute top=40 left=-60 width="800" height="800"} 
-- parler de la 4 ème colonne
-- dire l'example de C# utilisé
-- dire qu'après on on intègre sur tous les pixels après pour avoir les estimations de flux annuels
-- code couleur, il faut que le titre matche avec les courbes et que les courbes matchent avec les couleurs des slides précédentes donc rouge, blue et une autre couleur.. jaune me va bien
+![](converse/Fig4_PHDPREZ.svg){.absolute top=40 left=-80 width="800" height="800"} 
 
-# Perspectives
+::: {style="position:absolute;top:15%;left:60%;"}
 
-# Thank you !
+<span style="font-size: 30px;"><span style="color: #4774c5;">F<sub>seq</sub></span> max above 2000 m<br><br></span>
+<span style="font-size: 30px;">50% of F<sub>seq</sub> accumulation by 1000 m<br><br></span>
+<span style="font-size: 30px;">Fixed sequestration depth = missing most of <span style="color: #4774c5;">F<sub>seq</sub></span><br><br></span>
+<!-- <span style="font-size: 30px;">Next step --- Global estimations (= all pixels)<br><br></span> -->
+:::
+
+## Global F<sub>seq</sub> --- continuous vs. fixed depth 
+
+![](converse/Fig5PREZ.jpg.svg){.absolute top=80 left=-120 width="800" height="600"}
+
+::: {style="position:absolute;top:15%;left:59%;"}
+<span style="font-size: 30px;">Magnitudes differ but same patterns<br><br></span>
+<span style="font-size: 30px;">F<sub>seq</sub>(BGP) --- 0.6 - 1.9 Pg C y<sup>-1</sup><br></span>
+<span style="font-size: 30px;">F<sub>seq</sub>(BCP) --- 0.9 - 2.6 Pg C y<sup>-1</sup><br><br></span>
+<span style="font-size: 30px;">F<sub>seq</sub>(1000 m) --- 0.4 - 1.1 Pg C y<sup>-1</sup><br></span>
+<span style="font-size: 30px;">F<sub>seq</sub>(2000 m) --- 0.2 - 0.5 Pg C y<sup>-1</sup><br><br></span>
+<!-- <span style="font-size: 30px;">F<sub>seq</sub>(BCP) up to 6 times higher than fixed sequestration depth studies<br><br></span> -->
+<span style="font-size: 30px;">Mixing --- 11-23% of F<sub>seq</sub>(BCP)<br></span>
+<span style="font-size: 30px;">VMP --- 9-12% of F<sub>seq</sub>(BCP)</span>
+:::
+
+<!-- ## VMP and Mixing --- 21-34% to F<sub>seq</sub>(BCP) -->
+
+<!-- ::: {style="position:absolute;top:15%;left:0%;"} -->
+<!-- ```{r, Fseq estimations and % } -->
+
+
+<!-- # df <- tibble(version = c('C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'), -->
+<!-- #              bgp = c(72,79,75,72,76,76,76), -->
+<!-- #              mixing = c(15,11,14,17,13,13,23), -->
+<!-- #              migrant = c(12,9,12,10,11,11,11)) -->
+
+<!-- df <- tibble(Version = c(rep('C1',3), rep('C2',3), rep('C3',3), rep('C4',3), rep('C5',3), rep('C6',3), rep('C7',3)), -->
+<!--              pump = c(rep(c('BGP','Mixing','VMP'),7)), -->
+<!--              value = c(72,15,12,79,11,9,75,14,12,72,17,10,76,13,11,76,13,11,66,23,11)) -->
+
+<!-- tab_df <- df |> -->
+<!--   group_by(Version) |> -->
+<!--   summarise(list_data = list(value)) -->
+
+<!-- tab_df |> -->
+<!--   gt() |> -->
+<!--   gt_plt_bar_stack(column = list_data, labels = c('BGP','Mixing','VMP'), -->
+<!--                     position = 'fill') #|> -->
+<!--   # tab_options(table.width = px(500)) -->
+
+<!-- ``` -->
+
+<!-- ::: -->
+
+<!-- ::: {style="position:absolute;top:15%;left:60%;"} -->
+<!-- <span style="font-size: 30px;"><br><br></span> -->
+<!-- ::: -->
+
+
+## {{< fa check >}} Take-home message #3
+
+- Sequestration of DIC<sub>bio</sub> not only in deep waters
+- Using a fixed sequestration depth underestimate F<sub>seq</sub>(BCP)
+  * CONVERSE F<sub>seq</sub>(BCP) = 2-3 > F<sub>seq</sub>(POC, 1000 m) 
+  * CONVERSE F<sub>seq</sub>(BCP) = 3-6 >  F<sub>seq</sub>(POC, 2000 m) 
+- VMP and Mixing pumps are important contributors to F<sub>seq</sub>(BCP)
+  - 21-34%
+- CONVERSE could be applied for the evaluation of mCDR strategies
+
+# Perspectives {background-color="black"}
+
+# Thank you ! {background-color="black"}
