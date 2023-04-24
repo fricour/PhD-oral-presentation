@@ -140,23 +140,6 @@ Sys.setlocale("LC_TIME", "en_GB.utf8")
 library(echarts4r)
 library(tibble)
 
-# create data frame with parent-child relationships and node values
-# df <- tibble(
-#   parents = c("", "Everything", "Everything", "CO2 (aq)", "CO2 (aq)", "CO2 (aq)"), 
-#   labels = c("Everything", "CO2 (aq)", "CO2 (gas)", "carbonic acid", "carbonate", "bicarbonate"), 
-#   value = c(0, 50, 50, 0.25,5.25,44.5)
-# )
-
-# df <- tibble(
-#   parents = c("", "Everything", "Everything", "ocean", "ocean", "ocean"),
-#   labels = c("Everything", "ocean", "atmosphere", "carbonic acid", "carbonate", "bicarbonate"),
-#   value = c(0, 50, 50, 0.25,5.25,44.5)
-# )
-# 
-# # create a tree object
-# df <- data.tree::FromDataFrameNetwork(df) 
-
-
 df <- tibble(
   name = c("CO\u2082 (aq)", "CO\u2082 (gas)"),
   value = c(50,50),
@@ -164,7 +147,6 @@ df <- tibble(
   itemStyle = tibble(color = c("#001852", "#e01f54")),
   children = list(
     tibble(
-      #name = c("carbonic acid", "carbonate", "bicarbonate"),
       name = c("H\u2082CO\u2083", "CO\u2083\u00B2\u207B", "HCO\u2083\u207B"),
       value = c(0.25,5.25,44.5)
     ),
@@ -174,14 +156,12 @@ df <- tibble(
 
 myStyles <- c(list(color = "#3F517D")) # custom styles defined
 myNames <- list(c("carbonic acid", "carbonate", "bicarbonate")) # names to style
-#myNames <- c("H\u2082CO\u2083", paste0("CO\u2083", "\u00B2\u207B"), paste0("HCO\u2083", "\u207B"))
 myNames <- list(c("H\u2082CO\u2083", "CO\u2083\u00B2\u207B", "HCO\u2083\u207B"))
 myLevels <- list(2) # hierarchical levels to style
 
 # plot sunburst
 df |>
   e_charts(renderer = "svg") |>
-  #e_sunburst() 
   e_sunburst(myStyles, myNames, myLevels) |>
   e_labels(fontSize = 15)
 
@@ -189,82 +169,19 @@ df |>
 :::
 
 ::: {.column width="50%"}
-<!-- ::: {style="position:absolute;top:42.5%;right:10f;"} -->
 
-```{=tex}
-<!-- \begin{gather*} -->
-<!-- DIC = CO_{2_{(aq)}} + H_{2}CO_{3} + HCO_{3}^{-} + CO_{3}^{2-}  -->
-<!-- \end{gather*} -->
-```
+
 ```{r ttt}
-# df <- tibble(group = rep('DIC', 4),
-#               name = c("CO\u2082 (aq)", "H\u2082CO\u2083", paste0("CO\u2083", "\u00B2\u207B"), paste0("HCO\u2083", "\u207B")),
-#               value = c(0.25,0.25,10.5,89))
 
 df <- tibble(group = rep('DIC', 3),
               name = c("CO\u2082*", paste0("CO\u2083", "\u00B2\u207B"), paste0("HCO\u2083", "\u207B")),
               value = c(0.5,10.5,89))
 
-# hc <- hchart(df, "packedbubble", hcaes(name = name, value = value, group = group))
-# hc |> hc_tooltip(
-#     useHTML = TRUE,
-#     pointFormat = "<b>{point.name}:</b> {point.value}"
-#   ) |>
-#   hc_plotOptions(
-#     packedbubble = list(
-#       maxSize = "200%",
-#       minSize = "2%",
-#       zMin = 10,
-#       layoutAlgorithm = list(
-#         gravitationalConstant =  0.05,
-#         splitSeries =  FALSE, # TRUE to group points
-#         seriesInteraction = FALSE,
-#         dragBetweenSeries = FALSE,
-#         parentNodeLimit = FALSE
-#       ),
-#       dataLabels = list(
-#         enabled = TRUE,
-#         #format = "{point.name}",
-#         format = "<span style='font-size: 25px'>{point.name}</span>",
-#         # formatter = JS(
-#         #   "function() {
-#         #     var r = this.point.z;
-#         #     var fontSize = Math.round(10 + Math.sqrt(r));
-#         #     return '<span style=\"font-size:' + fontSize + 'px; color:black; text-outline:none; font-weight:normal\">' + this.point.name + '</span>';
-#         #   }"
-#         # ),
-#         filter = list(
-#           property = "y",
-#           operator = ">",
-#           value = .5
-#         )
-#       ),
-#       style = list(
-#           color = "black",
-#           textOutline = "none",
-#           fontWeight = "normal"
-#       )
-#   )
-# )
-
 df |> 
   e_charts(name, renderer = 'svg') |> 
   e_pie(value, radius = c('35%', "70%"),
-        #color = c("#FF6384", "#36A2EB", "#FFCE56"),
         color = c('#f2d643', '#ffb248', '#eb8146'),
         label = list(fontSize = 20, formatter = "{b} ({d}%)")) |>
-  # e_title(
-  #   "DIC",
-  #   textStyle = list(
-  #     fontSize = 36,
-  #     fontWeight = "normal",
-  #     color = "#333",
-  #     textAlign = "center",
-  #     textBaseline = "middle"
-  #   ),
-  #   top = "46%",
-  #   left = "44%"
-  # ) |>
   e_legend(F) 
 ```
 :::
@@ -277,12 +194,11 @@ df |>
 DIC_data <- vroom::vroom('../THESIS//DATA/GLODAP/DIC_distribution.csv')
 
 # https://stackoverflow.com/questions/12514612/how-to-annotate-ggplot-with-latex
-#ggplot(DIC_data, aes(y = mids, x = mean_DIC)) + geom_path(size = 1) + scale_y_reverse() + ylab('Depth (m)') + xlab(TeX('DIC ($\\mu$mol kg$^{-1}$)')) + theme_bw() 
 plot_ly(DIC_data, x = ~mean_DIC, y = ~mids, type = 'scatter', mode = 'lines', color = I('#001852')) |>
-   layout(xaxis = list(title = 'DIC (&mu;mol kg<sup>-1</sup>)', tickfont = list(size = 20), titlefont = list(size = 20)), yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20))) |> config(displayModeBar = FALSE)
+   layout(xaxis = list(title = 'DIC (&mu;mol kg<sup>-1</sup>)', tickfont = list(size = 20), titlefont = list(size = 20)), yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20)),
+          shapes = list(type = "rect", 
+                        fillcolor = "blue", line = list(color = "blue"), opacity = 0.1, y0 = 0, y1 = 1000, x0 = 2030, x1 = 2270, xref = "x", yref = "y")) |> config(displayModeBar = FALSE)
 
-#DIC_data |> e_charts(mean_DIC) |> e_line(mids)
-#DIC_data |> e_charts(mean_DIC) |> e_line(mids) |> e_axis(mean_DIC, margin = 0) |> e_axis_labels(x = 'DIC (&mu;mol kg<sup>-1</sup>)', y = "")
 ```
 
 ::: footer
@@ -295,26 +211,6 @@ Source of data: GLODAPv2
 ::: {.column width="50%"}
 ```{r, sankey chart for pumps}
 
-# df <- tibble(root = 'DIC gradient', pump = c(rep('Solubility pump',1), rep('Biological carbon pump',7), rep('carbonate pump',2)))
-# 
-# hchart(data_to_sankey(df), "sankey", name = "diamonds")
-
-# df <- tibble(
-#   parents = c("", "Everything", "Everything", "Everything", "biological"),
-#   labels = c("Everything", "solubility", "biological", "carbonate", "gravitational"),
-#   value = c(0, 10, 70, 30, 70)
-# )
-# 
-# # create a tree object
-# df <- data.tree::FromDataFrameNetwork(df) 
-
-# # plot sunburst
-# df |>
-#   e_charts(renderer = "svg") |>
-#   e_sunburst() |> 
-#   e_theme_custom('qualitative_palette.json')
-#   #e_theme('tech-blue')
-
 df <- tibble(
   name = c("solubility", "biological", "carbonate"),
   value = c(10,70,20),
@@ -322,18 +218,11 @@ df <- tibble(
   itemStyle = tibble(color = c("#f5e8c8", "#001852", "#e01f54")),
   children = list(
     NULL,
-    # tibble(
-    #   name = c("gravitational"),
-    #   value = c(70)
-    # ),
     NULL,
-    NULL #
+    NULL
   )
 )
 
-# myStyles <- c(list(color = "#3F517D")) # custom styles defined
-# myNames <- list(c("gravitational")) # names to style
-# myLevels <- list(2) # hierarchical levels to style
 
 # plot sunburst
 df |>
@@ -375,75 +264,6 @@ CO_{2} + H_{2}O \rightarrow CH_{2}O + O_{2}
 
 ## Biological carbon pump (BCP)
 
-<!-- ::: columns  -->
-
-<!-- ::: {.column width="60%"} -->
-
-<!-- ![](images/carbon_pumps_iversen2022.jpeg) <!-- ![](carbon_pumps_iversen2022.jpeg){.absolute top="60" left="-80" width="800" height="600"} -->
-
-<!-- ::: -->
-
-<!-- ::: {.column width="40%"} -->
-
-<!-- ::: {.fragment .fade-in-then-semi-out} -->
-
-<!-- ::: {style="position:absolute;top:30%;"} -->
-
-<!-- {{< fa brands grav >}} Gravitational pump -->
-
-<!-- ::: -->
-
-<!-- ::: -->
-
-<!-- ::: {.fragment .fade-in-then-semi-out} -->
-
-<!-- ::: {style="position:absolute;top:40%;"} -->
-
-<!-- {{< fa solid syringe >}} Vertical migration pump  -->
-
-<!-- ::: -->
-
-<!-- ```{=html} -->
-
-<!-- <!-- <ul style= "list-style-type:square"> -->
-
-<!-- <li>daily</li> -->
-
-<!-- <li>seasonal</li> -->
-
-<!-- </ul> -->
-
-<!-- ``` -->
-
-<!-- ::: -->
-
-<!-- ::: {.fragment .fade-in-then-out} -->
-
-<!-- ::: {style="position:absolute;top:50%;"} -->
-
-<!-- {{< fa solid syringe >}} Mixing pump  -->
-
-<!-- ::: -->
-
-<!-- ```{=html} -->
-
-<!-- <!-- <ul style= "list-style-type:square"> -->
-
-<!-- <li>mixed layer</li> -->
-
-<!-- <li>eddy subduction</li> -->
-
-<!-- <li>large-scale subduction</li> -->
-
-<!-- </ul> -->
-
-<!-- ``` -->
-
-<!-- ::: -->
-
-<!-- ::: -->
-
-<!-- ::: -->
 
 ![](images/refine/sysnthesis.svg)
 
@@ -452,13 +272,6 @@ CO_{2} + H_{2}O \rightarrow CH_{2}O + O_{2}
 ::: {.panel-tabset}
 
 ### Spring bloom
-
-```{r, tets}
-
-# tiger <- image_read_svg('images/refine/gravitational_step2.svg', height = 600, width = 1000)
-# tiger
-
-```
 
 ![](images/refine/gravitational_step2.svg){.absolute width="850" height="800}
 
@@ -484,7 +297,6 @@ Fragmentation<br>
 BGP \~ 70% export flux
 :::
 
-
 :::
 
 ## {{< fa solid syringe >}} Vertical migration pump (VMP) {.smaller}
@@ -493,7 +305,7 @@ BGP \~ 70% export flux
 
 ### Diel
 
-![](images/refine/diel.svg){.absolute width="850" height="800}
+![](images/refine/diel.svg){.absolute width="850" height="400"}
 
 ::: {style="position:absolute;top:35%;left:72%;"}
 Night --- Surface feeding<br><br>
@@ -503,14 +315,14 @@ POC injection below EZ<br><br>
 
 ### Seasonal (lipid pump) 
 
-![](images/refine/seasonal.svg){.absolute width="850" height="800}
+
+![](images/refine/seasonal.svg){.absolute width="850" height="400"}
 
 ::: {style="position:absolute;top:35%;left:72%;"}
 Summer --- carbon-rich lipids<br><br>
 Winter --- Diapause<br><br>
 Shunt carbon below pycnocline
 :::
-
 
 :::
 
@@ -549,54 +361,51 @@ Slow advection<br><br>
 
 :::
 
+
 ## Export range and sequestration time
 
-::: {style="position:absolute;top:20%;"}
-```{r table sequestration and export, cache=T}
+```{r, bcp and its export pathways for converse 2, fig.width=6, fig.height=6, cache = T}
+
+df <- tibble::tibble(pump = c('BGP', 'VMP diel', 'VMP seasonal', 'Mixed layer','Eddy subduction', 'Large-scale subduction'),
+             group = c(rep('BGP', 1), rep('VMP', 2), rep('Mixing', 3)),
+             end = c(2500, 600, 1400, 1000, 400, 1000),
+             depth = c(0, 100, 500, 1000, 1500, 2500))
+
+plotly::plot_ly(df, x = ~pump, y = ~end, type = 'bar', color = ~group, colors = c("#f5e8c8", "#e01f54", '#001852'), showlegend = F) |>
+  plotly::layout(xaxis = list(title = 'Pumps', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = F), 
+          yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), barmode = "group", autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
+          tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> plotly::config(displayModeBar = FALSE)
+
+```
+
+::: {style="position:absolute;top:20%;left:50%"}
+```{r, sequestration timescale}
+
 df <- tibble(pump = c('Gravitational', 'Diel', 'Seasonal', 'Mixed layer', 'Eddy subduction', 'Large-scale subduction'),
-             poc_injection = c('export depth - sediment', '200 - 600', '600 - 1400', '200 - 1000', '150 - 400', '200 - 1000'),
-             doc_injection = c('N/A', 'N/A', 'N/A', '200 - 1000', '150 - 400', '200 - 1000'),
+             group = c('bgp', rep('vmp',2), rep('mix',3)),
+             poc = c('X','X','X','X','X','X'),
+             doc = c('','','','X','X','X'),
              sequestration_time = c('?', 'up to 250', 'up to 500', '25 - 100', 'up to 150', '25 - 100'),
              sequestration_time_bis = c('142', '150', '?', '54', '?', '54'))
 
-kbl(df, col.names = c('Pump', 'POC', 'DOC', 'Boyd et al. (2019)', 'Nowicki et al. (2022)')) |>
-  pack_rows("Vertical migration pump", 2,3, label_row_css = "background-color: #666; color: #fff;") |>
-  pack_rows("Mixing pump", 4,6, label_row_css = "background-color: #666; color: #fff;") |>
-  kable_styling(full_width = F, font_size = 21) |>
-  add_header_above(c(" " = 1, "Export/injection depth range (m)" = 2, "Sequestration time (years)" = 2)) #|>
-  #footnote(general = "N/A, not applicable", footnote_as_chunk = T)
-
-# 
-# # # Create a color vector with three colors
-# colors <- c('#eb8146','#ffb248','#f2d643')
-# 
-# df <- tibble(Pump = c('Gravitational', 'Vertical migration', 'Mixing'),
-#              group = rep('group'),
-#              start = c(0,0,0),
-#              end = c(70,10,20),
-#              colors = colors)
-# 
-# # Create a stacked bar plot
-# ggplot(df, aes(x = group, y = end, fill = Pump)) +
-#   geom_bar(stat = "identity", position = "stack") +
-#   coord_flip() + theme_void() + scale_y_reverse() +
-#   theme(legend.position = "none") +
-#   scale_fill_manual(values = colors) 
+df |> group_by(group) |>gt() |>
+  cols_label(pump = md('**Pump**'),
+             poc = md('**POC**'),
+             doc = md('**DOC**'),
+             sequestration_time = md('**Boyd et al., (2019)**'),
+             sequestration_time_bis = md('**Nowicki et al., (2022)**')) |>
+  tab_spanner(label = md('**Sequestration time (years)**'), columns = 5:6) |>
+  tab_row_group(label = "VMP - 10% export flux", rows = 2:3) |>
+  tab_row_group(label = "Mixing - 20% export flux", rows = 4:6) |> 
+    tab_row_group(label = "", rows = 1) |>
+  tab_options(row_group.font.weight = "bold") 
 
 ```
-:::
-
-::: {style="position:absolute;top:80%;"}
-::: {.fragment .fade-in-then-out}
-Export flux contribution: BGP (70%) - VMP (10%) - Mixing (20%)
-:::
-:::
-
-::: {style="position:absolute;top:80%;"}
 ::: {.fragment .fade-in-then-out .highlight-bcp}
 Large uncertainties remain
 :::
 :::
+
 
 ## Questions raised so far
 
@@ -615,13 +424,8 @@ Large uncertainties remain
 {{< fa ship >}} Research vessels<br>
 {{< fa satellite >}} Satellites<br>
 {{< fa anchor >}} Instrumented moorings<br> 
-{{< fa robot >}} Floats, gliders, USVs
-:::
-:::
+{{< fa robot >}} <span style="color: white;background-color: #001852;border-radius: 10px">Floats</span> --- gliders --- USVs
 
-::: {style="position:absolute;top:50%;"}
-::: {.fragment .fade-in-then-out .highlight-bcp}
-{{< fa robot >}} Floats
 :::
 :::
 
@@ -635,13 +439,48 @@ Large uncertainties remain
 :::
 
 ::: {.column width="60%"}
-![](images/argo_float_profiling.jpeg){.absolute top="150" width="700" height="525"}
+<!-- ![](images/argo_float_profiling.jpeg){.absolute top="150" width="700" height="525"} -->
+![](images/schema-cycle-du-flotteur.png){.absolute top="150" left="450" width="800" height="525"}
 :::
 :::
 
-# UVP6 embedded classification {background-color="black"}
+## {{< fa person-digging >}} Main objectives of the current work
 
-## Underwater Vision Profiler 6 (UVP6)
+::: {style="position:absolute;top:15%;"}
+{{< fa question-circle >}} How much carbon is exported/injected by each pump?<br>
+{{< fa question-circle >}} How deep is it exported/injected?<br>
+{{< fa question-circle >}} How long is it sequestered from the atmosphere?<br><br>
+:::
+
+::: {style="position:absolute;top:42%;"}
+
+::: {.fragment .fade-in-then-semi-out}
+{{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and the zooplankton embedded <span style="color: white;background-color:#001852;border-radius: 10px">classification</span><br><span style="color: gray;background-color:white;border-radius: 10px">Characterization of particles --- VMP --- Mesopelagic processes </span><br>
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+{{< fa robot >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and <span style="color: white;background-color:#001852;border-radius: 10px">OST</span> deployed in the Labrador Sea<br><span style="color: gray;background-color:white;border-radius: 10px">Two independent measurements of particle and carbon fluxes</span><br>
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+{{< fa book >}} Reassessment of <span style="color: white;background-color:#001852;border-radius: 10px">global sequestration</span> fluxes by the <span style="color: white;background-color:#001852;border-radius: 10px">BCP</span><br><span style="color: gray;background-color:white;border-radius: 10px">Continuous approach to carbon storage ($\geq$ 100 years)</span>
+:::
+
+:::
+
+# UVP6 embedded classification {background-color="white"}
+
+## Underwater Vision Profilers (UVPs)
+
+![](images/uvp_historic.jpg){.absolute width="859" height="389"}
+
+::: {style="position:absolute;top:70%;"}
+Since 2008 --- UVP5 (CTD)<br>
+2019 --- First UVP6 deployments<br>
+2022 --- First UVP6 deployment with the <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span>
+:::
+
+## UVP6 --- Miniaturized UVP5
 
 ::: {style="position:absolute;top:15%;"}
 ::: columns
@@ -678,12 +517,6 @@ image_animate(all_images, fps = 1, dispose = "previous")
 ```
 :::
 
-<!-- ## {background-image="images/uvp6_images/mosaic_big.png"} -->
-
-<!-- ::: footer -->
-<!-- Not at scale -->
-<!-- ::: -->
-
 ## Why <ins>embedded</ins> classification?
 
 ::: {style="position:absolute;top:15%;"}
@@ -696,6 +529,10 @@ image_animate(all_images, fps = 1, dispose = "previous")
 Iridium cost<br>
 Biofouling and other hazards<br>
 Power consumption (float battery life)<br><br>
+:::
+
+::: {style="position:absolute;top:0%;left:60%;"}
+![](images/schema-cycle-du-flotteur_small.png)
 :::
 
 :::
@@ -771,19 +608,6 @@ tmp$image <- c("/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted
                "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287246708_inverted.png",
                "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287246365_inverted.png")
 
-# tmp$area <- cell_spec(tmp$area, background = dplyr::if_else(tmp$area > 20000, "#FF9999", dplyr::if_else(tmp$area < 600, 'lightblue', '')))
-# tmp$mean <- cell_spec(tmp$mean, background = dplyr::if_else(tmp$mean > 161, "#FF9999", dplyr::if_else(tmp$mean < 55, 'lightblue', '')))
-# tmp$eccentricity <- cell_spec(tmp$eccentricity, background = dplyr::if_else(tmp$eccentricity > 0.98, "#FF9999", dplyr::if_else(tmp$eccentricity < 0.3, 'lightblue', '')))
-# 
-# 
-# fig <- tmp |> kbl(format = 'html', digits = 2, col.names = c('', 'Label', '# pixels', 'Mean gray level', 'Eccentricity', '52/55'), escape = F) |> column_spec(1, image = spec_image(c("/images/uvp6_images/alive_inverted/294999773_inverted.png", "/images/uvp6_images/alive_inverted/287246779_inverted.png",
-#                                                                     "/images/uvp6_images/alive_inverted/287249133_inverted.png", "/images/uvp6_images/alive_inverted/287246708_inverted.png",
-#                                                                 "/images/uvp6_images/alive_inverted/287246365_inverted.png"), 300, 200)) |>
-#   kable_paper("hover", full_width = F) |>
-#   kable_styling(bootstrap_options = "striped", font_size = 20, row_label_position = 'c')
-# 
-# fig
-
 tmp |>
    gt() |>
    gt_img_rows(columns = image, img_source = "local", height = 75) %>%
@@ -798,11 +622,11 @@ tmp |>
              more = md('**50/55**')) |>
   cols_align("center") |>
   tab_style_body(
-    style = cell_fill(color = "#22a7f0"),
+    style = cell_fill(color = "#b6d9f5ff"),
     values = c(53, 591, 0.28, -1.45, 0.26)
   ) |>
     tab_style_body(
-    style = cell_fill(color = "#e14b31"),
+    style = cell_fill(color = "#f4b8bcff"),
     values = c(210812,162,0.99,1.17,0.81)
   ) 
 ```
@@ -835,58 +659,6 @@ non_living <- c('artefact', 'detritus', 'crystal', 'fiber') # need to be used he
 ```
 
 ```{r, all labels}
-
-#  Create a packed bubble chart
-# highchart(width = 550, height = 400) |>
-#   hc_chart(type = "packedbubble") |>
-#   hc_add_series(uvp6_labels, "packedbubble", hcaes(name = level0, value = n0, group = category)) |>
-#   hc_plotOptions(packedbubble = list(
-#     tooltip = list(
-#       pointFormat = "<b>{point.name}:</b> {point.value}<br>"
-#     ),
-#     maxSize = "500%",
-#     minSize = "50%"))
-
-# x <- c(rnorm(10000), rnorm(1000, 4, 0.5))
-# 
-# hchart(x, name = "data") 
-
-
-# uvp6_labels_v2 <- uvp6_labels |> select(level2.5, n2.5, category) |> distinct()
-# uvp6_labels_v2 <- uvp6_labels_v2[-c(12,20,23),]
-# 
-# uvp6_labels_v2$group2 <- c('Trichodesmium', 'Trichodesmium', 'Rhizaria', 'Rhizaria', 'other-living','Rhizaria', 'Rhizaria', 'Rhizaria', 'Rhizaria', 'Copepoda', 'non-living', 'Chaetognatha','Actinopterygii',
-#                            'Appendicularia', 'Salpida', 'Cnidaria', 'Creseis', 'non-living', 'non-living', 'non-living')
-# 
-# # uvp6_labels_v2$group2 <- c('Trichodesmium', 'Trichodesmium', 'Rhizaria', 'Rhizaria', 'other-living','Rhizaria', 'Rhizaria', 'Rhizaria', 'Rhizaria', 'other-living', 'non-living', 'other-living','other-living',
-# #                            'other-living', 'other-living', 'other-living', 'other-living', 'non-living', 'non-living', 'non-living')
-# 
-# # Create a packed bubble chart
-# hc <- highchart(width = 550, height = 600) |>
-#   hc_chart(type = "packedbubble") |>
-#   hc_add_series(uvp6_labels_v2, "packedbubble", hcaes(name = level2.5, value = n2.5, group = group2)) |>
-#   hc_plotOptions(packedbubble = list(
-#     tooltip = list(
-#       pointFormat = "<b>{point.name}:</b> {point.value}<br>"
-#     ),
-#     maxSize = "200%",
-#     minSize = "30%",
-#     zMin = 0,
-#              layoutAlgorithm = list(
-#                  gravitationalConstant =  0.05,
-#                  splitSeries =  TRUE, # TRUE to group points
-#                  seriesInteraction = TRUE,
-#                  dragBetweenSeries = TRUE,
-#                  parentNodeLimit = TRUE
-#              )))
-# 
-# # Display the chart
-# hc
-
-# x <- c(rnorm(10000), rnorm(1000, 4, 0.5))
-# 
-# hchart(x, name = "data") 
-
 
 highchart(width = 550, height = 400) |>
   hc_chart(type = "packedbubble") |>
@@ -1040,7 +812,7 @@ w <- rnorm(10)
 
 ```
 
-::: {style="position:absolute;top:25%;left:65%;"}
+::: {style="position:absolute;top:30%;left:70%;"}
 
 <!-- $$Recall = \frac{\mathrm{\#~true~positive~predictions}}{\mathrm{\#~all~actual~positive~instances}}$$ -->
 <!-- $$Precision = \frac{\mathrm{\#~true~positive~predictions}}{\mathrm{\#~all~positive~predictions}}$$ -->
@@ -1191,9 +963,20 @@ cf_uvp6_xgboost_cnn |>
 
 2 independent measurements of particle and carbon fluxes
 
-## {{< fa bell >}} Transition slide
+## {{< fa bell >}} Transmissiometer and drifting BGC-Argo
 
-bosser les transitions avec teintes de gris par rapport aux questions et faire une slide de rapport pour montrer le fil
+::: columns
+::: {.column width="40%"}
+::: resize
+![](images/float_picture1.png)
+:::
+:::
+
+::: {.column width="60%"}
+<!-- ![](images/argo_float_profiling.jpeg){.absolute top="150" width="700" height="525"} -->
+![](images/schema-cycle-du-flotteur.png){.absolute top="150" left="450" width="800" height="525"}
+:::
+:::
 
 ## Optical Sediment Trap (OST)
 
@@ -2408,5 +2191,12 @@ df |> group_by(group) |>
 - CONVERSE could be applied for the evaluation of mCDR strategies
 
 # Perspectives {background-color="black"}
+
+## test
+
+```{r, testtesttesttest}
+head(mtcars)
+```
+
 
 # Thank you ! {background-color="black"}
