@@ -364,7 +364,7 @@ Slow advection<br><br>
 
 ## Export range and sequestration time
 
-```{r, bcp and its export pathways for converse 2, fig.width=6, fig.height=6, cache = T}
+```{r, bcp and its export pathways for converse 2, fig.width=6, fig.height=6}
 
 df <- tibble::tibble(pump = c('BGP', 'VMP diel', 'VMP seasonal', 'Mixed layer','Eddy subduction', 'Large-scale subduction'),
              group = c(rep('BGP', 1), rep('VMP', 2), rep('Mixing', 3)),
@@ -596,7 +596,7 @@ Model size (loading time < 700 ms)<br><br>
 ::: columns
 ::: {.column width="60%"}
 ::: {style="position:absolute;left:0%;"}
-```{r, table of features, cache=T}
+```{r, table of features}
 
 tmp <- vroom::vroom('images/uvp6_images/features_test.csv') |> select(area, mean, eccentricity, angle, hu_moment_1 = `hu_moment-1`, labels, objid) |> mutate(image = "") |> select(image, labels, everything()) |> mutate(mean = floor(mean), eccentricity = round(eccentricity, 2), angle = round(angle, 2), hu_moment_1 = round(hu_moment_1,2))
 tmp <- tmp |> filter(objid %in% c(294999773,287246779,287249133,287246708,287246365)) |> select(-objid) |> mutate(more = "...")
@@ -959,11 +959,11 @@ cf_uvp6_xgboost_cnn |>
 
 ## {{< fa check >}} Take-home message #1
 
-# UVP6 and OST in the Labrador Sea {background-color="black"}
+# UVP6 and OST in the Labrador Sea {background-color="white"}
 
 2 independent measurements of particle and carbon fluxes
 
-## {{< fa bell >}} Transmissiometer and drifting BGC-Argo
+## {{< fa bell >}} Transmissometer and drifting BGC-Argo
 
 ::: columns
 ::: {.column width="40%"}
@@ -983,7 +983,8 @@ cf_uvp6_xgboost_cnn |>
 ::: {style="position:absolute;top:15%;"}
 ::: columns
 ::: {.column width="50%"}
-![](labrador/low_quality_ost.jpg)
+<!-- ![](labrador/low_quality_ost.jpg) -->
+![](labrador/transmissiometer.png)
 :::
 
 ::: {.column width="50%"}
@@ -1007,7 +1008,7 @@ Small (continuous accumulation) <br>
 Large (discontinuous - jumps) <br><br>
 :::
 
-Downward POC flux (BGP)
+Downward POC flux (BGP)<br>
 F<sub>small</sub> & F<sub>large</sub> POC fluxes
 
 :::
@@ -1017,7 +1018,8 @@ F<sub>small</sub> & F<sub>large</sub> POC fluxes
 
 ## OST used during float drifting
 
-```{r, floats + drifting}
+::: {style="position:absolute;top:15%;left:-5%;"}
+```{r, floats + drifting, fig.width=8, fig.height=6}
 
 float_6904240 <- vroom('/home/flo/dox/ArgoShine/6904240_FromNetCDF.csv')
 float_6904241 <- vroom('/home/flo/dox/ArgoShine/6904241_FromNetCDF.csv')
@@ -1169,7 +1171,7 @@ plot_jumps <- function(data){
     layout(title= list(text = paste0('Drifting time: ', round(drifting_time,1), ' days\n',
                          'ATN slope: ', round(mean_slope,3), ' day<sup>-1</sup>\n',
                          'F<sub>small</sub>: ', round(poc_flux,1), ' mg C m<sup>-2</sup> day<sup>-1</sup>\n',
-                         'F<sub>large</sub>: ', round(big_part_poc_flux,1), ' mg C m<sup>-2</sup> day<sup>-1</sup>'), x = 0.1, y = 0.9), yaxis = list(title = 'C<sub>p</sub> (m<sup>-1</sup>)'), xaxis = list(title = 'Time')) |>
+                         'F<sub>large</sub>: ', round(big_part_poc_flux,1), ' mg C m<sup>-2</sup> day<sup>-1</sup>'), x = 0.1, y = 0.85), yaxis = list(title = 'C<sub>p</sub> (m<sup>-1</sup>)'), xaxis = list(title = 'Time'), legend = list(orientation = 'h', xanchor = "center", x = 0.5, y = 1.1)) |>
     config(displayModeBar = FALSE)
   
   
@@ -1184,16 +1186,15 @@ output <- plot_jumps(ost_df)
 output$jump_plot
 
 ```
-
-::: small-text
-F<sub>small</sub> = 633 x (ATN<sub>slope</sub>)<sup>0.77</sup> <span style="color: gray;">(Estapa et al., 2023)</span> <br> F<sub>large</sub> = 633 x (Jump<sub>total</sub>/drifting time)<sup>0.77</sup>
 :::
+
+::: {style="position:absolute;top:20%;left:60%;"}
+
+<span style="font-size: 30px;">Float 6904240 --- 21<sup>st</sup> cycle @1000 m<br><br>F<sub>small</sub> = 633 x (ATN<sub>slope</sub>)<sup>0.77</sup> <span style="color: gray;"><br>(Estapa et al., 2023)</span> <br><br> F<sub>large</sub> = 633 x (Jump<sub>total</sub>/drifting time)<sup>0.77</sup></span>
+:::
+
 
 ## 4 BGC-Argo floats deployed in May 2022
-
-::: footer
-Last updated on `r format(Sys.time(), '%d %B, %Y', tz = 'UTC')`
-:::
 
 ::: {style="position:absolute;top:20%;left:-15%;"}
 ```{r, study site Labrador}
@@ -1243,9 +1244,9 @@ p +
 ```
 :::
 
-::: {style="position:absolute;top:20%;left:60%;"}
+::: {style="position:absolute;top:20%;left:55%;"}
 &#x25B2; Deployment sites<br>
-{{< fa regular circle size=tiny >}} Last profile<br>
+{{< fa regular circle size=tiny >}} Last profile<br><br><br>Last updated on `r format(Sys.time(), '%d %B, %Y', tz = 'UTC')`
 :::
 
 ## With a specific drifting configuration
@@ -1266,7 +1267,7 @@ df_text <- tibble(instrument = c('OST - 30 min', 'UVP - 20 min', 'OST - 30 min',
                   park_depth = c(150, 250, 450, 550, 950, 1050),
                   start = c(.5,.5,2.5,2.5,6.5,6.5))
 
-other_annotation <- tibble(text = 'Optical window cleaning', 
+other_annotation <- tibble(text = c('Optical window cleaning','Optical window cleaning to avoid sensor drift','Optical window cleaning'), 
                            start = c(1, 4, 9),
                            park_depth = c(200,500,1000))
 
@@ -1417,6 +1418,7 @@ fig200m
 ```
 
 ::: {style="position:absolute;top:30%;left:65%;"}
+14 size classes <br><br>
 ~~Drifting~~ from January to March
 :::
 
@@ -1714,6 +1716,10 @@ up / down
 
 ```
 
+::: {style="position:absolute;top:30%;left:65%;"}
+@1000 m --- Similar to UVP6<br><br>
+:::
+
 ### MLD
 
 ```{r, mld, fig.width=8, fig.height=5}
@@ -1897,11 +1903,11 @@ ggplot(comparison_flux_ost_uvp) + geom_line(aes(x = date, y = total_flux), colou
                       stat = 'summary',
                       fun = median, colour = '#D01556FF') + 
   scale_y_continuous(trans = 'log10') + theme_bw() + labs(x = 'Month', y = TeX('$F_{total}$ (mg C m$^{-2}$ day$^{-1}$)')) +
-  scale_x_date(labels = date_format("%m"), date_breaks = '1 month')
+  scale_x_date(labels = date_format("%m"), date_breaks = '2 month')
 
 ```
 
-::: {style="position:absolute;top:30%;left:56%;"}
+::: {style="position:absolute;top:27%;left:56%;"}
 ```{=tex}
 \begin{gather*}
 F_{total,~OST} = F_{small} + F_{large}
@@ -1917,15 +1923,24 @@ F_{total,~UVP} = \sum_{i}^{N}C_{i}Ad_{i}^{B}
 ```
 :::
 
-::: {style="position:absolute;top:60%;left:57%;"}
-<span style="color: #4774c5;">Guidi et al., (2008) --- (A, B) = (12.5, 3.81)</span><br>
-<span style="color: #D01556FF;">Iversen et al., (2010) --- (A, B) = (273.8, 4.27)</span><br>
+::: {style="position:absolute;top:55%;left:57%;"}
+8 size classes (0.25 - 1.5 mm)
+<!-- A --- scale factor<br> -->
+<!-- B --- Fractal dimension<br><br> -->
+:::
 
+::: {style="position:absolute;top:68%;left:57%;"}
+<span style="color: #4774c5;">Guidi et al., (2008) --- (A, B) = (12.5, 3.81)</span><br>
+<span style="color: #4774c5;">Open ocean sites w/ low carbon fluxes</span>
+
+<span style="color: #D01556FF;">Iversen et al., (2010) --- (A, B) = (273.8, 4.27)</span>
+<span style="color: #D01556FF;">Highly productive system (upwelling)</span><br>
 :::
 
 
 ### Correlations
 
+::: {style="position:absolute;top:25%;left:0%;"}
 ```{r, flux correlations}
 
 correlations <- comparison_flux_ost_uvp |> dplyr::select(park_depth, wmo, cycle, guidi_flux, small_flux, large_flux, date, total_flux) |> dplyr::group_by(wmo, park_depth, cycle) |> dplyr::mutate(median_guidi_flux = median(guidi_flux)) |> dplyr::group_by(park_depth, wmo) |> dplyr::summarize(cor_small = round(cor(median_guidi_flux, small_flux),2), cor_large = round(cor(median_guidi_flux, large_flux),2), cor_total = round(cor(median_guidi_flux, total_flux),2))
@@ -1942,17 +1957,13 @@ gt(correlations) |> tab_spanner(label = "Small flux", columns = 2:4) |> tab_span
              `cor_total_200 m` = '200 m',
              `cor_total_500 m` = '500 m',
              `cor_total_1000 m` = '1000 m') |>
-  # data_color(rows = 1:4,
-  #            columns = 2:10,
-  #            palette = c("#1984c5", "#22a7f0", "#63bff0", "#a7d5ed", "#e2e2e2", "#e1a692", "#de6e56", "#e14b31", "#c23728"),
-  #            direction = "row")
   tab_style_body(
-    style = cell_fill(color = "#22a7f0"),
-    values = c(-0.05, -0.02, -0.02, 0.06, 0.06)
+    style = cell_fill(color = "#b6d9f5ff"),
+    fn = function(x) x <= 0.2
   ) |>
     tab_style_body(
-    style = cell_fill(color = "#e14b31"),
-    values = c(0.78, 0.72,0.83,0.75,0.78,0.86,0.76,0.83,0.77,0.78,0.81,0.87,0.84,0.7,0.87,0.74,0.82)
+    style = cell_fill(color = "#f4b8bcff"),
+     fn = function(x) x >= 0.7
   ) |>
   grand_summary_rows(
     columns = 2:10,
@@ -1969,15 +1980,51 @@ gt(correlations) |> tab_spanner(label = "Small flux", columns = 2:4) |> tab_span
 ```
 :::
 
+::: {style="position:absolute;top:43.5%;left:55%;"}
+<span style="font-size: 25px;">&#8594; malfunctioning OST since Nov 2022<br>&#8594; float not answering since end of March</span> 
+:::
+
+
+### Float position
+
+::: {style="position:absolute;top:20%;left:-15%;"}
+```{r, float position corr}
+
+p +
+  geom_path(data = argo_map_geo, aes(lon, lat, colour = WMO), linewidth = 1) + 
+  geom_point(data = argo_map_geo, aes(x= lon, y = lat, colour = WMO), size = 2) +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  theme_bw() +
+  geom_point(data = transform_coord(argo_map_first), aes(lon, lat), shape = 17, size = 3) +
+  geom_point(data = argo_map_last_geo, aes(lon, lat, colour = WMO), size = 4) +
+  geom_point(data = argo_map_last_geo, aes(lon, lat), fill = 'black', size = 4, shape = 1) +
+  #https://aosmith.rbind.io/2020/07/09/ggplot2-override-aes/#suppress-aesthetics-from-part-of-the-legend
+  guides(color = guide_legend(override.aes = list(size = c(1.5,1.5,1.5,1.5),
+                                                  shape = c(NA, NA, NA, NA)))) +
+  annotation_scale(location = "br") + 
+  annotation_north_arrow(location = "tr", which_north = "true") 
+
+```
+:::
+
+:::
+
 ## {{< fa check >}} Take-home message #2
 
 - OST and UVP6 are well correlated, especially at 500 and 1000 m
-- Preliminary results
-- etc etc etc à discuter avec Hervé et Lionel
+- Preliminary results (1 year of data)
+  - Statistical method for jump detection
+  - Guidi (2008) < Labrador Sea < Iversen (2010) ?
+  - Interest of having 3 parking depths
+- Need to investigate more
+  - Environmental conditions
+  - Particle backscattering
+  - Nature of particles
 
-# CONVERSE {background-color="black"}
+# CONVERSE {background-color="white"}
 
-**CON**tinuous **VE**rtical **SE**questration
+**CON**tinuous **VE**rtical **SE**questration approach to carbon storage
 
 ## {{< fa bell >}} BCP and its export pathways
 
@@ -2030,12 +2077,12 @@ Mixing + VMP merge back with BGP
 
 ::: {style="position:absolute;top:12%;left:40%;"}
 
+<span style="font-size: 30px;">Continuous vs. fixed sequestration depth (e.g. 1000 m)<br><br></span> 
 <span style="font-size: 30px;">BCP = BGP + VMP + Mixing pumps transport <span style="color: #528133;"><strong>F<sub>org</sub></strong></span><br><br></span> 
 <span style="font-size: 30px;"><span style="color: #528133;"><strong>F<sub>org</sub></strong></span> respired to CO<sub>2</sub> (<strong><span style="color: #D01556FF;"><strong>F<sub>remin</sub></strong></span></strong>) or sedimented <br><br></span>
 <span style="font-size: 30px;">Respiratory CO<sub>2</sub> = biogenic DIC (<strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span></strong>)<br><br></span>
 <span style="font-size: 30px;"><strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span> </strong> in the ocean for $\geq$ 100 years = sequestered (<strong><span style="color: #4774c5;"><strong>F<sub>seq</sub></strong></span></strong>)<br><br></span>
-<span style="font-size: 30px;">Flux ~~inventory~~ &#8594; Pg C year<sup>-1</sup><br><br></span> 
-<span style="font-size: 30px;">Continuous vs. fixed sequestration depth (e.g. 1000 m)<br><br></span> 
+<span style="font-size: 30px;">Carbon flux vs. ~~carbon inventory~~ &#8594; Pg C year<sup>-1</sup><br><br></span> 
 <!-- <span style="font-size: 30px;"><span style="color: #528133;"><strong>F<sub>org</sub></strong></span> reaching sediment = very long-term sequestration<br><br></span> -->
 :::
 
@@ -2146,39 +2193,6 @@ df |> group_by(group) |>
 <span style="font-size: 30px;">VMP --- 9-12% of F<sub>seq</sub>(BCP)</span>
 :::
 
-<!-- ## VMP and Mixing --- 21-34% to F<sub>seq</sub>(BCP) -->
-
-<!-- ::: {style="position:absolute;top:15%;left:0%;"} -->
-<!-- ```{r, Fseq estimations and % } -->
-
-
-<!-- # df <- tibble(version = c('C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'), -->
-<!-- #              bgp = c(72,79,75,72,76,76,76), -->
-<!-- #              mixing = c(15,11,14,17,13,13,23), -->
-<!-- #              migrant = c(12,9,12,10,11,11,11)) -->
-
-<!-- df <- tibble(Version = c(rep('C1',3), rep('C2',3), rep('C3',3), rep('C4',3), rep('C5',3), rep('C6',3), rep('C7',3)), -->
-<!--              pump = c(rep(c('BGP','Mixing','VMP'),7)), -->
-<!--              value = c(72,15,12,79,11,9,75,14,12,72,17,10,76,13,11,76,13,11,66,23,11)) -->
-
-<!-- tab_df <- df |> -->
-<!--   group_by(Version) |> -->
-<!--   summarise(list_data = list(value)) -->
-
-<!-- tab_df |> -->
-<!--   gt() |> -->
-<!--   gt_plt_bar_stack(column = list_data, labels = c('BGP','Mixing','VMP'), -->
-<!--                     position = 'fill') #|> -->
-<!--   # tab_options(table.width = px(500)) -->
-
-<!-- ``` -->
-
-<!-- ::: -->
-
-<!-- ::: {style="position:absolute;top:15%;left:60%;"} -->
-<!-- <span style="font-size: 30px;"><br><br></span> -->
-<!-- ::: -->
-
 
 ## {{< fa check >}} Take-home message #3
 
@@ -2190,13 +2204,290 @@ df |> group_by(group) |>
   - 21-34%
 - CONVERSE could be applied for the evaluation of mCDR strategies
 
-# Perspectives {background-color="black"}
+# Perspectives {background-color="white"}
 
-## test
+## Application to key biogeochemical regions {.smaller}
 
-```{r, testtesttesttest}
-head(mtcars)
+```{r, add new floats}
+float_1902593 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/1902593_FromNetCDF.csv')
+float_2903783 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/2903783_FromNetCDF.csv')
+float_4903657 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/4903657_FromNetCDF.csv')
+
+new_floats <- rbind(float_1902593, float_2903783, float_4903657, float_6904240)
+
+```
+
+::: {.panel-tabset}
+
+### Float position
+
+```{r, float position}
+
+new_positions <- new_floats |> select(wmo, lat, lon) |> distinct() 
+
+# new_positions |> e_charts(lon, renderer = "svg") |>
+#   e_geo(roam = TRUE) |>
+#   e_scatter(lat, symbol = factor(wmo), symbol_size = 5, coord_system = "geo", colorBy = factor(wmo)) 
+
+
+
+# prepare data for geomapping, see https://mikkovihtakari.github.io/ggOceanMaps/
+argo_map_geo2 <- transform_coord(new_positions) |> dplyr::mutate(WMO = factor(new_positions$wmo, levels = c(1902593, 4903657, 6904240, 2903783)))
+
+p <- basemap(limits = c(-180,179,-89,89), bathymetry = F, lon.interval = 20, lat.interval = 30, bathy.style = 'poly_blues', bathy.alpha = .5, grid.size = 2) 
+
+
+p +
+  geom_path(data = argo_map_geo2, aes(lon, lat, colour = WMO), linewidth = 1) + 
+  geom_point(data = argo_map_geo2, aes(x= lon, y = lat, colour = WMO), size = 2) +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  theme_bw() +
+  #https://aosmith.rbind.io/2020/07/09/ggplot2-override-aes/#suppress-aesthetics-from-part-of-the-legend
+  guides(color = guide_legend(override.aes = list(size = c(1.5,1.5,1.5,1.5),
+                                                  shape = c(NA, NA, NA, NA))))
+
 ```
 
 
-# Thank you ! {background-color="black"}
+### UVP6 (0.1 - 0.5 mm)
+
+```{r, plot new floats}
+
+new_particles <- new_floats |> filter(PhaseName == 'NPAR') |> select(juld, cycle, depth = pres, wmo, all_of(lpm_class), MLD) |> drop_na(NP_Size_102) |> dplyr::mutate(juld = as_date(juld), wmo = factor(wmo, levels = c(1902593, 4903657, 6904240, 2903783)))
+
+new_particles_bis <- new_particles |> pivot_longer(cols = all_of(lpm_class), names_to = 'size', values_to = 'concentration') |> dplyr::mutate(size = size |> str_remove('NP_Size_') |> as.numeric()) 
+
+# remove buggy data from float 4903634 (negative depth for some reason)
+new_particles_bis <- new_particles_bis |> filter(depth >= 0)
+
+# rel_conc
+new_particles_bis <- new_particles_bis |> dplyr::group_by(wmo, size) |> dplyr::mutate(rel_conc = (concentration-min(concentration))/(max(concentration) - min(concentration)))
+
+new_low_part <- new_particles_bis |> filter(depth < 2000, size < 512) |>
+  #group_by(size) |>
+  ggplot() + facet_grid(wmo~size) + theme_bw() +
+  geom_point(aes(x=juld, y=depth, colour=log10(rel_conc)), size=1, shape=15) +
+  scale_colour_viridis(option = 'A', limits = c(-2.5,-1), oob = scales::squish, na.value = 'white', direction = -1) + 
+  scale_y_reverse() +
+  scale_x_date(labels = date_format("%m"), date_breaks = '3 month') +
+  labs(colour = '#/L', x = 'Month', y = 'Depth (m)') 
+
+new_low_part
+
+```
+
+### UVP6 (0.5 - 2.5 mm)
+
+```{r, new floats uvp6 upper spectrum}
+
+new_up_part <- new_particles_bis |> filter(depth < 2000, size >= 512) |>
+  #group_by(size) |>
+  ggplot() + facet_grid(wmo~size) + theme_bw() +
+  geom_point(aes(x=juld, y=depth, colour=log10(rel_conc)), size=1, shape=15) +
+  scale_colour_viridis(option = 'A', limits = c(-2.5,-1), oob = scales::squish, na.value = 'white', direction = -1) + 
+  scale_y_reverse() +
+  scale_x_date(labels = date_format("%m"), date_breaks = '3 month') +
+  labs(colour = '#/L', x = 'Month', y = 'Depth (m)') 
+
+new_up_part
+
+```
+
+### UVP6 (200 m)
+
+```{r, new float mean uvp drifting}
+
+new_uvp_data <- new_floats |> filter(PhaseName == 'PAR') |> dplyr::mutate(month = month(juld), week = week(juld), DOY = yday(juld), short_date = ymd(juld)) |> select(juld, month, week, DOY, short_date, cycle, wmo, park_depth, all_of(lpm_class)) |> 
+  drop_na(NP_Size_102) |> dplyr::mutate(juld = as_date(juld), WMO = factor(wmo, levels = c(1902593, 4903657, 6904240, 2903783)))
+
+new_uvp_data <- new_uvp_data |> pivot_longer(cols = lpm_class, names_to = 'size', values_to = 'conc') |> dplyr::mutate(size = size |> str_remove('NP_Size_') |> as.numeric())
+
+# compute daily mean chla for each float at each cycle and at each drifting depth
+new_mean_uvp_data <- new_uvp_data |> dplyr::group_by(cycle, WMO, size, park_depth, juld) |> dplyr::summarize(mean_conc = mean(conc, na.rm=T))
+
+```
+
+
+
+```{r, new floats at 200 m}
+
+new_fig200m <-new_mean_uvp_data |> filter(park_depth == '200 m') |> ggplot() + geom_point(aes(juld, mean_conc, colour = WMO, shape = WMO)) +
+  #geom_smooth(aes(juld, mean_conc), colour = 'black') +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
+  theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
+  scale_y_continuous(trans = 'log10') +
+  facet_wrap(~size, scales = 'free_y') 
+
+new_fig200m
+
+```
+
+
+### UVP6 (500 m)
+
+```{r, new floats at 500 m}
+
+new_fig500m <-new_mean_uvp_data |> filter(park_depth == '500 m') |> ggplot() + geom_point(aes(juld, mean_conc, colour = WMO, shape = WMO)) +
+  #geom_smooth(aes(juld, mean_conc), colour = 'black') +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
+  theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
+  scale_y_continuous(trans = 'log10') +
+  facet_wrap(~size, scales = 'free_y') 
+
+new_fig500m
+
+```
+
+### UVP6 (1000 m)
+
+```{r, new floats at 1000 m}
+
+new_fig1000m <-new_mean_uvp_data |> filter(park_depth == '1000 m') |> ggplot() + geom_point(aes(juld, mean_conc, colour = WMO, shape = WMO)) +
+  #geom_smooth(aes(juld, mean_conc), colour = 'black') +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
+  theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
+  scale_y_continuous(trans = 'log10') +
+  facet_wrap(~size, scales = 'free_y') 
+
+new_fig1000m
+
+```
+
+### OST drifting
+
+```{r, new OST drifting}
+
+new_all_floats_slope <- new_floats |> filter(PhaseName == 'PAR') |> drop_na(cp) |> select(depth = pres, cp, dates = juld, park_depth, wmo, cycle) |>
+   dplyr::mutate(wmo = factor(wmo, levels = c(1902593, 4903657, 6904240, 2903783)),
+          park_depth = factor(park_depth, levels = c('200 m', '500 m', '1000 m')))
+
+# start loop for all data
+wmo <- c(1902593, 4903657, 6904240, 2903783)
+park_depth <- c('200 m', '500 m', '1000 m')
+
+res <- data.frame()
+for (i in wmo){
+  max_cycle <- as.numeric(new_all_floats_slope |> filter(wmo == i) |> dplyr::summarise(max_cycle = max(cycle)))
+  for (j in park_depth){
+    for (k in seq(1:max_cycle)){
+      tmp <- new_all_floats_slope |> filter(wmo == i, park_depth == j, cycle == k)
+      if(nrow(tmp) == 0){
+        next
+      }else if(nrow(tmp) < 3){ # case where there is not enough data
+        next
+      }else{
+          output <- plot_jumps_STATIC(tmp)
+          res <- rbind(res, output)
+      }
+    }
+  }
+}
+
+# keep the good fluxes
+new_cflux <- res |> dplyr::mutate(drifting_time = difftime(max_time, min_time, units = 'days'), WMO = factor(wmo))
+
+new_cflux_info_table <- cflux |> dplyr::group_by(park_depth) |> summarize(min_smallf = min(small_flux, na.rm=T), max_smallf = max(small_flux, na.rm=T),
+                                                                mean_smallf = mean(small_flux, na.rm=T), median_smallf = median(small_flux, na.rm=T),
+                                                                std_smallf = sd(small_flux, na.rm=T),
+                                                                min_largef = min(large_flux, na.rm=T), max_largef = max(large_flux, na.rm=T),
+                                                                mean_largef = mean(large_flux, na.rm=T), median_largef = median(large_flux, na.rm=T),
+                                                                std_largef = sd(large_flux, na.rm=T))
+
+new_cflux$date <- as_date(new_cflux$min_time)
+
+## plot it
+
+tmp <- new_cflux
+
+new_up <- tmp |> ggplot(aes(x = date, y = small_flux)) +
+    geom_point(data = tmp, aes(x = date, y = small_flux, colour = WMO, shape = WMO)) +
+  #geom_smooth(data = tmp, aes(x = date, y = small_flux), colour = 'black') +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
+  guides(fill=guide_legend(title="WMO")) +
+  facet_wrap(~park_depth, scales = 'free') +
+  labs(x = '', y = TeX('$F_{small}$ (mg C m$^{-2}$ day$^{-1}$)')) +
+  scale_y_continuous(trans = 'log10') +
+  theme_bw() 
+
+new_down <- tmp |> ggplot(aes(x = date, y = large_flux)) +
+  geom_point(data = tmp, aes(x = date, y = large_flux, colour = WMO, shape = WMO)) +
+  #geom_smooth(data = tmp, aes(x = date, y = large_flux), colour = 'black') +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
+  guides(fill=guide_legend(title="WMO")) +
+  facet_wrap(~park_depth, scales = 'free') +
+  labs(x = 'Month', y = TeX('$F_{large}$ (mg C m$^{-2}$ day$^{-1}$)')) +
+  theme_bw() +
+  scale_y_continuous(trans = 'log10') +
+  theme(legend.position = 'none') 
+
+new_up / new_down
+
+```
+
+:::
+
+## Application of the UVP embedded classification
+
+```{r, kerguelen}
+
+# load data
+calanoids_east <- vroom('perspectives/taxo//1902593_class_number_4_FromNetCDF.csv') |> 
+  filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'Calanoida - East') 
+
+calanoids_west <- vroom('perspectives/taxo//4903657_class_number_4_FromNetCDF.csv') |> 
+  filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'Calanoida - West') 
+
+chaeto_east <- vroom('perspectives/taxo//1902593_class_number_5_FromNetCDF.csv') |> 
+  filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'Chaetognatha - East')
+
+chaeto_west <- vroom('perspectives/taxo//4903657_class_number_5_FromNetCDF.csv') |> 
+  filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'Chaetognatha - West')
+
+detritus_east <- vroom('perspectives/taxo//1902593_class_number_13_FromNetCDF.csv') |> 
+  filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'detritus - East') 
+
+detritus_west <- vroom('perspectives/taxo//4903657_class_number_13_FromNetCDF.csv') |> 
+  filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'detritus - West') 
+
+# puff_east <- vroom('perspectives/taxo//1902593_class_number_16_FromNetCDF.csv') |> 
+#   filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'puff - East') 
+# 
+# puff_west <- vroom('perspectives/taxo//4903657_class_number_16_FromNetCDF.csv') |> 
+#   filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'puff - West') 
+# 
+# tuff_east <- vroom('perspectives/taxo//1902593_class_number_19_FromNetCDF.csv') |> 
+#   filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'tuff - East') 
+# 
+# tuff_west <- vroom('perspectives/taxo//4903657_class_number_19_FromNetCDF.csv') |> 
+#   filter(PhaseName == 'NPAR') |> mutate(date = as.Date(date), group = 'tuff - West') 
+# 
+# # tuff_west |> filter(cycle == 9) |> ggplot(aes(y = -depth, x = conc_object))
+# 
+# 
+# taxo_kerguelen <- rbind(calanoids_east, calanoids_west, chaeto_east, chaeto_west,
+#                         detritus_east, detritus_west,
+#                          puff_east, puff_west, tuff_east, tuff_west)
+
+taxo_kerguelen <- rbind(calanoids_east, calanoids_west, chaeto_east, chaeto_west,
+                        detritus_east, detritus_west) |> filter(date <= as.Date("2023-03-21"))
+
+
+ggplot(taxo_kerguelen) + geom_point(aes(x = conc_object, y = depth, colour = date)) + scale_colour_viridis_c(trans = "date",labels = c("2023-02-11","2023-02-18","2023-02-25","2023-03-04","2023-03-11", "2023-03-18"), breaks = c(as.Date("2023-02-11"), as.Date("2023-02-18"), as.Date("2023-02-25"), as.Date("2023-03-04"), as.Date("2023-03-11"), as.Date("2023-03-18"))) + scale_y_reverse() + theme_bw() +
+  labs(x = 'Concentration (#/L)', colour = "Date", y = 'Depth (m)') +
+  facet_wrap(~group, scale = "free_x", nrow = 5)
+
+```
+
+
+# Thank you ! {background-color="white"}
