@@ -10,6 +10,7 @@ format:
     theme: [default, custom.scss]
     margin: 0.1
     width: 1200
+    output-file: slide.html
     #smaller: true 
 editor: visual
 from: markdown+emoji
@@ -125,20 +126,30 @@ Sys.setlocale("LC_TIME", "en_GB.utf8")
 # webshot('wc.html', file = 'images/wc2.pdf')
 ```
 
-::: {style="text-align:center;"}
-![](images/wc-cropped.svg){width="800" height="600"}
-:::
+# {background-image="images/wc-cropped.svg" background-size="65%" background-position="left"}
 
-# Introduction {background-color="black"}
+::: {style="position:absolute;top:-20%;left:69%;"}
+<span style="font-size: 30px;">Towards a</span><br>
+<!-- <span style="font-size: 30px;">a</span><br> -->
+<span style="font-size: 50px;"><strong>new insight</strong></span><br>
+<span style="font-size: 30px;">of the</span><br>
+<span style="font-size: 50px;"><strong>carbon transport</strong></span><br>
+<span style="font-size: 30px;">in the</span><br>
+<span style="font-size: 50px;"><strong>global ocean</strong></span><br>
+::: 
+
+# Introduction (1/5) {background-color="white"}
 
 ## Dissolved inorganic carbon (DIC) {.smaller}
 
-::: columns
-::: {.column width="50%"}
-```{r DIC}
+::: footer
+Left figure from Friedlingstein et al., (2022)
+:::
 
-library(echarts4r)
-library(tibble)
+![](intro/global_carbon_cycle.png){.absolute top=20% width="700" height="400"}
+
+::: {style="position:absolute;top:15%;left:55%;"}
+```{r DIC}
 
 df <- tibble(
   name = c("CO\u2082 (aq)", "CO\u2082 (gas)"),
@@ -166,26 +177,11 @@ df |>
   e_labels(fontSize = 15)
 
 ```
+HCO<sub>3</sub><sup>-</sup> (89%) > CO<sub>3</sub><sup>2-</sup> (10.5%) > CO<sub>2</sub><sup>*</sup> (0.5%)
+
 :::
 
-::: {.column width="50%"}
 
-
-```{r ttt}
-
-df <- tibble(group = rep('DIC', 3),
-              name = c("CO\u2082*", paste0("CO\u2083", "\u00B2\u207B"), paste0("HCO\u2083", "\u207B")),
-              value = c(0.5,10.5,89))
-
-df |> 
-  e_charts(name, renderer = 'svg') |> 
-  e_pie(value, radius = c('35%', "70%"),
-        color = c('#f2d643', '#ffb248', '#eb8146'),
-        label = list(fontSize = 20, formatter = "{b} ({d}%)")) |>
-  e_legend(F) 
-```
-:::
-:::
 
 ## \> 200 μmol/kg DIC gradient {.smaller}
 
@@ -195,24 +191,28 @@ DIC_data <- vroom::vroom('../THESIS//DATA/GLODAP/DIC_distribution.csv')
 
 # https://stackoverflow.com/questions/12514612/how-to-annotate-ggplot-with-latex
 plot_ly(DIC_data, x = ~mean_DIC, y = ~mids, type = 'scatter', mode = 'lines', color = I('#001852')) |>
-   layout(xaxis = list(title = 'DIC (&mu;mol kg<sup>-1</sup>)', tickfont = list(size = 20), titlefont = list(size = 20)), yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20)),
+   layout(xaxis = list(title = 'DIC (&mu;mol kg<sup>-1</sup>)', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = F, showline = T), yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid=F, showline = T),
           shapes = list(type = "rect", 
                         fillcolor = "blue", line = list(color = "blue"), opacity = 0.1, y0 = 0, y1 = 1000, x0 = 2030, x1 = 2270, xref = "x", yref = "y")) |> config(displayModeBar = FALSE)
 
 ```
 
+::: {style="position:absolute;top:21%;left:80%;"}
+{{< fa question-circle >}} Not uniform 
+:::
+
 ::: footer
 Source of data: GLODAPv2
 :::
 
-## Pumps acting against DIC mixing {.smaller}
+## 3 pumps acting against DIC mixing {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
 ```{r, sankey chart for pumps}
 
 df <- tibble(
-  name = c("solubility", "biological", "carbonate"),
+  name = c("solubility", "biological (BCP)", "carbonate"),
   value = c(10,70,20),
   # 1st level
   itemStyle = tibble(color = c("#f5e8c8", "#001852", "#e01f54")),
@@ -242,6 +242,9 @@ pCO_{2}^{water~parcel} = \frac{[CO_{2}]}{K_{0}} \\
 K_{0} \approx f(T)
 \end{gather*}
 ```
+::: {.center-align}
+Cold DIC-enriched waters dive to depth
+:::
 :::
 
 ::: {.fragment .fade-in-then-semi-out .highlight-carbonate}
@@ -250,6 +253,9 @@ K_{0} \approx f(T)
 Ca^{2+} + 2HCO_{3}^{-} \rightleftharpoons CaCO_{3} + CO_{2} + H_{2}O
 \end{gather*}
 ```
+::: {.center-align}
+Precipitation (DIC<sub>surf</sub>&#8600;) vs. dissolution (DIC<sub>deep</sub>&#8599;)
+:::
 :::
 
 ::: {.fragment .highlight-bcp}
@@ -258,43 +264,66 @@ Ca^{2+} + 2HCO_{3}^{-} \rightleftharpoons CaCO_{3} + CO_{2} + H_{2}O
 CO_{2} + H_{2}O \rightarrow CH_{2}O + O_{2}
 \end{gather*}
 ```
+::: {.center-align}
+Photosynthesis (DIC<sub>surf</sub>&#8600;) vs. respiration (DIC &#8599;)
+:::
 :::
 :::
 :::
 
-## Biological carbon pump (BCP)
+## BCP --- 3 export pathways
 
+![](images/refine/sysnthesis.svg){.absolute top="12%" left="0%" width="1200"}
 
-![](images/refine/sysnthesis.svg)
+::: {style="position:absolute;top:87%;left:0%;"}
+
+<span style="font-size: 24px;"><span style="border-bottom: 4px solid black;"><strong>How much</strong></span> organic carbon is exported --- <span style="border-bottom: 4px solid black;"><strong>How deep</strong></span> is it transported --- <span style="border-bottom: 4px solid black;"><strong>How long</strong></span> CO<sub>2</sub> is hidden from the atmosphere ?</span>
+:::
+
+::: footer
+Figure @ERC-REFINE
+:::
 
 ## {{< fa brands grav >}} Gravitational pump (BGP) {.smaller}
 
 ::: {.panel-tabset}
 
-### Spring bloom
+### Key drivers
+
+::: footer
+Figure @ERC-REFINE
+:::
 
 ![](images/refine/gravitational_step2.svg){.absolute width="850" height="800}
 
 ::: {style="position:absolute;top:25%;left:72%;"}
-Winter --- Low phyto growth<br><br>
+Winter --- Low phyto growth<br>
 Spring --- Stratification <br><br>
-Bloom --- BGP trigger <br><br>
+Bloom --- BGP trigger <br>
 Zoo graze and develop <br><br>
-Fecal pellets + aggregates <br>
+<!-- <strong>Sinking particles</strong><br> -->
+<span style="border-bottom: 4px solid black;"><strong>Sinking particles</strong><br></span>
+<span style="font-size: 24px;">Fecal pellets (fast)<br></span>
+<span style="font-size: 24px;">Phyto aggregates<br></span>
+<span style="font-size: 24px;">By-products<br></span>
 :::
 
-### Twilight zone (TZ)
+### Twilight Zone (TZ) journey
 
 ![](images/refine/gravitational_step3.svg){.absolute width="850" height="800}
 
 ::: {style="position:absolute;top:25%;left:72%;"}
-BGP strength regulation<br><br>
 Animal feeding<br>
 Microbial degradation<br>
 Fragmentation<br>
-... <br>
-{{< fa circle-exclamation >}} Sinking speed<br><br>
-BGP \~ 70% export flux
+... <br><br>
+{{< fa circle-exclamation >}} Sinking speed<br>
+{{< fa circle-exclamation >}} Residence time<br>
+{{< fa circle-exclamation >}} Depth reached<br>
+<br>
+<!-- Remineralization to CO<sub>2</sub> -->
+<span style="border-bottom: 4px solid black;">Remineralization to CO<sub>2</sub><br></span>
+
 :::
 
 :::
@@ -310,7 +339,10 @@ BGP \~ 70% export flux
 ::: {style="position:absolute;top:35%;left:72%;"}
 Night --- Surface feeding<br><br>
 Day --- Avoid predation<br><br>
-POC injection below EZ<br><br>
+Metabolize food at depth<br><br>
+<!-- POC injection below EZ<br> -->
+POC <span style="border-bottom: 4px solid black;">injection</span> below EZ<br>
+(e.g. fecal pellets) <br>
 :::
 
 ### Seasonal (lipid pump) 
@@ -318,15 +350,17 @@ POC injection below EZ<br><br>
 
 ![](images/refine/seasonal.svg){.absolute width="850" height="400"}
 
-::: {style="position:absolute;top:35%;left:72%;"}
+::: {style="position:absolute;top:30%;left:72%;"}
 Summer --- carbon-rich lipids<br><br>
-Winter --- Diapause<br><br>
-Shunt carbon below pycnocline
+Winter --- Diapause (> MLD)<br><br>
+Survive on reserves<br><br>
+Release CO<sub>2</sub> at depth <br>
+Sinking of carcasses
 :::
 
 :::
 
-## {{< fa solid syringe >}} Mixing pump {.smaller}
+## {{< fa solid syringe >}} Mixing pump --- POC and DOC transport{.smaller}
 
 ::: {.panel-tabset}
 
@@ -335,10 +369,11 @@ Shunt carbon below pycnocline
 ![](images/refine/mixed_layer.svg){.absolute width="850" height="800}
 
 ::: {style="position:absolute;top:35%;left:72%;"}
-POC and DOC<br><br>
 1D mechanism<br><br>
-MLD transitions<br><br>
 Mid and high latitudes<br><br>
+MLD transitions<br><br>
+<!-- Isolation of POC and DOC from the surface -->
+<span style="border-bottom: 4px solid black;">Isolation</span> of POC and DOC from the surface
 :::
 
 ### Eddy-subduction
@@ -371,10 +406,16 @@ df <- tibble::tibble(pump = c('BGP', 'VMP diel', 'VMP seasonal', 'Mixed layer','
              end = c(2500, 600, 1400, 1000, 400, 1000),
              depth = c(0, 100, 500, 1000, 1500, 2500))
 
+df2 <- tibble::tibble(pump = c('VMP diel', 'VMP seasonal', 'Mixed layer','Eddy subduction', 'Large-scale subduction'),
+             group = c(rep('VMP', 2), rep('Mixing', 3)),
+             text = c(rep('BGP', 5)),
+             end = c(600, 1400, 1000, 400, 1000))
+
 plotly::plot_ly(df, x = ~pump, y = ~end, type = 'bar', color = ~group, colors = c("#f5e8c8", "#e01f54", '#001852'), showlegend = F) |>
   plotly::layout(xaxis = list(title = 'Pumps', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = F), 
           yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), barmode = "group", autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
-          tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> plotly::config(displayModeBar = FALSE)
+          tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> plotly::config(displayModeBar = FALSE) |>
+  add_annotations(x = df2$pump, y = df2$end, text = df2$text, ax = 0, ay = 50, arrowhead = 2, arrowside = 'start')
 
 ```
 
@@ -388,7 +429,7 @@ df <- tibble(pump = c('Gravitational', 'Diel', 'Seasonal', 'Mixed layer', 'Eddy 
              sequestration_time = c('?', 'up to 250', 'up to 500', '25 - 100', 'up to 150', '25 - 100'),
              sequestration_time_bis = c('142', '150', '?', '54', '?', '54'))
 
-df |> group_by(group) |>gt() |>
+df |> group_by(group) |> gt() |>
   cols_label(pump = md('**Pump**'),
              poc = md('**POC**'),
              doc = md('**DOC**'),
@@ -398,7 +439,12 @@ df |> group_by(group) |>gt() |>
   tab_row_group(label = "VMP - 10% export flux", rows = 2:3) |>
   tab_row_group(label = "Mixing - 20% export flux", rows = 4:6) |> 
     tab_row_group(label = "", rows = 1) |>
-  tab_options(row_group.font.weight = "bold") 
+  tab_options(row_group.font.weight = "bold") |>
+  tab_style_body(style = cell_fill(color = 'gray'),
+                 columns = 4,
+                 rows = 4:6,
+                 pattern = 'X') |>
+    cols_align("center") 
 
 ```
 ::: {.fragment .fade-in-then-out .highlight-bcp}
@@ -425,6 +471,10 @@ Large uncertainties remain
 {{< fa satellite >}} Satellites<br>
 {{< fa anchor >}} Instrumented moorings<br> 
 {{< fa robot >}} <span style="color: white;background-color: #001852;border-radius: 10px">Floats</span> --- gliders --- USVs
+
+<!-- ::: {style="position:absolute;top:50%;left:50%"} -->
+<!-- ![](intro/glider_2.jpeg) {.absolute width="5" height="5"} -->
+<!-- ::: -->
 
 :::
 :::
@@ -468,14 +518,17 @@ Large uncertainties remain
 
 :::
 
-# UVP6 embedded classification {background-color="white"}
+# UVP6 embedded classification (2/5) {background-color="white"}
+
+<!-- {{< fa bullseye >}} Classification of diverse biological organisms among detritus -->
+Zooplankton classification model under strict energy constraints
 
 ## Underwater Vision Profilers (UVPs)
 
 ![](images/uvp_historic.jpg){.absolute width="859" height="389"}
 
 ::: {style="position:absolute;top:70%;"}
-Since 2008 --- UVP5 (CTD)<br>
+Since 2008 --- UVP5 (small enough for CTD frames)<br>
 2019 --- First UVP6 deployments<br>
 2022 --- First UVP6 deployment with the <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span>
 :::
@@ -494,7 +547,7 @@ Since 2008 --- UVP5 (CTD)<br>
 :::
 :::
 
-::: {style="position:absolute;top:75%;left:60%"}
+::: {style="position:absolute;top:75%;left:50%"}
 ```{r, mozaic}
 
 read_image <- function(path_to_image){
@@ -580,6 +633,15 @@ Figure from Geron et al. (2019)
 
 :::
 ::: {.column width="50%"}
+{{< fa circle-info >}} Basic principle<br>
+
+::: small-text
+Left --- 3 predictors (decision trees)<br>
+Each one correcting its predecessor<br>
+<!-- (= fit new predictor to residual error)<br><br> -->
+<br>Right --- Ensemble's prediction <br><br>
+:::
+
 {{< fa hands-bound >}} With constraints<br>
 
 ::: small-text
@@ -642,6 +704,17 @@ Training set (90%) --- test set<br>
 
 
 :::
+:::
+
+::: {style="position:absolute;top:79%;left:62%;"}
+::: {.highlight-high}
+Highest column value
+:::
+
+::: {.highlight-low} 
+Lowest column value
+:::
+
 :::
 
 ## 600.000 UVP6 images over +100 labels {.smaller}
@@ -899,7 +972,7 @@ w <- rnorm(10)
 
 ::: {style="position:absolute;top:15%;left:62%;"}
 
-{{< fa bullseye >}} Improving biological score<br><br>
+{{< fa bullseye >}} <ins>Improving biological score</ins><br><br>
 Detritus<br>
 <span style="font-size: 20px;">Variety of shapes --- sizes --- gray levels<br></span>
 <span style="font-size: 20px;">Clustering them?</span><br><br>
@@ -959,11 +1032,37 @@ cf_uvp6_xgboost_cnn |>
 
 ## {{< fa check >}} Take-home message #1
 
-# UVP6 and OST in the Labrador Sea {background-color="white"}
+<!-- ::: {.fragment .fade-in-then-semi-out} -->
+<!-- - Classifying plankton is <span style="color: white;background-color: #001852;border-radius: 10px">difficult</span> -->
+<!-- ::: -->
+
+::: {.fragment .fade-in-then-semi-out}
+- Classifying plankton with constraints is <span style="color: white;background-color: #001852;border-radius: 10px">challenging</span>
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+- Imbalanced dataset
+  - Detritus are <span style="color: white;background-color: #001852;border-radius: 10px">abundant</span> (80%) and highly <span style="color: white;background-color: #001852;border-radius: 10px">diverse</span>
+  - Living objects are <span style="color: white;background-color: #001852;border-radius: 10px">rare</span>
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+- Room for <span style="color: white;background-color: #001852;border-radius: 10px">improvement</span>
+  - 20/40 classes in the model
+  - New features (e.g. texture)
+  - Deal differently with detritus
+:::
+
+
+# UVP6 and OST in the Labrador Sea (3/5) {background-color="white"}
 
 2 independent measurements of particle and carbon fluxes
 
 ## {{< fa bell >}} Transmissometer and drifting BGC-Argo
+
+::: footer
+Left figure @Thomas Boniface --- right figure @Thomas Haessig (Euro-Argo)
+:::
 
 ::: columns
 ::: {.column width="40%"}
@@ -978,48 +1077,10 @@ cf_uvp6_xgboost_cnn |>
 :::
 :::
 
-## Optical Sediment Trap (OST)
+## 4 BGC-Argo floats deployed in May 2022
 
-::: {style="position:absolute;top:15%;"}
-::: columns
-::: {.column width="50%"}
-<!-- ![](labrador/low_quality_ost.jpg) -->
-![](labrador/transmissiometer.png)
-:::
-
-::: {.column width="50%"}
-Vertical transmissometer <br><br> 
-
-::: {style="position:absolute;top:40%;"}
-Particle accumulation<br> 
-:::
-
-::: {style="position:absolute;top:5%;"}
-```{=tex}
-\begin{gather*}
-\small{c_{p} \approx -\frac{ln(T_{r})}{L}, ATN = c_{p} \times L}
-\end{gather*}
-```
-:::
-
-::: {style="position:absolute;top:50%;"}
-::: small-text 
-Small (continuous accumulation) <br> 
-Large (discontinuous - jumps) <br><br>
-:::
-
-Downward POC flux (BGP)<br>
-F<sub>small</sub> & F<sub>large</sub> POC fluxes
-
-:::
-:::
-:::
-:::
-
-## OST used during float drifting
-
-::: {style="position:absolute;top:15%;left:-5%;"}
-```{r, floats + drifting, fig.width=8, fig.height=6}
+::: {style="position:absolute;top:20%;left:-15%;"}
+```{r, study site Labrador}
 
 float_6904240 <- vroom('/home/flo/dox/ArgoShine/6904240_FromNetCDF.csv')
 float_6904241 <- vroom('/home/flo/dox/ArgoShine/6904241_FromNetCDF.csv')
@@ -1031,6 +1092,119 @@ all_floats <- rbind(float_6904240, float_6904241, float_4903634, float_1902578)
 
 # add levels for some field
 all_floats <- all_floats |> dplyr::mutate(wmo = factor(wmo, levels = c(6904240,4903634,6904241,1902578)), park_depth = factor(park_depth, levels = c('200 m', '500 m', '1000 m')))
+
+# summarize localization of floats
+argo_map <- all_floats |> select(WMO = wmo, cycle, lat, lon) |> drop_na(lat) |> dplyr::group_by(WMO, cycle) |> dplyr::mutate(WMO = factor(WMO)) |>
+  dplyr::summarise(lat = mean(lat), lon = mean(lon))
+
+argo_map_first <- argo_map |> filter(cycle == 1)
+argo_map_last <- argo_map |> filter(cycle == max(cycle))
+
+# prepare data for geomapping, see https://mikkovihtakari.github.io/ggOceanMaps/
+argo_map_geo <- transform_coord(argo_map) |> dplyr::mutate(cycle = argo_map$cycle, WMO = as.factor(argo_map$WMO))
+argo_map_last_geo <- transform_coord(argo_map_last) |> mutate(WMO = as.factor(argo_map_last$WMO))
+
+p <- basemap(limits = c(-55,-40,55,65), bathymetry = T, lat.interval = 2.5, bathy.style = 'poly_blues', bathy.alpha = .5) 
+
+# Make the graticules:
+lims <- attributes(p)$limits 
+graticule <- sf::st_graticule(
+  c(lims[1], lims[3], lims[2], lims[4]), 
+  crs = attributes(p)$proj,
+  lon = attributes(p)$map.grid$lon.breaks, 
+  lat = attributes(p)$map.grid$lat.breaks
+)
+
+p <- p + 
+  geom_sf(data = graticule, color = "grey", size = LS(1)) + # graticules
+  coord_sf(xlim = lims[1:2], ylim = lims[3:4], # redefine limits
+           crs = attributes(p)$proj) 
+
+p +
+  geom_path(data = argo_map_geo, aes(lon, lat, colour = WMO), linewidth = 1) + 
+  geom_point(data = argo_map_geo, aes(x= lon, y = lat, colour = WMO), size = 2) +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  theme_bw() +
+  geom_point(data = transform_coord(argo_map_first), aes(lon, lat), shape = 17, size = 3) +
+  geom_point(data = argo_map_last_geo, aes(lon, lat, colour = WMO), size = 4) +
+  geom_point(data = argo_map_last_geo, aes(lon, lat), fill = 'black', size = 4, shape = 1) +
+  #https://aosmith.rbind.io/2020/07/09/ggplot2-override-aes/#suppress-aesthetics-from-part-of-the-legend
+  guides(color = guide_legend(override.aes = list(size = c(1.5,1.5,1.5,1.5),
+                                                  shape = c(NA, NA, NA, NA)))) +
+  annotation_scale(location = "br") + 
+  annotation_north_arrow(location = "tr", which_north = "true") 
+
+```
+:::
+
+::: {style="position:absolute;top:20%;left:55%;"}
+&#x25B2; Deployment sites<br>
+{{< fa regular circle size=tiny >}} Last profile<br><br>
+Deployed in pairs<br><br>Last updated on `r format(Sys.time(), '%d %B, %Y', tz = 'UTC')`
+:::
+
+## With the Optical Sediment Trap (OST)
+
+::: footer
+Figure @Thomas Boniface
+:::
+
+::: {style="position:absolute;top:15%;"}
+::: columns
+::: {.column width="50%"}
+<!-- ![](labrador/low_quality_ost.jpg) -->
+![](labrador/transmissiometer.png)
+:::
+
+::: {.column width="50%"}
+Vertical transmissometer <br><br> 
+
+::: {style="position:absolute;top:35%;"}
+Particle accumulation<br> 
+:::
+
+::: {style="position:absolute;top:5%;"}
+```{=tex}
+\begin{gather*}
+\small{c_{p} \approx -\frac{ln(T_{r})}{L}, ATN = c_{p} \times L}
+\end{gather*}
+```
+:::
+
+::: {style="position:absolute;top:45%;"}
+::: small-text 
+Small (continuous accumulation) <br> 
+Large (discontinuous - jumps) <br><br>
+:::
+
+Downward POC flux (BGP)<br>
+
+::: small-text
+F<sub>small</sub> & F<sub>large</sub> POC fluxes<br>
+Empirical <span style="color: gray;">(Estapa et al., 2023)</span>
+:::
+
+:::
+:::
+:::
+:::
+
+## OST used during float drifting
+
+::: {style="position:absolute;top:15%;left:-5%;"}
+```{r, floats + drifting, fig.width=8, fig.height=6}
+
+# float_6904240 <- vroom('/home/flo/dox/ArgoShine/6904240_FromNetCDF.csv')
+# float_6904241 <- vroom('/home/flo/dox/ArgoShine/6904241_FromNetCDF.csv')
+# float_4903634 <- vroom('/home/flo/dox/ArgoShine/4903634_FromNetCDF.csv')
+# float_1902578 <- vroom('/home/flo/dox/ArgoShine/1902578_FromNetCDF.csv')
+# 
+# # combine all data
+# all_floats <- rbind(float_6904240, float_6904241, float_4903634, float_1902578)
+# 
+# # add levels for some field
+# all_floats <- all_floats |> dplyr::mutate(wmo = factor(wmo, levels = c(6904240,4903634,6904241,1902578)), park_depth = factor(park_depth, levels = c('200 m', '500 m', '1000 m')))
 
 plot_jumps <- function(data){
   
@@ -1190,66 +1364,16 @@ output$jump_plot
 
 ::: {style="position:absolute;top:20%;left:60%;"}
 
-<span style="font-size: 30px;">Float 6904240 --- 21<sup>st</sup> cycle @1000 m<br><br>F<sub>small</sub> = 633 x (ATN<sub>slope</sub>)<sup>0.77</sup> <span style="color: gray;"><br>(Estapa et al., 2023)</span> <br><br> F<sub>large</sub> = 633 x (Jump<sub>total</sub>/drifting time)<sup>0.77</sup></span>
+<span style="font-size: 30px;">Float 6904240 --- 21<sup>st</sup> cycle @1000 m<br><br>
+<span style="font-size: 30px;">New statistical jump (<span class="red-dot"></span> --- <span class="yellow-dot"></span>) detection approach<br><br>
+F<sub>small</sub> $\propto$ weighted average <span style="border-bottom: 4px solid #DCEEF3;">ATN slope</span>
+<!-- F<sub>large</sub> $\propto$ sum of <span style="border-bottom: 4px solid #E31B23;">positive jumps</span> -->
+F<sub>large</sub> $\propto$ sum of positive jumps (<span class="red-dot"></span>)
+<!-- F<sub>small</sub> = 633 x (ATN<sub>slope</sub>)<sup>0.77</sup> <span style="color: gray;"><br>(Estapa et al., 2023)</span><br><br> -->
+<!-- F<sub>large</sub> = 633 x (Jump<sub>total</sub>/drifting time)<sup>0.77</sup></span> -->
 :::
 
-
-## 4 BGC-Argo floats deployed in May 2022
-
-::: {style="position:absolute;top:20%;left:-15%;"}
-```{r, study site Labrador}
-
-# summarize localization of floats
-argo_map <- all_floats |> select(WMO = wmo, cycle, lat, lon) |> drop_na(lat) |> dplyr::group_by(WMO, cycle) |> dplyr::mutate(WMO = factor(WMO)) |>
-  dplyr::summarise(lat = mean(lat), lon = mean(lon))
-
-argo_map_first <- argo_map |> filter(cycle == 1)
-argo_map_last <- argo_map |> filter(cycle == max(cycle))
-
-# prepare data for geomapping, see https://mikkovihtakari.github.io/ggOceanMaps/
-argo_map_geo <- transform_coord(argo_map) |> dplyr::mutate(cycle = argo_map$cycle, WMO = as.factor(argo_map$WMO))
-argo_map_last_geo <- transform_coord(argo_map_last) |> mutate(WMO = as.factor(argo_map_last$WMO))
-
-p <- basemap(limits = c(-55,-40,55,65), bathymetry = T, lat.interval = 2.5, bathy.style = 'poly_blues', bathy.alpha = .5) 
-
-# Make the graticules:
-lims <- attributes(p)$limits 
-graticule <- sf::st_graticule(
-  c(lims[1], lims[3], lims[2], lims[4]), 
-  crs = attributes(p)$proj,
-  lon = attributes(p)$map.grid$lon.breaks, 
-  lat = attributes(p)$map.grid$lat.breaks
-)
-
-p <- p + 
-  geom_sf(data = graticule, color = "grey", size = LS(1)) + # graticules
-  coord_sf(xlim = lims[1:2], ylim = lims[3:4], # redefine limits
-           crs = attributes(p)$proj) 
-
-p +
-  geom_path(data = argo_map_geo, aes(lon, lat, colour = WMO), linewidth = 1) + 
-  geom_point(data = argo_map_geo, aes(x= lon, y = lat, colour = WMO), size = 2) +
-  #scale_color_brewer(palette = 'Dark2') + 
-  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
-  theme_bw() +
-  geom_point(data = transform_coord(argo_map_first), aes(lon, lat), shape = 17, size = 3) +
-  geom_point(data = argo_map_last_geo, aes(lon, lat, colour = WMO), size = 4) +
-  geom_point(data = argo_map_last_geo, aes(lon, lat), fill = 'black', size = 4, shape = 1) +
-  #https://aosmith.rbind.io/2020/07/09/ggplot2-override-aes/#suppress-aesthetics-from-part-of-the-legend
-  guides(color = guide_legend(override.aes = list(size = c(1.5,1.5,1.5,1.5),
-                                                  shape = c(NA, NA, NA, NA)))) +
-  annotation_scale(location = "br") + 
-  annotation_north_arrow(location = "tr", which_north = "true") 
-
-```
-:::
-
-::: {style="position:absolute;top:20%;left:55%;"}
-&#x25B2; Deployment sites<br>
-{{< fa regular circle size=tiny >}} Last profile<br><br><br>Last updated on `r format(Sys.time(), '%d %B, %Y', tz = 'UTC')`
-:::
-
-## With a specific drifting configuration
+## New --- 3 drifting depths instead of one
 
 ::: {style="position:absolute;top:20%;"}
 ```{r, dumbbell plot}
@@ -1275,8 +1399,8 @@ fig <- plot_ly(df, color = I("#003366"))
 fig |> add_segments(x = ~start, xend = ~end, y = ~park_depth, yend = ~park_depth, showlegend = F) |>
   add_markers(x = ~start, y = ~park_depth, color = I('#003366'), showlegend = F) |>
   add_markers(x = ~end, y = ~park_depth, color = I('#003366'), showlegend = F) |>
-  layout(xaxis = list(title = 'Drifting time (days)', tickfont = list(size = 20), titlefont = list(size = 20)), yaxis = list(title = list(text = 'Parking depth (m)', standoff = 15L), tickfont = list(size = 20), 
-                                                                                                             autorange="reversed", titlefont = list(size = 20), tickvals = c(200,500,1000, 2000)),
+  layout(xaxis = list(title = 'Drifting time (days)', tickfont = list(size = 20), titlefont = list(size = 20), showgrid=F, showline = T), yaxis = list(title = list(text = 'Parking depth (m)', standoff = 15L), tickfont = list(size = 20), 
+                                                                                                             autorange="reversed", titlefont = list(size = 20), tickvals = c(200,500,1000, 2000), showgrid=F, showline = T),
          shapes = list(list(type = 'line', x0 = 1, y0 = 200, x1 = 1.2, y1 = 500, line = list(dash = 'dash', color = 'black')),
                        list(type = 'line', x0 = 4, y0 = 500, x1 = 4.2, y1 = 1000, line = list(dash = 'dash', color = 'black')),
                        list(type = 'line', x0 = 0, y0 = 0, x1 = 0.2, y1 = 200, line = list(dash = 'dash', color = 'black')),
@@ -1284,7 +1408,7 @@ fig |> add_segments(x = ~start, xend = ~end, y = ~park_depth, yend = ~park_depth
                        list(type = 'line', x0 = 9.2, y0 = 2000, x1 = 10, y1 = 0, line = list(dash = 'dash', color = 'black')))) |>
   config(displayModeBar = FALSE) |>
   add_trace(data = df_text, x = ~start, y = ~park_depth, type = 'scatter', mode = 'text', text = ~instrument, color = I('black')) |>
-  add_annotations(x = other_annotation$start, y = other_annotation$park_depth, text = other_annotation$text, ax = 20) 
+  add_annotations(x = other_annotation$start, y = other_annotation$park_depth, text = other_annotation$text, ax = 20)
  
 ```
 :::
@@ -1351,7 +1475,8 @@ down_part
 
 ```
 ::: {style="position:absolute;top:30%;left:65%;"}
-Export event?
+Export event?<br><br>
+1 profile every 10 days
 :::
 
 ### Float position
@@ -1718,6 +1843,7 @@ up / down
 
 ::: {style="position:absolute;top:30%;left:65%;"}
 @1000 m --- Similar to UVP6<br><br>
+Flux attenuation with depth
 :::
 
 ### MLD
@@ -1980,6 +2106,17 @@ gt(correlations) |> tab_spanner(label = "Small flux", columns = 2:4) |> tab_span
 ```
 :::
 
+::: {style="position:absolute;top:67%;left:0%;"}
+::: {.highlight-high}
+High correlation ($\geq$ 0.7)
+:::
+
+::: {.highlight-low} 
+Low correlation ($\leq$ 0.2)
+:::
+
+:::
+
 ::: {style="position:absolute;top:43.5%;left:55%;"}
 <span style="font-size: 25px;">&#8594; malfunctioning OST since Nov 2022<br>&#8594; float not answering since end of March</span> 
 :::
@@ -2012,17 +2149,30 @@ p +
 
 ## {{< fa check >}} Take-home message #2
 
-- OST and UVP6 are well correlated, especially at 500 and 1000 m
-- Preliminary results (1 year of data)
+::: {.fragment .fade-in-then-semi-out}
+- OST and UVP6 are well correlated, especially at <span style="color: white;background-color: #001852;border-radius: 10px">1000 m</span>
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+
+::: {style="position:absolute;top:22%;left:0%;"}
+- <span style="color: white;background-color: #001852;border-radius: 10px">Preliminary</span> results (1 year of data)
   - Statistical method for jump detection
   - Guidi (2008) < Labrador Sea < Iversen (2010) ?
-  - Interest of having 3 parking depths
-- Need to investigate more
-  - Environmental conditions
-  - Particle backscattering
-  - Nature of particles
+  - 3 parking depths --- attenuation measurements
+:::
+:::
 
-# CONVERSE {background-color="white"}
+::: {.fragment .fade-in-then-semi-out}
+::: {style="position:absolute;top:60%;left:0%;"}
+- Need to <span style="color: white;background-color: #001852;border-radius: 10px">investigate more</span>
+  - Environmental conditions (BGC variables)
+  - Particle backscattering
+  - Nature of particles (embedded classification)
+:::
+:::
+
+# CONVERSE (4/5) {background-color="white"}
 
 **CON**tinuous **VE**rtical **SE**questration approach to carbon storage
 
@@ -2044,10 +2194,17 @@ df <- tibble(pump = c('BGP', 'VMP diel', 'VMP seasonal', 'Mixed layer','Eddy sub
              end = c(2500, 600, 1400, 1000, 400, 1000),
              depth = c(0, 100, 500, 1000, 1500, 2500))
 
+df2 <- tibble::tibble(pump = c('VMP diel', 'VMP seasonal', 'Mixed layer','Eddy subduction', 'Large-scale subduction'),
+             group = c(rep('VMP', 2), rep('Mixing', 3)),
+             text = c(rep('BGP', 5)),
+             end = c(600, 1400, 1000, 400, 1000))
+
+
 plot_ly(df, x = ~pump, y = ~end, type = 'bar', color = ~group, colors = c("#f5e8c8", "#e01f54", '#001852'), showlegend = F) |>
   layout(xaxis = list(title = 'Pumps', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = F), 
           yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), barmode = "group", autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
-          tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> config(displayModeBar = FALSE)
+          tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> config(displayModeBar = FALSE) |>
+          add_annotations(x = df2$pump, y = df2$end, text = df2$text, ax = 0, ay = 50, arrowhead = 2, arrowside = 'start')
 
 # plot_ly(df, x = ~group, y = ~start, type = 'scatter', mode = 'markers', marker = list(color = 'white', showlegend = F)) |>
 #   add_trace(y = ~end, mode = 'markers', showlegend = F) |>
@@ -2061,6 +2218,8 @@ plot_ly(df, x = ~pump, y = ~end, type = 'bar', color = ~group, colors = c("#f5e8
 #           yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
 #           tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> config(displayModeBar = FALSE) #|>
 #   #add_trace(y = 2500, type = 'scatter', mode = 'line', line = list(color = 'black', dash = 'dash'), showlegend = F) 
+
+
 
 
 ```
@@ -2143,13 +2302,29 @@ df |> group_by(group) |>
              Mixing = md('**Mixing**'),
              VMP = md('**VMP**')) |>
   cols_align("center") |>
-  tab_footnote(footnote = 'C7 ~ C1 except for the mixing pump', locations = cells_column_labels(version))
+  tab_footnote(footnote = 'C7 ~ C1 except for the mixing pump', locations = cells_column_labels(version)) |>
+  tab_style_body(columns = 2, style = cell_fill(color = "gray"),
+                 rows = 1:3, values = 0.86) |>
+  tab_style_body(columns = 2, style = cell_fill(color = "gray"),
+                 rows = 1:3, pattern = c('Variable')) |>
+  tab_style_body(columns = 2, style = cell_fill(color = "gray"),
+                 rows = 1:3, pattern = c('Regional')) |>
+  tab_style_body(columns = 3, style = cell_fill(color = "gray"),
+                 pattern = c('Zeu')) |>
+  tab_style_body(columns = 3, style = cell_fill(color = "gray"),
+                 rows = 5 , value = 100) |>
+  tab_style_body(
+    columns = 4,
+    style = cell_fill(color = "#b6d9f5ff"),
+    fn = function(x) x <= 3.5
+  ) |>
+  tab_style_body(
+    column = 4,
+    style = cell_fill(color = "#f4b8bcff"),
+     fn = function(x) x >= 3.5
+  )
 
 
-# flextable(df) |> merge_at(i = 1:3, j = 3) |>
-#   merge_at(i = 1:3, j = 4) |>
-#   align_text_col(align = "center", header = TRUE, footer = FALSE)|>
-#   hline(i = 3, j = 1:5)
 
 
 ```
@@ -2196,26 +2371,43 @@ df |> group_by(group) |>
 
 ## {{< fa check >}} Take-home message #3
 
-- Sequestration of DIC<sub>bio</sub> not only in deep waters
-- Using a fixed sequestration depth underestimate F<sub>seq</sub>(BCP)
+::: {.fragment .fade-in-then-semi-out}
+- Sequestration of DIC<sub>bio</sub> <span style="color: white;background-color: #001852;border-radius: 10px">not only in deep waters</span>
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+- Using a <span style="color: white;background-color: #001852;border-radius: 10px">fixed</span> sequestration <span style="color: white;background-color: #001852;border-radius: 10px">depth underestimate</span> F<sub>seq</sub>(BCP)
   * CONVERSE F<sub>seq</sub>(BCP) = 2-3 > F<sub>seq</sub>(POC, 1000 m) 
   * CONVERSE F<sub>seq</sub>(BCP) = 3-6 >  F<sub>seq</sub>(POC, 2000 m) 
-- VMP and Mixing pumps are important contributors to F<sub>seq</sub>(BCP)
-  - 21-34%
-- CONVERSE could be applied for the evaluation of mCDR strategies
+:::
 
-# Perspectives {background-color="white"}
+::: {.fragment .fade-in-then-semi-out}
+- <span style="color: white;background-color: #001852;border-radius: 10px">VMP</span> and <span style="color: white;background-color: #001852;border-radius: 10px">Mixing</span> pumps are <span style="color: white;background-color: #001852;border-radius: 10px">important contributors</span> to F<sub>seq</sub>(BCP)
+  - 21-34%
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+- CONVERSE could be applied for the evaluation of <span style="color: white;background-color: #001852;border-radius: 10px">mCDR strategies</span>
+:::
+
+# Perspectives (5/5) {background-color="white"}
 
 ## Application to key biogeochemical regions {.smaller}
 
 ```{r, add new floats}
-float_1902593 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/1902593_FromNetCDF.csv')
-float_2903783 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/2903783_FromNetCDF.csv')
-float_4903657 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/4903657_FromNetCDF.csv')
+# float_1902593 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/1902593_FromNetCDF.csv')
+# float_2903783 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/2903783_FromNetCDF.csv')
+# float_4903657 <- vroom('/home/flo/dox/PhD_PRESENTATION/perspectives/4903657_FromNetCDF.csv')
+
+float_1902593 <- vroom('/home/flo/dox/ArgoShine/1902593_FromNetCDF.csv')
+float_2903783 <- vroom('/home/flo/dox/ArgoShine/2903783_FromNetCDF.csv')
+float_4903657 <- vroom('/home/flo/dox/ArgoShine/4903657_FromNetCDF.csv')
 
 new_floats <- rbind(float_1902593, float_2903783, float_4903657, float_6904240)
 
 ```
+
+
 
 ::: {.panel-tabset}
 
@@ -2249,7 +2441,6 @@ p +
 
 ```
 
-
 ### UVP6 (0.1 - 0.5 mm)
 
 ```{r, plot new floats}
@@ -2277,6 +2468,13 @@ new_low_part
 
 ```
 
+::: {style="position:absolute;top:42%;left:82%;"}
+<span style="color: black;background-color: #D95F02;border-radius: 10px">Kerguelen East</span><br><br><br>
+<span style="color: black;background-color: #7570B3;border-radius: 10px">Kerguelen West</span><br><br><br>
+<span style="color: black;background-color: #E6AB02;border-radius: 10px">Labrador Sea</span><br><br><br>
+<span style="color: black;background-color: #1B9E77;border-radius: 10px">Subtropical Gyre</span><br><br>
+:::
+
 ### UVP6 (0.5 - 2.5 mm)
 
 ```{r, new floats uvp6 upper spectrum}
@@ -2293,6 +2491,12 @@ new_up_part <- new_particles_bis |> filter(depth < 2000, size >= 512) |>
 new_up_part
 
 ```
+::: {style="position:absolute;top:42%;left:82%;"}
+<span style="color: black;background-color: #D95F02;border-radius: 10px">Kerguelen East</span><br><br><br>
+<span style="color: black;background-color: #7570B3;border-radius: 10px">Kerguelen West</span><br><br><br>
+<span style="color: black;background-color: #E6AB02;border-radius: 10px">Labrador Sea</span><br><br><br>
+<span style="color: black;background-color: #1B9E77;border-radius: 10px">Subtropical Gyre</span><br><br>
+:::
 
 ### UVP6 (200 m)
 
@@ -2309,7 +2513,6 @@ new_mean_uvp_data <- new_uvp_data |> dplyr::group_by(cycle, WMO, size, park_dept
 ```
 
 
-
 ```{r, new floats at 200 m}
 
 new_fig200m <-new_mean_uvp_data |> filter(park_depth == '200 m') |> ggplot() + geom_point(aes(juld, mean_conc, colour = WMO, shape = WMO)) +
@@ -2319,12 +2522,19 @@ new_fig200m <-new_mean_uvp_data |> filter(park_depth == '200 m') |> ggplot() + g
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') 
+  facet_wrap(~size, scales = 'free_y') +
+  theme(legend.position = 'none') 
 
 new_fig200m
 
 ```
 
+::: {style="position:absolute;top:36%;left:81%;"}
+<span style="color: black;background-color: #D95F02;border-radius: 10px">Kerguelen East</span><br>
+<span style="color: black;background-color: #7570B3;border-radius: 10px">Kerguelen West</span><br>
+<span style="color: black;background-color: #E6AB02;border-radius: 10px">Labrador Sea</span><br>
+<span style="color: black;background-color: #1B9E77;border-radius: 10px">Subtropical Gyre</span>
+:::
 
 ### UVP6 (500 m)
 
@@ -2337,11 +2547,19 @@ new_fig500m <-new_mean_uvp_data |> filter(park_depth == '500 m') |> ggplot() + g
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') 
+  facet_wrap(~size, scales = 'free_y') +
+  theme(legend.position = 'none') 
 
 new_fig500m
 
 ```
+
+::: {style="position:absolute;top:36%;left:81%;"}
+<span style="color: black;background-color: #D95F02;border-radius: 10px">Kerguelen East</span><br>
+<span style="color: black;background-color: #7570B3;border-radius: 10px">Kerguelen West</span><br>
+<span style="color: black;background-color: #E6AB02;border-radius: 10px">Labrador Sea</span><br>
+<span style="color: black;background-color: #1B9E77;border-radius: 10px">Subtropical Gyre</span>
+:::
 
 ### UVP6 (1000 m)
 
@@ -2354,11 +2572,19 @@ new_fig1000m <-new_mean_uvp_data |> filter(park_depth == '1000 m') |> ggplot() +
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') 
+  facet_wrap(~size, scales = 'free_y') +
+  theme(legend.position = 'none') 
 
 new_fig1000m
 
 ```
+
+::: {style="position:absolute;top:36%;left:81%;"}
+<span style="color: black;background-color: #D95F02;border-radius: 10px">Kerguelen East</span><br>
+<span style="color: black;background-color: #7570B3;border-radius: 10px">Kerguelen West</span><br>
+<span style="color: black;background-color: #E6AB02;border-radius: 10px">Labrador Sea</span><br>
+<span style="color: black;background-color: #1B9E77;border-radius: 10px">Subtropical Gyre</span>
+:::
 
 ### OST drifting
 
@@ -2412,11 +2638,12 @@ new_up <- tmp |> ggplot(aes(x = date, y = small_flux)) +
   #scale_color_brewer(palette = 'Dark2') + 
   scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
-  guides(fill=guide_legend(title="WMO")) +
+  #guides(fill=guide_legend(title="WMO")) +
   facet_wrap(~park_depth, scales = 'free') +
   labs(x = '', y = TeX('$F_{small}$ (mg C m$^{-2}$ day$^{-1}$)')) +
   scale_y_continuous(trans = 'log10') +
-  theme_bw() 
+  theme_bw() +
+  theme(legend.position = 'none') 
 
 new_down <- tmp |> ggplot(aes(x = date, y = large_flux)) +
   geom_point(data = tmp, aes(x = date, y = large_flux, colour = WMO, shape = WMO)) +
@@ -2424,7 +2651,7 @@ new_down <- tmp |> ggplot(aes(x = date, y = large_flux)) +
   #scale_color_brewer(palette = 'Dark2') + 
   scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
-  guides(fill=guide_legend(title="WMO")) +
+  #guides(fill=guide_legend(title="WMO")) +
   facet_wrap(~park_depth, scales = 'free') +
   labs(x = 'Month', y = TeX('$F_{large}$ (mg C m$^{-2}$ day$^{-1}$)')) +
   theme_bw() +
@@ -2435,9 +2662,38 @@ new_up / new_down
 
 ```
 
+::: {style="position:absolute;top:38%;left:80%;"}
+<span style="color: black;background-color: #D95F02;border-radius: 10px">Kerguelen East</span><br>
+<span style="color: black;background-color: #7570B3;border-radius: 10px">Kerguelen West</span><br>
+<span style="color: black;background-color: #E6AB02;border-radius: 10px">Labrador Sea</span><br>
+<span style="color: black;background-color: #1B9E77;border-radius: 10px">Subtropical Gyre</span>
 :::
 
-## Application of the UVP embedded classification
+### <strong>{{< fa check >}} Way forward</strong>
+
+::: {.fragment .fade-in-then-semi-fade-out}
+- Same method applied on more <span style="color: white;background-color: #001852;border-radius: 10px">regions (9)</span><br>
+  - High variability of carbon fluxes in different regions
+  - Generalization and reduction of uncertainties 
+:::
+
+::: {.fragment .fade-in-then-semi-fade-out}
+- <span style="color: white;background-color: #001852;border-radius: 10px">Investigate</span> POC - OST relationship
+
+:::
+
+::: {.fragment .fade-in-then-semi-fade-out}
+- Work on the pump <span style="color: white;background-color: #001852;border-radius: 10px">deconvolution</span>
+  - Multi-instruments approach
+:::
+
+:::
+
+## Application of the UVP6 EC {.smaller}
+
+::: {.panel-tabset}
+
+### Kerguelen Plateau
 
 ```{r, kerguelen}
 
@@ -2489,5 +2745,24 @@ ggplot(taxo_kerguelen) + geom_point(aes(x = conc_object, y = depth, colour = dat
 
 ```
 
+### <strong>{{< fa check >}} Way forward</strong>
 
-# Thank you ! {background-color="white"}
+::: {.fragment .fade-in-then-semi-fade-out}
+- Interpretation with the <span style="color: white;background-color: #001852;border-radius: 10px">classification report</span>
+  - Precision and recall for each UVP6 class
+  - <span style="color: white;background-color: #001852;border-radius: 10px">Contextualization</span>
+    - Geographical and temporal distribution of species
+    - Position in the water column
+    - Correlation with the presence of other species
+:::
+
+::: {.fragment .fade-in-then-semi-fade-out}
+- UVPec
+  - Available on GitHub
+  - <span style="color: white;background-color: #001852;border-radius: 10px">User-friendly</span> toolbox to train alternative UVP6 classification models
+  - up to 40 classes
+:::
+
+:::
+
+# <span style="color: black;">Tha</span><span style="color: #E6AB02;">nk y</span><span style="color: #D01556FF;">ou !</span> {background-color="white"}
