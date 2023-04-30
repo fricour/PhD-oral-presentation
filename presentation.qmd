@@ -10,7 +10,7 @@ format:
     theme: [default, custom.scss]
     margin: 0.1
     width: 1200
-    output-file: slide.html
+    #output-file: slide.html
     #smaller: true 
 editor: visual
 from: markdown+emoji
@@ -57,6 +57,8 @@ library(gtExtras)
 library(magick)
 library(purrr)
 library(RcppCNPy)
+library(cropcircles)
+library(ggimage)
 
 Sys.setlocale("LC_TIME", "en_GB.utf8")
 
@@ -146,9 +148,14 @@ Sys.setlocale("LC_TIME", "en_GB.utf8")
 Left figure from Friedlingstein et al., (2022)
 :::
 
-![](intro/global_carbon_cycle.png){.absolute top=20% width="700" height="400"}
+:::: {.columns}
 
-::: {style="position:absolute;top:15%;left:55%;"}
+::: {.column width="50%"}
+
+![](intro/fried.svg){.absolute top=100 left=0 width="700" height="525"}
+:::
+
+::: {.column width="50%"}
 ```{r DIC}
 
 df <- tibble(
@@ -177,9 +184,15 @@ df |>
   e_labels(fontSize = 15)
 
 ```
-HCO<sub>3</sub><sup>-</sup> (89%) > CO<sub>3</sub><sup>2-</sup> (10.5%) > CO<sub>2</sub><sup>*</sup> (0.5%)
+
+::: {style="position:absolute;top:80%;left:60%;"}
+<span style="color: white;background-color: #001852;border-radius: 10px">DIC</span> = HCO<sub>3</sub><sup>-</sup> + CO<sub>3</sub><sup>2-</sup> + H<sub>2</sub>CO<sub>3</sub> + CO<sub>2</sub> (aq)
+:::
 
 :::
+
+::::
+
 
 
 
@@ -277,7 +290,7 @@ Photosynthesis (DIC<sub>surf</sub>&#8600;) vs. respiration (DIC &#8599;)
 
 ::: {style="position:absolute;top:87%;left:0%;"}
 
-<span style="font-size: 24px;"><span style="border-bottom: 4px solid black;"><strong>How much</strong></span> organic carbon is exported --- <span style="border-bottom: 4px solid black;"><strong>How deep</strong></span> is it transported --- <span style="border-bottom: 4px solid black;"><strong>How long</strong></span> CO<sub>2</sub> is hidden from the atmosphere ?</span>
+<span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How much</span><span style="font-size: 24px;"> organic carbon is exported --- </span><span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How deep</span></span><span style="font-size: 24px;"> is it transported --- </span><span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How long</span></span><span style="font-size: 24px;"> CO<sub>2</sub> is hidden from the atmosphere ?</span>
 :::
 
 ::: footer
@@ -301,14 +314,17 @@ Winter --- Low phyto growth<br>
 Spring --- Stratification <br><br>
 Bloom --- BGP trigger <br>
 Zoo graze and develop <br><br>
-<!-- <strong>Sinking particles</strong><br> -->
-<span style="border-bottom: 4px solid black;"><strong>Sinking particles</strong><br></span>
+<span style="color: white;background-color:#001852;border-radius: 10px">Sinking particles</span><br>
 <span style="font-size: 24px;">Fecal pellets (fast)<br></span>
 <span style="font-size: 24px;">Phyto aggregates<br></span>
 <span style="font-size: 24px;">By-products<br></span>
 :::
 
 ### Twilight Zone (TZ) journey
+
+::: footer
+Figure @ERC-REFINE
+:::
 
 ![](images/refine/gravitational_step3.svg){.absolute width="850" height="800}
 
@@ -321,8 +337,7 @@ Fragmentation<br>
 {{< fa circle-exclamation >}} Residence time<br>
 {{< fa circle-exclamation >}} Depth reached<br>
 <br>
-<!-- Remineralization to CO<sub>2</sub> -->
-<span style="border-bottom: 4px solid black;">Remineralization to CO<sub>2</sub><br></span>
+<span style="color: white;background-color:#001852;border-radius: 10px">Remineralization to CO<sub>2</sub></span>
 
 :::
 
@@ -334,27 +349,33 @@ Fragmentation<br>
 
 ### Diel
 
+::: footer
+Figure @ERC-REFINE
+:::
+
 ![](images/refine/diel.svg){.absolute width="850" height="400"}
 
 ::: {style="position:absolute;top:35%;left:72%;"}
 Night --- Surface feeding<br><br>
 Day --- Avoid predation<br><br>
 Metabolize food at depth<br><br>
-<!-- POC injection below EZ<br> -->
-POC <span style="border-bottom: 4px solid black;">injection</span> below EZ<br>
+<span style="color: white;background-color:#001852;border-radius: 10px">POC injection below EZ</span><br>
 (e.g. fecal pellets) <br>
 :::
 
 ### Seasonal (lipid pump) 
 
+::: footer
+Figure @ERC-REFINE
+:::
 
 ![](images/refine/seasonal.svg){.absolute width="850" height="400"}
 
 ::: {style="position:absolute;top:30%;left:72%;"}
-Summer --- carbon-rich lipids<br><br>
+Summer --- Accumulating<br>carbon-rich lipids<br><br>
 Winter --- Diapause (> MLD)<br><br>
 Survive on reserves<br><br>
-Release CO<sub>2</sub> at depth <br>
+<span style="color: white;background-color:#001852;border-radius: 10px">Release CO<sub>2</sub> at depth </span><br>
 Sinking of carcasses
 :::
 
@@ -366,17 +387,24 @@ Sinking of carcasses
 
 ### Mixed layer
 
+::: footer
+Figure @ERC-REFINE
+:::
+
 ![](images/refine/mixed_layer.svg){.absolute width="850" height="800}
 
 ::: {style="position:absolute;top:35%;left:72%;"}
 1D mechanism<br><br>
 Mid and high latitudes<br><br>
 MLD transitions<br><br>
-<!-- Isolation of POC and DOC from the surface -->
-<span style="border-bottom: 4px solid black;">Isolation</span> of POC and DOC from the surface
+<span style="color: white;background-color:#001852;border-radius: 10px">Isolation of POC and DOC </span>from the surface
 :::
 
 ### Eddy-subduction
+
+::: footer
+Figure @ERC-REFINE
+:::
 
 ![](images/refine/eddy-subduction.svg){.absolute width="850" height="800}
 
@@ -414,7 +442,7 @@ df2 <- tibble::tibble(pump = c('VMP diel', 'VMP seasonal', 'Mixed layer','Eddy s
 plotly::plot_ly(df, x = ~pump, y = ~end, type = 'bar', color = ~group, colors = c("#f5e8c8", "#e01f54", '#001852'), showlegend = F) |>
   plotly::layout(xaxis = list(title = 'Pumps', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = F), 
           yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), barmode = "group", autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
-          tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> plotly::config(displayModeBar = FALSE) |>
+          tickmode = "array", tickvals = c(400,600,1000,1400), ticktext = c("400","600","1000","1400"))) |> plotly::config(displayModeBar = FALSE) |>
   add_annotations(x = df2$pump, y = df2$end, text = df2$text, ax = 0, ay = 50, arrowhead = 2, arrowside = 'start')
 
 ```
@@ -457,9 +485,9 @@ Large uncertainties remain
 
 ::: {style="position:absolute;top:15%;"}
 ::: {.fragment .fade-in-then-semi-out}
-{{< fa question-circle >}} How much carbon is exported/injected by each pump?<br>
-{{< fa question-circle >}} How deep is it exported/injected?<br>
-{{< fa question-circle >}} How long is it sequestered from the atmosphere?<br>
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br>
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br>
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How long</span> is it sequestered from the atmosphere?<br>
 :::
 
 ::: {.fragment .fade-in-then-semi-out}
@@ -471,10 +499,6 @@ Large uncertainties remain
 {{< fa satellite >}} Satellites<br>
 {{< fa anchor >}} Instrumented moorings<br> 
 {{< fa robot >}} <span style="color: white;background-color: #001852;border-radius: 10px">Floats</span> --- gliders --- USVs
-
-<!-- ::: {style="position:absolute;top:50%;left:50%"} -->
-<!-- ![](intro/glider_2.jpeg) {.absolute width="5" height="5"} -->
-<!-- ::: -->
 
 :::
 :::
@@ -521,7 +545,7 @@ Large uncertainties remain
 # UVP6 embedded classification (2/5) {background-color="white"}
 
 <!-- {{< fa bullseye >}} Classification of diverse biological organisms among detritus -->
-Zooplankton classification model under strict energy constraints
+Zooplankton image classification model under strict energy constraints
 
 ## Underwater Vision Profilers (UVPs)
 
@@ -530,10 +554,14 @@ Zooplankton classification model under strict energy constraints
 ::: {style="position:absolute;top:70%;"}
 Since 2008 --- UVP5 (small enough for CTD frames)<br>
 2019 --- First UVP6 deployments<br>
-2022 --- First UVP6 deployment with the <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span>
+2022 --- First UVP6 deployments with the <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span>
 :::
 
 ## UVP6 --- Miniaturized UVP5
+
+::: footer
+Figure @Thomas Boniface
+:::
 
 ::: {style="position:absolute;top:15%;"}
 ::: columns
@@ -542,7 +570,7 @@ Since 2008 --- UVP5 (small enough for CTD frames)<br>
 :::
 
 ::: {.column width="50%"}
-0.7L imaged volume <br><br> Particle counter (0.1 - 2.5 mm)<br> Particle classifier (\> 0.6 mm)<br><br> Particle size distribution (PSD)<br> Carbon flux estimations<br> Organism studies (e.g VMP)<br>
+0.7L imaged volume <br><br> Particle counter (0.1 - 2.5 mm)<br>  <span style="color: white;background-color:#001852;border-radius: 10px">Particle classifier</span> (\> 0.6 mm)<br><br> Particle size distribution (PSD)<br> Carbon flux estimations<br> Organism studies (e.g VMP)<br>
 :::
 :::
 :::
@@ -576,12 +604,12 @@ image_animate(all_images, fps = 1, dispose = "previous")
 
 ::: {.fragment .fade-in-then-semi-out}
 
-{{< fa clock >}} Transmission time<br>
+{{< fa clock >}} Image transmission time<br>
 
 ::: small-text
 Iridium cost<br>
 Biofouling and other hazards<br>
-Power consumption (float battery life)<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">Power consumption</span> (float battery life)<br><br>
 :::
 
 ::: {style="position:absolute;top:0%;left:60%;"}
@@ -594,11 +622,11 @@ Power consumption (float battery life)<br><br>
 
 ::: columns
 ::: {.column width="55%"}
-{{< fa question-circle >}} Which classification model?<br>
+{{< fa question-circle >}} Best image classifier?<br>
 
 ::: small-text
 Convolutional neural network (CNN)<br>
-~State-of-the-art but energy consuming
+State-of-the-art but <span style="color: white;background-color:#001852;border-radius: 10px">energy consuming</span>
 :::
 
 :::
@@ -636,17 +664,18 @@ Figure from Geron et al. (2019)
 {{< fa circle-info >}} Basic principle<br>
 
 ::: small-text
+Training set = image features<br><br>
 Left --- 3 predictors (decision trees)<br>
 Each one correcting its predecessor<br>
 <!-- (= fit new predictor to residual error)<br><br> -->
 <br>Right --- Ensemble's prediction <br><br>
 :::
 
-{{< fa hands-bound >}} With constraints<br>
+{{< fa battery-half >}} Energy <span style="color: white;background-color:#001852;border-radius: 10px">constraints</span><br>
 
 ::: small-text
 55 (handcrafted) features<br>
-40 labels max<br>
+40 image categories (= <ins>labels</ins>) max<br>
 Model size (loading time < 700 ms)<br><br>
 :::
 
@@ -655,8 +684,6 @@ Model size (loading time < 700 ms)<br><br>
 
 ## Training set of extracted features {.smaller}
 
-::: columns
-::: {.column width="60%"}
 ::: {style="position:absolute;left:0%;"}
 ```{r, table of features}
 
@@ -669,6 +696,8 @@ tmp$image <- c("/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted
                "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287249133_inverted.png", 
                "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287246708_inverted.png",
                "/home/flo/dox/PhD_PRESENTATION/images/uvp6_images/alive_inverted/287246365_inverted.png")
+
+# tmp <- tmp |> mutate(image = circle_crop(image))
 
 tmp |>
    gt() |>
@@ -693,27 +722,33 @@ tmp |>
   ) 
 ```
 :::
-:::
-::: {.column width="40%"}
 
+::: {style="position:absolute;top:20%;left:65%;"}
 
-::: {style="position:absolute;top:50%;"}
-Training set (90%) --- test set<br>
-<span>&#8594;</span> Start training
+{{< fa image >}} Characteristics <br>
+
+<span style="font-size: 25px;">Geometry</span><br>
+<span style="font-size: 25px;">Gray levels</span><br>
+<span style="font-size: 25px;">Statistical moments</span><br><br>
+
+{{< fa person-digging >}} Model training<br>
+<span style="font-size: 25px;">Training set (90%) --- test set</span><br>
+<span style="color: white;font-size: 25px; background-color:#001852;border-radius: 10px"><span>&#8594;</span> Start training</span>
 :::
 
-
-:::
-:::
 
 ::: {style="position:absolute;top:79%;left:62%;"}
-::: {.highlight-high}
-Highest column value
-:::
+<!-- ::: {style="position:absolute;top:93%;left:0%;"} -->
 
-::: {.highlight-low} 
-Lowest column value
+::: small-text
+
+::: {.highlight-high}
+<span style="font-size: 25px;">Highest column value</span><br>
 :::
+::: {.highlight-low} 
+<span style="font-size: 25px;">Lowest column value</span><br>
+:::
+::: 
 
 :::
 
@@ -721,7 +756,7 @@ Lowest column value
 
 ::: {.panel-tabset}
 
-### From +100
+### Started training with +100 labels
 
 ```{r, map uvp6}
 
@@ -750,13 +785,13 @@ highchart(width = 550, height = 400) |>
 {{< fa triangle-exclamation >}} 40 labels max<br><br>
 
 90% non-living<br>
-80% detritus<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">80% detritus</span><br><br>
 
 2% Calanoida<br>
 2% Trichodesmium<br>
 6% smaller groups<br>
 
-50 --- median class size
+<span style="color: white;background-color:#001852;border-radius: 10px">50 --- median class size</span><br><br>
 
 :::
 
@@ -767,7 +802,7 @@ uvp6_labels <- uvp6_labels |> mutate(pc = 100*(n0/sum(n0)))
 #uvp6_labels_v2 <- uvp6_labels_v2 |> mutate(pc = 100*(count/sum(count)))
 ```
 
-### To 20
+### Ended up with 20
 
 ```{r, less labels}
 
@@ -824,7 +859,7 @@ hc
 ::: {style="position:absolute;top:25%;left:50%;"}
 
 90% non-living<br>
-80% detritus<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">80% detritus</span><br><br>
 
 
 2% Trichodesmium<br>
@@ -832,11 +867,11 @@ hc
 4.5% specific biological groups (2.5% Calanoida)<br>
 2.5% non-specific (other-living)<br><br> 
 
-1000 --- median class size
+<span style="color: white;background-color:#001852;border-radius: 10px">1000 --- median class size</span><br><br>
 
 :::
 
-### By using metrics and phylogeny
+### Using confusion matrices and good sense
 
 ```{r, confusion matrix and phylogeny}
  
@@ -885,15 +920,19 @@ w <- rnorm(10)
 
 ```
 
-::: {style="position:absolute;top:30%;left:70%;"}
+::: {style="position:absolute;top:25%;left:65%;"}
 
-<!-- $$Recall = \frac{\mathrm{\#~true~positive~predictions}}{\mathrm{\#~all~actual~positive~instances}}$$ -->
-<!-- $$Precision = \frac{\mathrm{\#~true~positive~predictions}}{\mathrm{\#~all~positive~predictions}}$$ -->
-$$Recall = \frac{TP}{TP+FN}$$
-$$Precision = \frac{TP}{TP+FP}$$
-<br>Merging classes based on<br>
+{{< fa person-chalkboard >}} Acantharia (test set evaluation)<br>
+<span style="font-size: 24px;">TP = 51 --- FP (col) = 6 --- FN (row) = 23 <br></span>
+<span style="font-size: 24px;">Precision = 51/(51+6) = 89%<br></span>
+<span style="font-size: 24px;">Recall (here diagonal) = 51/(51+23) = 69%</span><br><br>
+
+<span style="color: white;background-color:#001852;border-radius: 10px">Merging labels</span> based on<br>
+<span style="font-size: 24px;">precision --- recall<br></span>
 <span style="font-size: 24px;">scarcity --- confusion<br></span>
-<span style="font-size: 24px;">morphology --- ecology<br></span>
+<span style="font-size: 24px;">morphology --- ecology<br></span><br>
+
+<span style="color: white;background-color:#001852;border-radius: 10px">Often wrongly predicted as detritus</span>
 :::
 
 :::
@@ -903,9 +942,15 @@ w <- rnorm(10)
 ```
 
 
-
 ## 80% of detritus for 10% of biological groups {.smaller}
 
+::: {.panel-tabset}
+
+### {{< fa puzzle-piece >}} 500k pieces
+
+![](DETRITUS/test.png)
+
+### {{< fa bullseye >}} Improving biological precision and recall
 ```{r, detritus curse}
 
 w <- rnorm(10)
@@ -963,24 +1008,27 @@ data |> e_charts(X, renderer = "svg") |>
       fontWeight = "bold"
     )
   )  |>
-  e_mark_line(data = list(xAxis = 'detritus_0'), title = "N = 0") |>
-  e_mark_line(data = list(xAxis = 'detritus_4'), title = "N = 4")
+  e_mark_line(data = list(yAxis = 'detritus_0'), title = "") |>
+  e_mark_line(data = list(yAxis = 'detritus_4'), title = "")
 
 w <- rnorm(10)
 
 ```
 
-::: {style="position:absolute;top:15%;left:62%;"}
+::: {style="position:absolute;top:27%;left:62%;"}
 
-{{< fa bullseye >}} <ins>Improving biological score</ins><br><br>
-Detritus<br>
-<span style="font-size: 20px;">Variety of shapes --- sizes --- gray levels<br></span>
-<span style="font-size: 20px;">Clustering them?</span><br><br>
-N detritus classes<br>
+Detritus --- ubiquitously messy<br>
+<span style="font-size: 20px;">Variety of shapes --- sizes --- gray levels --- ...<br></span><br>
+
+{{< fa circle-xmark >}} Undersampling<br>
+{{< fa circle-xmark >}} Quantification<br>
+{{< fa circle-xmark >}} Clustering (left)<br>
 <span style="font-size: 20px;">Continuum in the features space</span><br>
 <span style="font-size: 20px;">Inter-group confusion</span><br>
 <span style="font-size: 20px;">Does not improve biological score</span><br><br>
-{{< fa lightbulb >}} Add weights on biological classes
+<span style="color: white;background-color:#001852;border-radius: 10px">{{< fa circle-check >}} Add weights on biological classes</span>
+:::
+
 :::
 
 ## CNN is better but not energy limited {.smaller}
@@ -1008,7 +1056,7 @@ cf_uvp6_xgboost_cnn <- tibble(labels, precision, recall, precision_cnn, recall_c
 
 cf_uvp6_xgboost_cnn |>
   mutate(diff_cnn_prec = precision_cnn - precision, diff_cnn_recall = recall_cnn - recall) |>
-  select(labels, precision, diff_cnn_prec, recall, diff_cnn_recall, category) |>
+  select(labels, precision, diff_cnn_prec, recall, diff_cnn_recall, category, nb) |>
   filter(labels %in% c('detritus', 'fiber', 'other<living', 'Calanaoida', 'puff', 'tuff', 'Chaetognatha', 'Foraminifera', 'accuracy', 'macro avg', 'living macro avg', 'living weighted avg')) |>
   gt() |>
   tab_row_group(label = "Summary", category == "summary") |>
@@ -1016,18 +1064,29 @@ cf_uvp6_xgboost_cnn |>
   tab_row_group(label = "Biological groups (5/16)", category == "living") |>
   gt_plt_bar(column = diff_cnn_prec, keep_column = F, width = 35, scale_type = "number", color = '#DC3B34FF') |>
   gt_plt_bar(column = diff_cnn_recall, keep_column = F, width = 35, scale_type = "number", color = '#001852') |>
-  # gt_add_divider(columns = "recall", sides = "left") |>
-  # gt_add_divider(columns = labels, sides = 'right') 
-  #gt_color_rows(precision, palette = "viridis")
+  tab_style_body(style = cell_fill('gray'), values = c(18,57)) |>
   gt_color_rows(precision) |>
   gt_color_rows(recall, palette = "ggsci::blue_material") |>
   tab_options(row_group.font.weight = "bold") |>
   cols_hide(columns = 'category') |>
   tab_spanner(label = 'Precision', columns = c('precision', 'diff_cnn_prec')) |>
   tab_spanner(label = 'Recall', columns = c('recall', 'diff_cnn_recall')) |>
-  cols_label(labels = '', precision = 'XGBoost', diff_cnn_prec = "CNN difference", recall = "XGBoost", diff_cnn_recall = "CNN difference")
+  cols_label(labels = '', precision = 'XGBoost', diff_cnn_prec = "CNN difference", recall = "XGBoost", diff_cnn_recall = "CNN difference", nb = '# test set images') |>
+  cols_align("center") 
 
 ```
+:::
+
+::: {style="position:absolute;top:20%;left:65%;"}
+
+CNN = higher recall<br>
+Model not limited<br>
+Feature of its own<br><br>
+
+Carbon fluxes = precision matters<br>
+Focus on living stats<br>
+Need more images of living categories
+
 :::
 
 ## {{< fa check >}} Take-home message #1
@@ -1161,7 +1220,7 @@ Figure @Thomas Boniface
 Vertical transmissometer <br><br> 
 
 ::: {style="position:absolute;top:35%;"}
-Particle accumulation<br> 
+<span style="color: white;background-color:#001852;border-radius: 10px">Particle accumulation</span><br> 
 :::
 
 ::: {style="position:absolute;top:5%;"}
@@ -2203,7 +2262,7 @@ df2 <- tibble::tibble(pump = c('VMP diel', 'VMP seasonal', 'Mixed layer','Eddy s
 plot_ly(df, x = ~pump, y = ~end, type = 'bar', color = ~group, colors = c("#f5e8c8", "#e01f54", '#001852'), showlegend = F) |>
   layout(xaxis = list(title = 'Pumps', tickfont = list(size = 20), titlefont = list(size = 20), showgrid = F), 
           yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), barmode = "group", autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
-          tickmode = "array", tickvals = c(400,1000,1400), ticktext = c("400","1000","1400"))) |> config(displayModeBar = FALSE) |>
+          tickmode = "array", tickvals = c(400,600,1000,1400), ticktext = c("400","600","1000","1400"))) |> config(displayModeBar = FALSE) |>
           add_annotations(x = df2$pump, y = df2$end, text = df2$text, ax = 0, ay = 50, arrowhead = 2, arrowside = 'start')
 
 # plot_ly(df, x = ~group, y = ~start, type = 'scatter', mode = 'markers', marker = list(color = 'white', showlegend = F)) |>
@@ -2241,8 +2300,7 @@ Mixing + VMP merge back with BGP
 <span style="font-size: 30px;"><span style="color: #528133;"><strong>F<sub>org</sub></strong></span> respired to CO<sub>2</sub> (<strong><span style="color: #D01556FF;"><strong>F<sub>remin</sub></strong></span></strong>) or sedimented <br><br></span>
 <span style="font-size: 30px;">Respiratory CO<sub>2</sub> = biogenic DIC (<strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span></strong>)<br><br></span>
 <span style="font-size: 30px;"><strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span> </strong> in the ocean for $\geq$ 100 years = sequestered (<strong><span style="color: #4774c5;"><strong>F<sub>seq</sub></strong></span></strong>)<br><br></span>
-<span style="font-size: 30px;">Carbon flux vs. ~~carbon inventory~~ &#8594; Pg C year<sup>-1</sup><br><br></span> 
-<!-- <span style="font-size: 30px;"><span style="color: #528133;"><strong>F<sub>org</sub></strong></span> reaching sediment = very long-term sequestration<br><br></span> -->
+<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">Carbon flux</span><span style="font-size: 30px;"> vs. ~~carbon inventory~~ &#8594; Pg C year<sup>-1</sup><br><br></span> 
 :::
 
 ::: {style="position:absolute;top:92%;left:0%;"}
@@ -2253,22 +2311,21 @@ Mixing + VMP merge back with BGP
 
 ![](converse/fig2_converse.svg){.absolute top=80 left=-80 width="800" height="600"}
 
-::: {style="position:absolute;top:15%;left:60%;"}
+::: {style="position:absolute;top:15%;left:59%;"}
 
 <span style="font-size: 30px;">f<sub>100</sub> --- <em>fraction of a water parcel at a given location and depth that will remain in the ocean for $\geq$ 100 years</em><br><br></span> 
 <span style="font-size: 30px;">OCIM model <span style="color: gray;">(Siegel et al., 2021)</span><br><br>
 <span style="font-size: 30px;">f<sub>100 (avg)</sub> (530 m) = 0.3<br></span>
 <span style="font-size: 30px;">f<sub>100 (avg)</sub> (> 1000 m) = 0.87<br><br></span>
  
-::: {.box}
-<span style="font-size: 30px;">F<sub>seq</sub> = f<sub>100</sub> x F<sub>remin</sub><br></span>
-:::
+<!-- ::: {.box} -->
+<!-- <span style="font-size: 30px;">F<sub>seq</sub> = f<sub>100</sub> x F<sub>remin</sub><br></span> -->
+<!-- ::: -->
+<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px">F<sub>seq</sub> = f<sub>100</sub> x F<sub>remin</sub></span>
 
 :::
 
 ## 7 CONVERSE versions to compute F<sub>remin</sub> {.smaller}
-
-<!-- ![](converse/Fig4_PHDPREZ.svg){.absolute top=40 left=-60 width="800" height="800"} -->
 
 ::: {style="position:absolute;top:15%;left:0%;"}
 ```{r, converse Fremin}
@@ -2281,17 +2338,7 @@ df <- data.frame(version = c('C1', 'C2', 'C3', 'C4', 'C5', 'C6'),
             BGP = c('empirical', 'empirical', 'empirical', 'model', 'model', 'export ratio'),
             Mixing = c('export ratio', 'export ratio', 'export ratio', 'model', 'model', 'export ratio'),
             VMP = rep('empirical', 6))
-            # bgp = rep('f(pixel, depth layer, C#)', 7),
-            # bgp = 'f(pixel, depth layer, C#)',
-            # mixing = rep('f(pixel, depth layer, C#)', 7),
-            # vmp = rep('f(pixel, C#)', 7))
-# 
-# # df_transposed <- tibble::as_tibble(t(df))
-# # colnames(df_transposed) <- df_transposed[1,]
-# # df<- df_transposed[-1,]
-# # 
-# # rownames(df) <- c('b', 'Export depth', 'Export total flux')
-# 
+
 df |> group_by(group) |>
   gt() |>
   cols_label(version = md('**Version**'),
@@ -2337,8 +2384,6 @@ df |> group_by(group) |>
 <span style="font-size: 30px;">Mixing --- 3-in-1<br><br></span>
 <span style="font-size: 30px;">VMP diel --- migration at 300 m<br></span>
 <span style="font-size: 30px;">VMP seasonal --- migration at 600 m<br>(NNA only)</span>
-<!-- $$F_{orgPOC}(z) = F_{expPOC} \times \left(\frac{z}{z_{exp}}\right)^{-b}$$ -->
-<!-- $$F_{reminPOC}(\Delta z) = F_{orgPOC}(z) - F_{orgPOC}(z+1)$$ -->
 :::
 
 ## Examples of stations --- <span style="color: #D01556FF;">F<sub>remin</sub></span> x <span style="color: #E6AB02;">f<sub>100</sub></span> = <span style="color: #4774c5;">F<sub>seq</sub></span>
@@ -2350,20 +2395,19 @@ df |> group_by(group) |>
 <span style="font-size: 30px;"><span style="color: #4774c5;">F<sub>seq</sub></span> max above 2000 m<br><br></span>
 <span style="font-size: 30px;">50% of F<sub>seq</sub> accumulation by 1000 m<br><br></span>
 <span style="font-size: 30px;">Fixed sequestration depth = missing most of <span style="color: #4774c5;">F<sub>seq</sub></span><br><br></span>
-<!-- <span style="font-size: 30px;">Next step --- Global estimations (= all pixels)<br><br></span> -->
 :::
 
 ## Global F<sub>seq</sub> --- continuous vs. fixed depth 
 
 ![](converse/Fig5PREZ.jpg.svg){.absolute top=80 left=-120 width="800" height="600"}
 
-::: {style="position:absolute;top:15%;left:59%;"}
-<span style="font-size: 30px;">Magnitudes differ but same patterns<br><br></span>
+::: {style="position:absolute;top:15%;left:60%;"}
+<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">Magnitudes differ but same patterns<br><br></span>
+
 <span style="font-size: 30px;">F<sub>seq</sub>(BGP) --- 0.6 - 1.9 Pg C y<sup>-1</sup><br></span>
 <span style="font-size: 30px;">F<sub>seq</sub>(BCP) --- 0.9 - 2.6 Pg C y<sup>-1</sup><br><br></span>
 <span style="font-size: 30px;">F<sub>seq</sub>(1000 m) --- 0.4 - 1.1 Pg C y<sup>-1</sup><br></span>
 <span style="font-size: 30px;">F<sub>seq</sub>(2000 m) --- 0.2 - 0.5 Pg C y<sup>-1</sup><br><br></span>
-<!-- <span style="font-size: 30px;">F<sub>seq</sub>(BCP) up to 6 times higher than fixed sequestration depth studies<br><br></span> -->
 <span style="font-size: 30px;">Mixing --- 11-23% of F<sub>seq</sub>(BCP)<br></span>
 <span style="font-size: 30px;">VMP --- 9-12% of F<sub>seq</sub>(BCP)</span>
 :::
@@ -2672,7 +2716,7 @@ new_up / new_down
 ### <strong>{{< fa check >}} Way forward</strong>
 
 ::: {.fragment .fade-in-then-semi-fade-out}
-- Same method applied on more <span style="color: white;background-color: #001852;border-radius: 10px">regions (9)</span><br>
+- Same method applied on <span style="color: white;background-color: #001852;border-radius: 10px">more regions (9)</span><br>
   - High variability of carbon fluxes in different regions
   - Generalization and reduction of uncertainties 
 :::
@@ -2763,6 +2807,31 @@ ggplot(taxo_kerguelen) + geom_point(aes(x = conc_object, y = depth, colour = dat
   - up to 40 classes
 :::
 
-:::
+::: 
 
 # <span style="color: black;">Tha</span><span style="color: #E6AB02;">nk y</span><span style="color: #D01556FF;">ou !</span> {background-color="white"}
+
+```{r, detritus images}
+# 
+# library(stringr)
+# # path_to_images <- '/home/flo/dox/PhD_PRESENTATION/DETRITUS/'
+# path_to_images <- '/home/flo/Downloads/copepoda/inverted/'
+# copepoda <- list.files(path_to_images, full.names = F, include.dirs = F)
+# 
+# # detritus <- all_images[!str_detect(all_images, pattern = 'alive')]
+# # alive <- all_images[str_detect(all_images, pattern = 'alive')]
+# 
+# # map(.x = detritus, .f = circle_crop(images = paste0(path_to_images, detritus), to = paste0('/home/flo/dox/PhD_PRESENTATION/DETRITUS/detritus_circle/', detritus)))
+# # map(.x = alive, .f = circle_crop(images = paste0(path_to_images, alive), to = paste0('/home/flo/dox/PhD_PRESENTATION/DETRITUS/detritus_circle/', alive), border_size = 1, border_colour = "green"))
+# 
+# # map(.x = copepoda, .f = circle_crop(images = paste0(path_to_images, copepoda), to = paste0('/home/flo/Downloads/copepoda/inverted/circles2/', copepoda), border_size = 1, border_colour = "green"))
+# map(.x = copepoda, .f = circle_crop(images = paste0(path_to_images, copepoda), to = paste0('/home/flo/Downloads/detritus/inverted/circles2/', copepoda), border_size = 1, border_colour = "green"))
+# 
+# path_to_images <- '/home/flo/Downloads/detritus/inverted/'
+# detritus <- list.files(path_to_images, full.names = F, include.dirs = F)
+# map(.x = detritus, .f = circle_crop(images = paste0(path_to_images, detritus), to = paste0('/home/flo/Downloads/detritus/inverted/circles2/', detritus)))
+# 
+# 
+# 
+```
+
