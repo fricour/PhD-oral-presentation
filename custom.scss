@@ -48,3 +48,40 @@
     border: 2px solid #000;
     text-align: center;
 }
+
+.background-slide {
+  width: 50%;
+}
+
+.highlight-high {
+  background-color: #f4b8bc;
+  border-radius: 10px;
+  color: black;
+}
+
+.highlight-low {
+  background-color: #b6d9f5;
+  border-radius: 10px;
+  color: black;
+}
+
+.center-align {
+  text-align: center;
+}
+
+.red-dot {
+  height: 20px;
+  width: 20px;
+  background-color: #E31B23;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.yellow-dot {
+  height: 20px;
+  width: 20px;
+  background-color: #FFC325;
+  border-radius: 50%;
+  display: inline-block;
+}
+
