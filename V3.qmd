@@ -74,7 +74,7 @@ Sys.setlocale("LC_TIME", "en_GB.utf8")
 [Towards a]{style="font-size: 30px;"}<br> [<strong>new insight</strong>]{style="font-size: 50px;"}<br> [of the]{style="font-size: 30px;"}<br> [<strong>carbon transport</strong>]{style="font-size: 50px;"}<br> [in the]{style="font-size: 30px;"}<br> [<strong>global ocean</strong>]{style="font-size: 50px;"}<br>
 :::
 
-# Introduction (1/5) {background-color="white"}
+# And so it begins (1/5) {background-color="white"}
 
 ## Absorbed CO<sub>2</sub> reacts with seawater {.smaller}
 
@@ -333,27 +333,46 @@ df |> group_by(group) |> gt() |>
 
 ## Main questions driving this work
 
+::: {.fragment .fade-in-then-semi-out}
 ::: {style="position:absolute;top:15%;"}
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
+
+:::
+:::
+
+::: {style="position:absolute;top:60%;"}
+::: {.fragment .fade-in-then-out}
+{{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and a zooplankton <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span><br><span style="color: black;background-color:white;border-radius: 10px">Zooplankton image classification model under strict energy constraints</span><br>
+:::
+:::
+
+## {{< fa gears >}} UVP6 particle characterization using ML
+
+![](images/uvp_historic.jpg){.absolute top="15%" width="859" height="389"}
+
+![](intro/floatUVP6.png){.absolute top="15%" left="75%" width="200" height="250"}
+
+![](intro/gliderUVP6.png){.absolute top="50%" left="74.75%" width="200" height="250"}
+
+::: {style="position:absolute;top:72%;"}
+Since 2008 --- UVP5 (small enough for CTD frames)<br> Since 2019 --- UVP6 on floats and gliders 
+:::
+
+## Main questions driving this work
+
+::: {style="position:absolute;top:15%;opacity:0.5"}
 {{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
 {{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
 {{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
 :::
 
-## {{< fa gears >}} UVP6 and a zooplankton embedded classification for particle characterization
-<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> --- <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span>
-
-![](images/uvp_historic.jpg){.absolute width="859" height="389"}
-
-![](intro/floatUVP6.png){.absolute top="25%" left="75%" width="200" height="250"}
-
-![](intro/gliderUVP6.png){.absolute top="60%" left="74.75%" width="200" height="250"}
-
-::: {style="position:absolute;top:88%;"}
-Since 2008 --- UVP5 (small enough for CTD frames)<br> Since 2019 --- UVP6 on floats and gliders 
+::: {style="position:absolute;top:60%;"}
+{{< fa robot >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and <span style="color: white;background-color:#001852;border-radius: 10px">OST</span> deployed in the Labrador Sea<br><span style="color: black;background-color:white;border-radius: 10px">Two independent measurements of particle and carbon flux dynamics</span><br>
 :::
 
 ## {{< fa robot >}} BGC-Argo and two independent sensors to estimate particle and carbon fluxes
-<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> --- <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span>
 
 ::: footer
 Left figure @Thomas Boniface --- right figure @Thomas Haessig (Euro-Argo)
@@ -372,19 +391,54 @@ Left figure @Thomas Boniface --- right figure @Thomas Haessig (Euro-Argo)
 :::
 :::
 
-::: {style="position:absolute;top:60%;left:-5%;"}
+::: {style="position:absolute;top:50%;left:-5%;"}
 UVP6
 :::
 
-::: {style="position:absolute;top:75%;left:14%;"}
+::: {style="position:absolute;top:65%;left:14%;"}
 Transmissometer
+:::
+
+## Main questions driving this work
+
+::: {style="position:absolute;top:15%;opacity:0.5"}
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
+{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
+:::
+
+::: {style="position:absolute;top:60%;"}
+{{< fa book >}} Reassessment of <span style="color: white;background-color:#001852;border-radius: 10px">global sequestration fluxes</span> by the <span style="color: white;background-color:#001852;border-radius: 10px">BCP</span><br><span style="color: black;background-color:white;border-radius: 10px">A continuous approach to carbon storage ($\geq$ 100 years)</span>
 :::
 
 ## {{< fa book >}} A continuous approach to carbon storage by the Biological Carbon Pump
 
-<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> --- <span style="color: white;background-color:#001852;border-radius: 10px">How long</span>
+::: footer
+Left figures (2) @Thomas Boniface --- Right figure @Euro-Argo
+:::
 
-## To summarize before entering into details
+::: {style="position:absolute;top:55%;left:30%;"}
+&#10230;
+:::
+
+::: {style="position:absolute;top:55%;left:10%;"}
+&#10230;
+:::
+
+![](images/UVP6_a.png){.absolute top="45%" width="75"}
+
+![](intro/refine_float.svg){.absolute top="30%" left="15%" width="200"}
+
+::: {.fragment .fade-out}
+![](intro/argomap.png){.absolute top="30%" left="40%" width="600"}
+:::
+
+::: {.fragment .fade-in}
+![](intro/model.svg){.absolute top="40%" left="40%" width="600"}
+:::
+
+
+## To summarize 
 
 ::: {style="position:absolute;top:15%;"}
 {{< fa question-circle >}} How much carbon is exported/injected by each pump?<br>
@@ -394,17 +448,11 @@ Transmissometer
 
 ::: {style="position:absolute;top:42%;"}
 
-::: {.fragment .fade-in-then-semi-out}
-{{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and the zooplankton embedded <span style="color: white;background-color:#001852;border-radius: 10px">classification</span><br><span style="color: gray;background-color:white;border-radius: 10px">Zooplankton image classification model under strict energy constraints</span><br>
-:::
+{{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and a zooplankton<span style="color: white;background-color:#001852;border-radius: 10px"> embedded classification</span><br><span style="color: gray;background-color:white;border-radius: 10px">Zooplankton image classification model under strict energy constraints</span><br>
 
-::: {.fragment .fade-in-then-semi-out}
 {{< fa robot >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and <span style="color: white;background-color:#001852;border-radius: 10px">OST</span> deployed in the Labrador Sea<br><span style="color: gray;background-color:white;border-radius: 10px">Two independent measurements of particle and carbon flux dynamics</span><br>
-:::
 
-::: {.fragment .fade-in-then-semi-out}
 {{< fa book >}} Reassessment of <span style="color: white;background-color:#001852;border-radius: 10px">global sequestration fluxes</span> by the <span style="color: white;background-color:#001852;border-radius: 10px">BCP</span><br><span style="color: gray;background-color:white;border-radius: 10px">Continuous approach to carbon storage ($\geq$ 100 years)</span>
-:::
 
 :::
 
@@ -489,7 +537,7 @@ Convolutional neural network (CNN)<br> State-of-the-art but [energy consuming]{s
 Extreme gradient boosting
 
 ::: small-text
-Efficient and portable [(Chen et al., 2016)]{style="color: gray;"}
+Fewer resources and efficient [(Chen et al., 2016)]{style="color: gray;"}
 :::
 :::
 :::
@@ -507,7 +555,7 @@ Figure from Geron et al. (2019)
 :::
 
 ::: {.column width="50%"}
-Basic principle
+<span style="color: white;background-color:#001852;border-radius: 10px">Basic principle</span>
 
 ::: small-text
 Training set = image features<br><br> Left --- 3 predictors (decision trees)<br> Each one correcting its predecessor<br><br>Right --- Ensemble's prediction <br><br>
@@ -528,12 +576,6 @@ Training set = image features<br><br> Left --- 3 predictors (decision trees)<br>
 # images <- list.files(path_to_images, full.names = F, include.dirs = F)
 # map(.x = images, .f = circle_crop(images = paste0(path_to_images, images), to = paste0('/home/flo/Downloads/TESTTEST/inverted/circle/', images)))
 ```
-
-::: {style="position:absolute;top:10%;left:0%;"}
-
-<span style="color: white;background-color:#001852;border-radius: 10px">Geometry --- Gray level</span><br>
-:::
-
 
 ## 600.000 UVP6 images over +100 labels {.smaller}
 
@@ -578,69 +620,6 @@ uvp6_labels <- uvp6_labels |> mutate(pc = 100*(n0/sum(n0)))
 
 #uvp6_labels_v2 <- uvp6_labels_v2 |> mutate(pc = 100*(count/sum(count)))
 ```
-
-### Ended up with 20
-
-```{r, less labels}
-
-# uvp6_labels_v2 <- uvp6_labels |> select(level2.5, n2.5, category) |> distinct()
-# uvp6_labels_v2 <- uvp6_labels_v2[-c(19,20,23),]
-uvp6_labels_v2 <- vroom::vroom('images/uvp6_images/uvp6_label_79px.csv')
-uvp6_labels_v2 <- uvp6_labels_v2 |> group_by(labels) |> summarize(count = n()) |> mutate(category = 'living')
-uvp6_labels_v2[uvp6_labels_v2$labels %in% non_living,]$category <- 'non-living'
-uvp6_labels_v2[uvp6_labels_v2$labels == 'small<Cnidaria',]$labels <- 'small-Cnidaria'
-uvp6_labels_v2[uvp6_labels_v2$labels == 'other<living',]$labels <- 'other-living'
-
-# uvp6_labels_v2$group2 <- c('Trichodesmium', 'Trichodesmium', 'Rhizaria', 'Rhizaria', 'other-living','Rhizaria', 'Rhizaria', 'Rhizaria', 'Rhizaria', 'Copepoda', 'non-living', 'Chaetognatha','Actinopterygii',
-#                            'Appendicularia', 'Salpida', 'Cnidaria', 'Creseis', 'non-living', 'non-living', 'non-living')
-
-# uvp6_labels_v2$group2 <- c('Trichodesmium', 'Trichodesmium', 'Rhizaria', 'Rhizaria', 'other-living','Rhizaria', 'Rhizaria', 'Rhizaria', 'Rhizaria', 'other biological groups', 'non-living', 'other biological groups','other biological groups',
-#                            'other biological groups', 'other biological groups', 'other biological groups', 'other biological groups', 'non-living', 'non-living', 'non-living')
-
-uvp6_labels_v2$group2 <- c('Rhizaria', 'other biological groups', 'other biological groups', 'Rhizaria', 'other biological groups','other biological groups', 'Rhizaria', 'other biological groups', 'Rhizaria', 'Rhizaria', 'other biological groups', 'non-living','non-living','non-living', 'non-living', 'other-living', 'Trichodesmium', 'other biological groups', 'Rhizaria', 'Trichodesmium')
-
-
-# Create a packed bubble chart
-hc <- highchart(width = 550, height = 400) |>
-  hc_chart(type = "packedbubble") |>
-  hc_add_series(uvp6_labels_v2, "packedbubble", hcaes(name = labels, value = count, group = group2)) |>
-  hc_plotOptions(packedbubble = list(
-    tooltip = list(
-      pointFormat = "<b>{point.name}:</b> {point.value}<br>"
-    ),
-    maxSize = "100%",
-    minSize = "10%",
-    zMin = 0,
-             layoutAlgorithm = list(
-                 gravitationalConstant =  0.05,
-                 splitSeries =  TRUE, # TRUE to group points
-                 seriesInteraction = TRUE,
-                 dragBetweenSeries = TRUE,
-                 parentNodeLimit = TRUE
-             )))
-
-# Display the chart
-hc
-
-# highchart(width = 550, height = 400) |>
-#   hc_chart(type = "packedbubble") |>
-#   hc_add_series(uvp6_labels, "packedbubble", hcaes(name = level0, value = n0, group = category)) |>
-#   hc_plotOptions(packedbubble = list(
-#     tooltip = list(
-#       pointFormat = "<b>{point.name}:</b> {point.value}<br>"
-#     ),
-#     maxSize = "500%",
-#     minSize = "50%"))
-
-```
-
-::: {style="position:absolute;top:25%;left:50%;"}
-90% non-living<br> [80% detritus]{style="color: white;background-color:#001852;border-radius: 10px"}<br><br>
-
-2% Trichodesmium<br> 1% Rhizaria group<br> 4.5% specific biological groups (2.5% Calanoida)<br> 2.5% non-specific (other-living)<br><br>
-
-[1000 --- median class size]{style="color: white;background-color:#001852;border-radius: 10px"}<br><br>
-:::
 
 ### Using confusion matrices and good sense
 
@@ -705,8 +684,71 @@ w <- rnorm(10)
 
 <span style="color: white;background-color:#001852;border-radius: 10px">Often wrongly predicted as detritus</span>
 :::
+
+### Ended up with 20
+
+```{r, less labels}
+
+# uvp6_labels_v2 <- uvp6_labels |> select(level2.5, n2.5, category) |> distinct()
+# uvp6_labels_v2 <- uvp6_labels_v2[-c(19,20,23),]
+uvp6_labels_v2 <- vroom::vroom('images/uvp6_images/uvp6_label_79px.csv')
+uvp6_labels_v2 <- uvp6_labels_v2 |> group_by(labels) |> summarize(count = n()) |> mutate(category = 'living')
+uvp6_labels_v2[uvp6_labels_v2$labels %in% non_living,]$category <- 'non-living'
+uvp6_labels_v2[uvp6_labels_v2$labels == 'small<Cnidaria',]$labels <- 'small-Cnidaria'
+uvp6_labels_v2[uvp6_labels_v2$labels == 'other<living',]$labels <- 'other-living'
+
+# uvp6_labels_v2$group2 <- c('Trichodesmium', 'Trichodesmium', 'Rhizaria', 'Rhizaria', 'other-living','Rhizaria', 'Rhizaria', 'Rhizaria', 'Rhizaria', 'Copepoda', 'non-living', 'Chaetognatha','Actinopterygii',
+#                            'Appendicularia', 'Salpida', 'Cnidaria', 'Creseis', 'non-living', 'non-living', 'non-living')
+
+# uvp6_labels_v2$group2 <- c('Trichodesmium', 'Trichodesmium', 'Rhizaria', 'Rhizaria', 'other-living','Rhizaria', 'Rhizaria', 'Rhizaria', 'Rhizaria', 'other biological groups', 'non-living', 'other biological groups','other biological groups',
+#                            'other biological groups', 'other biological groups', 'other biological groups', 'other biological groups', 'non-living', 'non-living', 'non-living')
+
+uvp6_labels_v2$group2 <- c('Rhizaria', 'other biological groups', 'other biological groups', 'Rhizaria', 'other biological groups','other biological groups', 'Rhizaria', 'other biological groups', 'Rhizaria', 'Rhizaria', 'other biological groups', 'non-living','non-living','non-living', 'non-living', 'other-living', 'Trichodesmium', 'other biological groups', 'Rhizaria', 'Trichodesmium')
+
+
+# Create a packed bubble chart
+hc <- highchart(width = 550, height = 400) |>
+  hc_chart(type = "packedbubble") |>
+  hc_add_series(uvp6_labels_v2, "packedbubble", hcaes(name = labels, value = count, group = group2)) |>
+  hc_plotOptions(packedbubble = list(
+    tooltip = list(
+      pointFormat = "<b>{point.name}:</b> {point.value}<br>"
+    ),
+    maxSize = "100%",
+    minSize = "10%",
+    zMin = 0,
+             layoutAlgorithm = list(
+                 gravitationalConstant =  0.05,
+                 splitSeries =  TRUE, # TRUE to group points
+                 seriesInteraction = TRUE,
+                 dragBetweenSeries = TRUE,
+                 parentNodeLimit = TRUE
+             )))
+
+# Display the chart
+hc
+
+# highchart(width = 550, height = 400) |>
+#   hc_chart(type = "packedbubble") |>
+#   hc_add_series(uvp6_labels, "packedbubble", hcaes(name = level0, value = n0, group = category)) |>
+#   hc_plotOptions(packedbubble = list(
+#     tooltip = list(
+#       pointFormat = "<b>{point.name}:</b> {point.value}<br>"
+#     ),
+#     maxSize = "500%",
+#     minSize = "50%"))
+
+```
+
+::: {style="position:absolute;top:25%;left:50%;"}
+90% non-living<br> [80% detritus]{style="color: white;background-color:#001852;border-radius: 10px"}<br><br>
+
+2% Trichodesmium<br> 1% Rhizaria group<br> 4.5% specific biological groups (2.5% Calanoida)<br> 2.5% non-specific (other-living)<br><br>
+
+[1000 --- median class size]{style="color: white;background-color:#001852;border-radius: 10px"}<br><br>
 :::
 
+:::
 
 ## CNN is better but not energy limited {.smaller}
 
@@ -751,7 +793,7 @@ cf_uvp6_xgboost_cnn |>
 :::
 
 ::: {style="position:absolute;top:20%;left:65%;"}
-CNN = higher recall<br> Model not limited<br> Feature of its own<br><br>
+CNN has (clearly) a higher recall<br><br> CNN (if) not energy limited<br><br> CNN has its own features<br><br>
 
 <!-- Carbon fluxes = precision matters<br> Focus on living stats<br> Need more images of living categories -->
 :::
@@ -2052,6 +2094,24 @@ df |> gt() |>
 :::
 
 # Perspectives (5/5) {background-color="white"}
+
+## Improvement points {.smaller}
+
+[Sensor]{style="color: white;background-color: #001852;border-radius: 10px"} scale<br>
+
+-   20/40 classes in the model
+-   New features (e.g. texture)
+-   Deal differently with detritus
+    
+[Float]{style="color: white;background-color: #001852;border-radius: 10px"} scale<br>
+
+-   3 parking depths --- attenuation measurements
+-   Environmental conditions (BGC variables)
+-   Particle backscattering
+-   Nature of particles (embedded classification)
+    
+[Global]{style="color: white;background-color: #001852;border-radius: 10px"} scale<br>
+-   Wait to validate/calibrate with in-situ data (float)
 
 ## Application to key biogeochemical regions {.smaller}
 
