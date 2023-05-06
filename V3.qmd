@@ -74,20 +74,22 @@ Sys.setlocale("LC_TIME", "en_GB.utf8")
 [Towards a]{style="font-size: 30px;"}<br> [<strong>new insight</strong>]{style="font-size: 50px;"}<br> [of the]{style="font-size: 30px;"}<br> [<strong>carbon transport</strong>]{style="font-size: 50px;"}<br> [in the]{style="font-size: 30px;"}<br> [<strong>global ocean</strong>]{style="font-size: 50px;"}<br>
 :::
 
-# And so it begins (1/5) {background-color="white"}
+<!-- # <span style="color: white;background-color:#001852;border-radius: 10px">420 ppm and counting (1/5) </span> {background-image="intro/ppm.JPG"} -->
 
-## Absorbed CO<sub>2</sub> reacts with seawater {.smaller}
+# <span style="color: white;">420 ppm and counting (1/5) </span> {background-image="intro/ppm.JPG"}
 
-::: footer
-Left figure from Friedlingstein et al., (2022)
-:::
+## Absorbed CO<sub>2</sub> reacts with seawater
 
 ::: columns
-::: {.column width="50%"}
-![](intro/fried.svg){.absolute top="100" left="0" width="700" height="525"}
+::: {.column width="60%"}
+<br>Fossil fuel emissions --- 35 Gt CO<sub>2</sub> year<sup>-1</sup></sub><br><br>
+25% absorbed by land<br><br>
+25% absorbed by <span style="color: white;background-color:#001852;border-radius: 10px">oceans</span><br>
+[DIC]{style="color: white;background-color: #001852;border-radius: 10px"} = HCO<sub>3</sub><sup>-</sup> + CO<sub>3</sub><sup>2-</sup> + H<sub>2</sub>CO<sub>3</sub> + CO<sub>2</sub> (aq)
 :::
 
-::: {.column width="50%"}
+
+::: {.column width="40%"}
 ```{r DIC}
 
 df <- tibble(
@@ -104,7 +106,7 @@ df <- tibble(
   )
 )
 
-myStyles <- c(list(color = "#3F517D")) # custom styles defined
+myStyles <- c(list(color = "#3F517D")) # cust^om styles defined
 myNames <- list(c("carbonic acid", "carbonate", "bicarbonate")) # names to style
 myNames <- list(c("H\u2082CO\u2083", "CO\u2083\u00B2\u207B", "HCO\u2083\u207B"))
 myLevels <- list(2) # hierarchical levels to style
@@ -117,9 +119,6 @@ df |>
 
 ```
 
-::: {style="position:absolute;top:80%;left:60%;"}
-[DIC]{style="color: white;background-color: #001852;border-radius: 10px"} = HCO<sub>3</sub><sup>-</sup> + CO<sub>3</sub><sup>2-</sup> + H<sub>2</sub>CO<sub>3</sub> + CO<sub>2</sub> (aq)
-:::
 :::
 :::
 
@@ -236,9 +235,7 @@ remineralization = respiration (DIC ↗)
 
 ::: {.fragment .fade-in}
 ![](images/refine/sysnthesis.svg){.absolute top="12%" left="0%" width="1200"}
-:::
 
-::: {.fragment .fade-in}
 ::: {style="position:absolute;top:87%;left:0%;"}
 <span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How much</span><span style="font-size: 24px;"> organic carbon is exported --- </span><span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How deep</span></span><span style="font-size: 24px;"> is it transported --- </span><span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How long</span></span><span style="font-size: 24px;"> CO<sub>2</sub> is hidden from the atmosphere ?</span>
 :::
@@ -248,7 +245,7 @@ remineralization = respiration (DIC ↗)
 Figure @ERC-REFINE
 :::
 
-## Each export pathway has its own <ins>transport</ins> and <ins>sequestration</ins> potential
+## Each export pathway has its own <ins>transport</ins> and <ins>sequestration</ins> potential {.smaller}
 
 ```{r, bcp and its export pathways for converse 2, fig.width=6, fig.height=6}
 
@@ -271,80 +268,28 @@ x <- rnorm(10)
 
 ```
 
-::: {style="position:absolute;top:30%;left:50%"}
-```{r, sequestration timescale}
-
-df <- tibble(pump = c('Gravitational', 'Diel', 'Seasonal', 'Mixed layer', 'Eddy subduction', 'Large-scale subduction'),
-             group = c('bgp', rep('vmp',2), rep('mix',3)),
-             poc = c('X','X','X','X','X','X'),
-             doc = c('','','','X','X','X'),
-             sequestration_time = c('?', 'up to 250', 'up to 500', '25 - 100', 'up to 150', '25 - 100'),
-             sequestration_time_bis = c('142', '150', '?', '54', '?', '54'))
-
-df <- df |> mutate(pump = factor(pump, levels = c('Gravitational', 'Diel', 'Seasonal', 'Mixed layer', 'Eddy subduction', 'Large-scale subduction')))
-
-df |> group_by(group) |> gt() |>
-  cols_label(pump = md('**Pump**'),
-             poc = md('**POC**'),
-             doc = md('**DOC**'),
-             sequestration_time = md('**Boyd et al., (2019)**'),
-             sequestration_time_bis = md('**Nowicki et al., (2022)**')) |>
-  tab_spanner(label = md('**Sequestration time (years)**'), columns = 5:6) |>
-  tab_row_group(label = "Mixing pump - 20% export flux", rows = 4:6) |> 
-  tab_row_group(label = "Migrant pump - 10% export flux", rows = 2:3) |>
-    tab_row_group(label = "", rows = 1) |>
-  tab_options(row_group.font.weight = "bold") |>
-  tab_style_body(style = cell_fill(color = 'gray'),
-                 columns = 4,
-                 rows = 4:6,
-                 pattern = 'X') |>
-    cols_align("center") |>
-    tab_style(
-      style = list(cell_fill(color = '#f5e8c8')),
-      locations = cells_body(
-        columns = pump,
-        rows = 1
-      )
-    ) |>
-  tab_style(
-      style = list(cell_fill(color = '#001852')),
-      locations = cells_body(
-        columns = pump,
-        rows = 2:3
-      )
-    ) |>
-  tab_style(
-      style = list(cell_fill(color = '#e01f54')),
-      locations = cells_body(
-        columns = pump,
-        rows = 4:6
-      )
-    ) |>
-  tab_style(
-      style = list(cell_text(color = 'white')),
-      locations = cells_body(
-        columns = pump,
-        rows = 2:3
-      )
-    )
-```
-
+::: {style="position:absolute;top:35%;left:60%;"}
+<span style="color: black;background-color:#f5e8c8;border-radius: 10px">Gravitational --- 70% export flux</span><br><br>
+<span style="color: black;background-color:#e01f54;border-radius: 10px">Mixing --- 20% export flux</span><br>Sequestration from 25 to 150 years<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">Migrant --- 10% export flux</span><br>Sequestration up to 250 years (diel)<br> up to 500 years (seasonal)<br>
 :::
 
 ## Main questions driving this work
 
 ::: {.fragment .fade-in-then-semi-out}
 ::: {style="position:absolute;top:15%;"}
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
 
 :::
 :::
 
 ::: {style="position:absolute;top:60%;"}
 ::: {.fragment .fade-in-then-out}
-{{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and a zooplankton <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span><br><span style="color: black;background-color:white;border-radius: 10px">Zooplankton image classification model under strict energy constraints</span><br>
+{{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and a zooplankton <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span><br><span style="color: black;background-color:white;border-radius: 10px">Zooplankton image classification model under strict energy constraints</span><br><br>
+<ins>Sensor development</ins> <span style="color: gray;">&#10230; Sensor application &#10230; Model</span> 
+
 :::
 :::
 
@@ -363,13 +308,14 @@ Since 2008 --- UVP5 (small enough for CTD frames)<br> Since 2019 --- UVP6 on flo
 ## Main questions driving this work
 
 ::: {style="position:absolute;top:15%;opacity:0.5"}
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
 :::
 
 ::: {style="position:absolute;top:60%;"}
-{{< fa robot >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and <span style="color: white;background-color:#001852;border-radius: 10px">OST</span> deployed in the Labrador Sea<br><span style="color: black;background-color:white;border-radius: 10px">Two independent measurements of particle and carbon flux dynamics</span><br>
+{{< fa robot >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and <span style="color: white;background-color:#001852;border-radius: 10px">OST</span> deployed in the Labrador Sea<br><span style="color: black;background-color:white;border-radius: 10px">Two independent measurements of particle and carbon flux dynamics</span><br><br>
+<span style="color: gray;">Sensor development &#10230; </span><ins>Sensor application</ins><span style="color: gray;"> &#10230; Model</span> 
 :::
 
 ## {{< fa robot >}} BGC-Argo and two independent sensors to estimate particle and carbon fluxes
@@ -387,28 +333,29 @@ Left figure @Thomas Boniface --- right figure @Thomas Haessig (Euro-Argo)
 
 ::: {.column width="60%"}
 
-![](images/schema-cycle-du-flotteur.png){.absolute top="30%" left="40%" width="700" height="460"}
+![](images/schema-cycle-du-flotteur.png){.absolute top="30%" left="45%" width="700" height="460"}
 :::
 :::
 
-::: {style="position:absolute;top:50%;left:-5%;"}
-UVP6
+::: {style="position:absolute;top:50%;left:-7%;"}
+UVP6 &#8594;
 :::
 
 ::: {style="position:absolute;top:65%;left:14%;"}
-Transmissometer
+&#8592; Transmissometer
 :::
 
 ## Main questions driving this work
 
 ::: {style="position:absolute;top:15%;opacity:0.5"}
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
-{{< fa question-circle >}} <span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
 :::
 
 ::: {style="position:absolute;top:60%;"}
-{{< fa book >}} Reassessment of <span style="color: white;background-color:#001852;border-radius: 10px">global sequestration fluxes</span> by the <span style="color: white;background-color:#001852;border-radius: 10px">BCP</span><br><span style="color: black;background-color:white;border-radius: 10px">A continuous approach to carbon storage ($\geq$ 100 years)</span>
+{{< fa book >}} Reassessment of <span style="color: white;background-color:#001852;border-radius: 10px">global sequestration fluxes</span> by the <span style="color: white;background-color:#001852;border-radius: 10px">BCP</span><br><span style="color: black;background-color:white;border-radius: 10px">A continuous approach to carbon storage ($\geq$ 100 years)</span><br><br>
+ <span style="color: gray;">Sensor development &#10230; Sensor application &#10230;</span><ins>Model</ins> 
 :::
 
 ## {{< fa book >}} A continuous approach to carbon storage by the Biological Carbon Pump
@@ -441,14 +388,14 @@ Left figures (2) @Thomas Boniface --- Right figure @Euro-Argo
 ## To summarize 
 
 ::: {style="position:absolute;top:15%;"}
-{{< fa question-circle >}} How much carbon is exported/injected by each pump?<br>
-{{< fa question-circle >}} How deep is it exported/injected?<br>
-{{< fa question-circle >}} How long is it sequestered from the atmosphere?<br><br>
+How much carbon is exported/injected by each pump?<br>
+How deep is it exported/injected?<br>
+How long is it sequestered from the atmosphere?<br><br>
 :::
 
 ::: {style="position:absolute;top:42%;"}
 
-{{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and a zooplankton<span style="color: white;background-color:#001852;border-radius: 10px"> embedded classification</span><br><span style="color: gray;background-color:white;border-radius: 10px">Zooplankton image classification model under strict energy constraints</span><br>
+{{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and a zooplankton <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span><br><span style="color: gray;background-color:white;border-radius: 10px">Zooplankton image classification model under strict energy constraints</span><br>
 
 {{< fa robot >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and <span style="color: white;background-color:#001852;border-radius: 10px">OST</span> deployed in the Labrador Sea<br><span style="color: gray;background-color:white;border-radius: 10px">Two independent measurements of particle and carbon flux dynamics</span><br>
 
@@ -456,7 +403,7 @@ Left figures (2) @Thomas Boniface --- Right figure @Euro-Argo
 
 :::
 
-# {{< fa gears >}} UVP6 embedded classification (2/5) {background-color="white"}
+# {{< fa gears >}} UVP6 embedded classification (2/5) {background-image="images/uvp6_images/mozaic_best.png" background-opacity=0.5} 
 
 Zooplankton image classification model under strict energy constraints
 
@@ -537,7 +484,7 @@ Convolutional neural network (CNN)<br> State-of-the-art but [energy consuming]{s
 Extreme gradient boosting
 
 ::: small-text
-Fewer resources and efficient [(Chen et al., 2016)]{style="color: gray;"}
+Uses fewer resources but still efficient
 :::
 :::
 :::
@@ -617,8 +564,6 @@ highchart(width = 550, height = 400) |>
 ```{r, some stats}
 
 uvp6_labels <- uvp6_labels |> mutate(pc = 100*(n0/sum(n0)))
-
-#uvp6_labels_v2 <- uvp6_labels_v2 |> mutate(pc = 100*(count/sum(count)))
 ```
 
 ### Using confusion matrices and good sense
@@ -633,8 +578,6 @@ x <- c('Acantharia', 'Actinopterygii', 'Appendicularia', 'Aulacanthidae',
        'detritus', 'fiber', 'other<living', 'puff', 'small<Cnidaria',
        'solitaryglobule', 'tuff')
 
-# x <- factor(x, levels = x)
-# y <- factor(y, levels = rev(y))
 data <- expand.grid(X=x, Y=x, stringsAsFactors = T)
 data$gray_levels <- gray_levels_uvp6 * 100
 
@@ -685,23 +628,15 @@ w <- rnorm(10)
 <span style="color: white;background-color:#001852;border-radius: 10px">Often wrongly predicted as detritus</span>
 :::
 
-### Ended up with 20
+### Final model
 
 ```{r, less labels}
 
-# uvp6_labels_v2 <- uvp6_labels |> select(level2.5, n2.5, category) |> distinct()
-# uvp6_labels_v2 <- uvp6_labels_v2[-c(19,20,23),]
 uvp6_labels_v2 <- vroom::vroom('images/uvp6_images/uvp6_label_79px.csv')
 uvp6_labels_v2 <- uvp6_labels_v2 |> group_by(labels) |> summarize(count = n()) |> mutate(category = 'living')
 uvp6_labels_v2[uvp6_labels_v2$labels %in% non_living,]$category <- 'non-living'
 uvp6_labels_v2[uvp6_labels_v2$labels == 'small<Cnidaria',]$labels <- 'small-Cnidaria'
 uvp6_labels_v2[uvp6_labels_v2$labels == 'other<living',]$labels <- 'other-living'
-
-# uvp6_labels_v2$group2 <- c('Trichodesmium', 'Trichodesmium', 'Rhizaria', 'Rhizaria', 'other-living','Rhizaria', 'Rhizaria', 'Rhizaria', 'Rhizaria', 'Copepoda', 'non-living', 'Chaetognatha','Actinopterygii',
-#                            'Appendicularia', 'Salpida', 'Cnidaria', 'Creseis', 'non-living', 'non-living', 'non-living')
-
-# uvp6_labels_v2$group2 <- c('Trichodesmium', 'Trichodesmium', 'Rhizaria', 'Rhizaria', 'other-living','Rhizaria', 'Rhizaria', 'Rhizaria', 'Rhizaria', 'other biological groups', 'non-living', 'other biological groups','other biological groups',
-#                            'other biological groups', 'other biological groups', 'other biological groups', 'other biological groups', 'non-living', 'non-living', 'non-living')
 
 uvp6_labels_v2$group2 <- c('Rhizaria', 'other biological groups', 'other biological groups', 'Rhizaria', 'other biological groups','other biological groups', 'Rhizaria', 'other biological groups', 'Rhizaria', 'Rhizaria', 'other biological groups', 'non-living','non-living','non-living', 'non-living', 'other-living', 'Trichodesmium', 'other biological groups', 'Rhizaria', 'Trichodesmium')
 
@@ -728,86 +663,24 @@ hc <- highchart(width = 550, height = 400) |>
 # Display the chart
 hc
 
-# highchart(width = 550, height = 400) |>
-#   hc_chart(type = "packedbubble") |>
-#   hc_add_series(uvp6_labels, "packedbubble", hcaes(name = level0, value = n0, group = category)) |>
-#   hc_plotOptions(packedbubble = list(
-#     tooltip = list(
-#       pointFormat = "<b>{point.name}:</b> {point.value}<br>"
-#     ),
-#     maxSize = "500%",
-#     minSize = "50%"))
-
 ```
 
 ::: {style="position:absolute;top:25%;left:50%;"}
-90% non-living<br> [80% detritus]{style="color: white;background-color:#001852;border-radius: 10px"}<br><br>
-
-2% Trichodesmium<br> 1% Rhizaria group<br> 4.5% specific biological groups (2.5% Calanoida)<br> 2.5% non-specific (other-living)<br><br>
-
-[1000 --- median class size]{style="color: white;background-color:#001852;border-radius: 10px"}<br><br>
-:::
+<br>16 biological classes<br> 
+4 non-living classes<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">Global stats compared with a CNN</span><br>Accuracy --- 91% (CNN 94%)<br><br><span style="color: white;background-color:#001852;border-radius: 10px">Living weighted average</span><br>Precision --- 61% (CNN 71%)<br>Recall --- 56% (CNN 82%)
 
 :::
 
-## CNN is better but not energy limited {.smaller}
-
-::: {style="position:absolute;top:15%;left:0%;"}
-```{r, UVP6 vs CNN}
-
-labels <- c('Acantharia', 'Actinopterygii', 'Appendicularia', 'Aulacanthidae', 'Calanoida', 'Chaetognatha', 'Collodaria', 'Creseis', 'Foraminifera', 'Rhizaria', 'Salpida', 'artefact', 'crystal', 'detritus', 'fiber','other<living', 'Trichodesmium P.', 'small<Cnidaria', 'solitaryglobule', 'tuff', 'accuracy','macro avg', 'weighted avg', 'living macro avg', 'living weighted avg')
-
-precision <- c(0.89,1,0.89,0.82,0.66,0.80,.73,0.81,0.71,0.69,0.63,0.91,0.89,0.95,0.73,0.44,0.73,0.55,0.83,0.55,0.91,0.76,0.91,0.73,0.61)*100
-recall <- c(0.69,0.40,0.44,0.89,0.69,0.62,0.62,1,0.48,0.75,0.61,0.92,0.89,0.95,0.83,0.24,0.78,0.47,0.71,0.63,0.91,0.68,0.91,0.63,0.56)*100
-
-precision_cnn <- c(0.98,0.47,0.38,0.86,0.82,0.52,0.74,0.42,0.76,0.71,0.74,0.94,0.69,0.98,0.77,0.55,0.84,0.72,0.81,0.68,0.94,0.72,0.94,0.69,0.71)*100
-recall_cnn <- c(1,0.73,0.64,0.86,0.89,0.88,0.88,1,0.89,0.92,0.89,0.92,0.97,0.96,0.85,0.62,0.94,0.86,0.88,0.93,0.94,0.88,0.94,0.86,0.82)*100
-
-category <- c(rep('living',11), rep('non-living',4), rep('living', 5), rep('summary', 5))
-
-uvp6_labels_v3 <- uvp6_labels_v2 |> mutate(nb_test_set = floor(count*0.1)) 
-
-cf_uvp6_xgboost_cnn <- tibble(labels, precision, recall, precision_cnn, recall_cnn, category) |> mutate(nb = c(uvp6_labels_v3$nb_test_set, rep(59046, 5)))
-
-cf_uvp6_xgboost_cnn |>
-  mutate(diff_cnn_prec = precision_cnn - precision, diff_cnn_recall = recall_cnn - recall) |>
-  select(labels, precision, diff_cnn_prec, recall, diff_cnn_recall, category, nb) |>
-  filter(labels %in% c('detritus', 'fiber', 'Rhizaria', 'Calanoida', 'Trichodesmium P.', 'Chaetognatha', 'Foraminifera', 'accuracy', 'macro avg', 'living macro avg', 'living weighted avg')) |>
-  gt() |>
-  tab_row_group(label = "Summary", category == "summary") |>
-  tab_row_group(label = "Non-living (2/4)", category == "non-living") |>
-  tab_row_group(label = "Biological groups (5/16)", category == "living") |>
-  gt_plt_bar(column = diff_cnn_prec, keep_column = F, width = 35, scale_type = "number", color = '#DC3B34FF') |>
-  gt_plt_bar(column = diff_cnn_recall, keep_column = F, width = 35, scale_type = "number", color = '#001852') |>
-  tab_style_body(style = cell_fill('gray'), values = c(18,57)) |>
-  gt_color_rows(precision) |>
-  gt_color_rows(recall, palette = "ggsci::blue_material") |>
-  tab_options(row_group.font.weight = "bold") |>
-  cols_hide(columns = 'category') |>
-  tab_spanner(label = 'Precision', columns = c('precision', 'diff_cnn_prec')) |>
-  tab_spanner(label = 'Recall', columns = c('recall', 'diff_cnn_recall')) |>
-  cols_label(labels = '', precision = 'XGBoost', diff_cnn_prec = "CNN difference", recall = "XGBoost", diff_cnn_recall = "CNN difference", nb = '# test set images') |>
-  cols_align("center") #|>
-  # gt_color_rows(nb, palette = "viridis")
-```
 :::
 
-::: {style="position:absolute;top:20%;left:65%;"}
-CNN has (clearly) a higher recall<br><br> CNN (if) not energy limited<br><br> CNN has its own features<br><br>
-
-<!-- Carbon fluxes = precision matters<br> Focus on living stats<br> Need more images of living categories -->
-:::
 
 ## {{< fa check >}} Take-home message #1
 
 ::: {.fragment .fade-in-then-semi-out}
--   Classifying plankton with constraints is [challenging]{style="color: white;background-color: #001852;border-radius: 10px"}
-:::
-
-::: {.fragment .fade-in-then-semi-out}
--   Imbalanced dataset
-    -   Detritus are [abundant]{style="color: white;background-color: #001852;border-radius: 10px"} (80%) and highly [diverse]{style="color: white;background-color: #001852;border-radius: 10px"}
-    -   Living objects are [rare]{style="color: white;background-color: #001852;border-radius: 10px"}
+-   Classifying plankton is [challenging]{style="color: white;background-color: #001852;border-radius: 10px"}
+    -   Adding constraints makes it even more [difficult]{style="color: white;background-color: #001852;border-radius: 10px"}
+    -   Living objects are [rare]{style="color: white;background-color: #001852;border-radius: 10px"} (10%)
 :::
 
 ::: {.fragment .fade-in-then-semi-out}
