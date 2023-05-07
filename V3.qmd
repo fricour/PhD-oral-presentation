@@ -76,7 +76,7 @@ Sys.setlocale("LC_TIME", "en_GB.utf8")
 
 <!-- # <span style="color: white;background-color:#001852;border-radius: 10px">420 ppm and counting (1/5) </span> {background-image="intro/ppm.JPG"} -->
 
-# <span style="color: white;">420 ppm and counting (1/5) </span> {background-image="intro/ppm.JPG"}
+# <span style="color: black;">420 ppm and counting (1/5) </span> {background-image="intro/ppm.JPG" background-opacity=0.5}
 
 ## Absorbed CO<sub>2</sub> reacts with seawater
 
@@ -333,7 +333,7 @@ Left figure @Thomas Boniface --- right figure @Thomas Haessig (Euro-Argo)
 
 ::: {.column width="60%"}
 
-![](images/schema-cycle-du-flotteur.png){.absolute top="30%" left="45%" width="700" height="460"}
+![](images/schema-cycle-du-flotteur.png){.absolute top="27%" left="45%" width="700" height="460"}
 :::
 :::
 
@@ -355,7 +355,7 @@ UVP6 &#8594;
 
 ::: {style="position:absolute;top:60%;"}
 {{< fa book >}} Reassessment of <span style="color: white;background-color:#001852;border-radius: 10px">global sequestration fluxes</span> by the <span style="color: white;background-color:#001852;border-radius: 10px">BCP</span><br><span style="color: black;background-color:white;border-radius: 10px">A continuous approach to carbon storage ($\geq$ 100 years)</span><br><br>
- <span style="color: gray;">Sensor development &#10230; Sensor application &#10230;</span><ins>Model</ins> 
+ <span style="color: gray;">Sensor development &#10230; Sensor application &#10230; </span><ins>Model</ins> 
 :::
 
 ## {{< fa book >}} A continuous approach to carbon storage by the Biological Carbon Pump
@@ -552,7 +552,7 @@ highchart(width = 550, height = 400) |>
 ```
 
 ::: {style="position:absolute;top:25%;left:50%;"}
-{{< fa triangle-exclamation >}} 40 labels max
+{{< fa triangle-exclamation >}} 40 labels max<br><br>
 
 90% non-living<br> [80% detritus]{style="color: white;background-color:#001852;border-radius: 10px"}<br><br>
 
@@ -690,104 +690,69 @@ hc
     -   Deal differently with detritus
 :::
 
-# {{< fa robot >}} UVP6 and OST in the Labrador Sea (3/5) {background-color="white"}
+# {{< fa robot >}} UVP6 and OST in the Labrador Sea (3/5) {background-image="labrador/float_on_site.jpeg" background-opacity=0.5}
+
+::: footer
+T. Boniface @ERC-REFINE
+:::
 
 2 independent measurements of particle and carbon flux dynamics
 
-## Reminder ---  Two independent sensors
-<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> --- <span style="color: white;background-color:#001852;border-radius: 10px">How deep</span>
+## Reminder ---  From sensor development to sensor application
 
 ::: footer
-Left figure @Thomas Boniface --- right figure @Thomas Haessig (Euro-Argo)
+Left figure @Thomas Boniface
 :::
 
-::: columns
-::: {.column width="40%"}
 ::: resize
 ![](intro/refine_float.svg){.absolute width="200"}
 :::
-:::
 
-::: {.column width="60%"}
+::: {style="position:absolute;top:25%;left:25%;"}
+```{r, dumbbell plot}
 
-![](images/schema-cycle-du-flotteur.png){.absolute top="20%" left="40%" width="700" height="460"}
-:::
-:::
+df <- tibble(park_depth = c(200, 500, 1000),
+             start = c(0.2,1.2,4.2),
+             end = c(1,4,9),
+             gap = c(0.8,3.8,4.8))
 
-::: {style="position:absolute;top:50%;left:-5%;"}
-UVP6
-:::
+df_text <- tibble(instrument = c('Parking mode (1 day) ', 'Parking mode (3 days) ', 'Parking mode (5 days)'),
+                  park_depth = c(300, 600, 1100),
+                  start = c(.5,2.5,6.5))
 
-::: {style="position:absolute;top:65%;left:14%;"}
-Transmissometer
-:::
+other_annotation <- tibble(text = c('Profiling'),
+                           start = c(10.2),
+                           park_depth = c(350))
 
-## Four BGC-Argo floats deployed in May 2022
-
-::: {style="position:absolute;top:20%;left:-15%;"}
-```{r, study site Labrador}
-
-float_6904240 <- vroom('/home/flo/dox/ArgoShine/6904240_FromNetCDF.csv')
-float_6904241 <- vroom('/home/flo/dox/ArgoShine/6904241_FromNetCDF.csv')
-float_4903634 <- vroom('/home/flo/dox/ArgoShine/4903634_FromNetCDF.csv')
-float_1902578 <- vroom('/home/flo/dox/ArgoShine/1902578_FromNetCDF.csv')
-
-# combine all data
-all_floats <- rbind(float_6904240, float_6904241, float_4903634, float_1902578)
-
-# add levels for some field
-all_floats <- all_floats |> dplyr::mutate(wmo = factor(wmo, levels = c(6904240,4903634,6904241,1902578)), park_depth = factor(park_depth, levels = c('200 m', '500 m', '1000 m')))
-
-# summarize localization of floats
-argo_map <- all_floats |> select(WMO = wmo, cycle, lat, lon) |> drop_na(lat) |> dplyr::group_by(WMO, cycle) |> dplyr::mutate(WMO = factor(WMO)) |>
-  dplyr::summarise(lat = mean(lat), lon = mean(lon))
-
-argo_map_first <- argo_map |> filter(cycle == 1)
-argo_map_last <- argo_map |> filter(cycle == max(cycle))
-
-# prepare data for geomapping, see https://mikkovihtakari.github.io/ggOceanMaps/
-argo_map_geo <- transform_coord(argo_map) |> dplyr::mutate(cycle = argo_map$cycle, WMO = as.factor(argo_map$WMO))
-argo_map_last_geo <- transform_coord(argo_map_last) |> mutate(WMO = as.factor(argo_map_last$WMO))
-
-p <- basemap(limits = c(-55,-40,55,65), bathymetry = T, lat.interval = 2.5, bathy.style = 'poly_blues', bathy.alpha = .5) 
-
-# Make the graticules:
-lims <- attributes(p)$limits 
-graticule <- sf::st_graticule(
-  c(lims[1], lims[3], lims[2], lims[4]), 
-  crs = attributes(p)$proj,
-  lon = attributes(p)$map.grid$lon.breaks, 
-  lat = attributes(p)$map.grid$lat.breaks
-)
-
-p <- p + 
-  geom_sf(data = graticule, color = "grey", size = LS(1)) + # graticules
-  coord_sf(xlim = lims[1:2], ylim = lims[3:4], # redefine limits
-           crs = attributes(p)$proj) 
-
-p +
-  geom_path(data = argo_map_geo, aes(lon, lat, colour = WMO), linewidth = 1) + 
-  geom_point(data = argo_map_geo, aes(x= lon, y = lat, colour = WMO), size = 2) +
-  #scale_color_brewer(palette = 'Dark2') + 
-  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
-  theme_bw() +
-  geom_point(data = transform_coord(argo_map_first), aes(lon, lat), shape = 17, size = 3) +
-  geom_point(data = argo_map_last_geo, aes(lon, lat, colour = WMO), size = 4) +
-  geom_point(data = argo_map_last_geo, aes(lon, lat), fill = 'black', size = 4, shape = 1) +
-  #https://aosmith.rbind.io/2020/07/09/ggplot2-override-aes/#suppress-aesthetics-from-part-of-the-legend
-  guides(color = guide_legend(override.aes = list(size = c(1.5,1.5,1.5,1.5),
-                                                  shape = c(NA, NA, NA, NA)))) +
-  annotation_scale(location = "br") + 
-  annotation_north_arrow(location = "tr", which_north = "true") 
-
+fig <- plot_ly(df, color = I("#D01556FF"))
+fig |> add_segments(x = ~start, xend = ~end, y = ~park_depth, yend = ~park_depth, showlegend = F, color = I("#D01556FF")) |>
+  add_markers(x = ~start, y = ~park_depth, color = I('#D01556FF'), showlegend = F) |>
+  add_markers(x = ~end, y = ~park_depth, color = I('#D01556FF'), showlegend = F) |>
+  layout(
+    xaxis = list(title = 'Drifting time (days)', tickfont = list(size = 20), titlefont = list(size = 20), showgrid=F, showline = T), yaxis = list(title = list(text = 'Parking depth (m)', standoff = 15L), tickfont = list(size = 20), 
+                                                                                                             autorange="reversed", titlefont = list(size = 20), tickvals = c(200,500,1000, 2000), showgrid=F, showline = T),
+         shapes = list(list(type = 'line', x0 = 1, y0 = 200, x1 = 1.2, y1 = 500, line = list(dash = 'dash', color = 'black')),
+                       list(type = 'line', x0 = 4, y0 = 500, x1 = 4.2, y1 = 1000, line = list(dash = 'dash', color = 'black')),
+                       list(type = 'line', x0 = 0, y0 = 0, x1 = 0.2, y1 = 200, line = list(dash = 'dash', color = 'black')),
+                       list(type = 'line', x0 = 9, y0 = 1000, x1 = 9.2, y1 = 2000, line = list(dash = 'dash', color = 'black')),
+                       list(type = 'line', x0 = 9.2, y0 = 2000, x1 = 10, y1 = 0, line = list(dash = 'dash', color = '#4774c5')))) |>
+  config(displayModeBar = FALSE) |>
+  add_trace(data = df_text, x = ~start, y = ~park_depth, type = 'scatter', mode = 'text', text = ~instrument, color = I('#D01556FF')) |>
+  add_annotations(x = other_annotation$start, y = other_annotation$park_depth, text = other_annotation$text, ax = -20, ay = 100, arrowcolor = '#4774c5')
+ 
 ```
 :::
 
-::: {style="position:absolute;top:20%;left:55%;"}
-▲ Deployment sites<br> {{< fa regular circle size=tiny >}} Last profile<br><br> Deployed in pairs<br><br>Last updated on `r format(Sys.time(), '%d %B, %Y', tz = 'UTC')`
+::: {style="position:absolute;top:50%;left:-7%;"}
+UVP6 &#8594;
 :::
 
-## With the Optical Sediment Trap (OST)
+::: {style="position:absolute;top:65%;left:14%;"}
+&#8592; OST
+:::
+
+
+## Optical Sediment Trap (OST) during parking
 
 ::: footer
 Figure @Thomas Boniface
@@ -821,10 +786,11 @@ Vertical transmissometer <br><br>
 Small (continuous accumulation) <br> Large (discontinuous - jumps) <br><br>
 :::
 
-Downward POC flux (BGP)<br>
+[Downward POC flux]{style="color: white;background-color:#001852;border-radius: 10px"}<br>
 
 ::: small-text
-F<sub>small</sub> & F<sub>large</sub> POC fluxes<br> Empirical [(Estapa et al., 2023)]{style="color: gray;"}
+Small particle flux (F<sub>small</sub>)<br>
+Large particle flux (F<sub>large</sub>)
 :::
 :::
 :::
@@ -832,7 +798,7 @@ F<sub>small</sub> & F<sub>large</sub> POC fluxes<br> Empirical [(Estapa et al., 
 :::
 
 
-## OST used during float drifting
+## Example of OST during a parking at 1000 m
 
 ::: {style="position:absolute;top:15%;left:-5%;"}
 ```{r, floats + drifting, fig.width=8, fig.height=6}
@@ -883,7 +849,7 @@ plot_jumps <- function(data){
   tmp$spikes <- spikes
   
   # assign colour code to cp signal
-  tmp$colour <- 'base signal' # base signal = smoothed despiked cp signal
+  tmp$colour <- 'continuous signal' # base signal = smoothed despiked cp signal
   tmp[which(tmp$spikes == TRUE),]$colour <- 'jump'
   
   # add group to compute the slope of each group of points, separated by a jump
@@ -903,7 +869,7 @@ plot_jumps <- function(data){
   tmp$group[which(is.na(tmp$group))] <- 'last_group'
   
   # compute slope for each subgroup
-  slope_df <- tmp |> filter(colour == 'base signal', slope != 'NA') |> dplyr::group_by(group) |> dplyr::summarise(min_time = min(dates), max_time = max(dates), 
+  slope_df <- tmp |> filter(colour == 'continuous signal', slope != 'NA') |> dplyr::group_by(group) |> dplyr::summarise(min_time = min(dates), max_time = max(dates), 
                                                                                                                   nb_points = n(), first_cp = cp[1], last_cp = cp[nb_points],
                                                                                                                   delta_x = as.numeric(difftime(max_time, min_time, units = 'days')),
                                                                                                                   delta_y = (last_cp-first_cp)*0.25, slope = delta_y/delta_x) # *0.25 to convert cp to ATN
@@ -980,14 +946,19 @@ plot_jumps <- function(data){
   # to plot subgroups
   part_slope_tmp <- part_slope |> mutate(dates = time, colour = 'slope')
   
-  jump_plot <- plot_ly(tmp, x = ~dates, y = ~cp, type = 'scatter', mode = 'markers', color = ~colour, colors = c('#003366','#E31B23', '#FFC325')) |>
-    add_lines(data= part_slope_tmp, x = ~dates, y = ~cp, split = ~group, color = I('#DCEEF3'), showlegend = F) |>
-    layout(title= list(text = paste0('Drifting time: ', round(drifting_time,1), ' days\n',
-                         'ATN slope: ', round(mean_slope,3), ' day<sup>-1</sup>\n',
-                         'F<sub>small</sub>: ', round(poc_flux,1), ' mg C m<sup>-2</sup> day<sup>-1</sup>\n',
-                         'F<sub>large</sub>: ', round(big_part_poc_flux,1), ' mg C m<sup>-2</sup> day<sup>-1</sup>'), x = 0.1, y = 0.85), yaxis = list(title = 'C<sub>p</sub> (m<sup>-1</sup>)', tickfont = list(size = 20), titlefont = list(size = 20)), xaxis = list(title = 'Time', tickfont = list(size = 20), titlefont = list(size = 20)), legend = list(orientation = 'h', xanchor = "center", x = 0.5, y = 1.1)) |>
-    config(displayModeBar = FALSE)
+  # jump_plot <- plot_ly(tmp, x = ~dates, y = ~cp, type = 'scatter', mode = 'markers', color = ~colour, colors = c('#003366','#E31B23', '#FFC325')) |>
+  #   add_lines(data= part_slope_tmp, x = ~dates, y = ~cp, split = ~group, color = I('#DCEEF3'), showlegend = F) |>
+  #   layout(title= list(text = paste0('Drifting time: ', round(drifting_time,1), ' days\n',
+  #                        'ATN slope: ', round(mean_slope,3), ' day<sup>-1</sup>\n',
+  #                        'F<sub>small</sub>: ', round(poc_flux,1), ' mg C m<sup>-2</sup> day<sup>-1</sup>\n',
+  #                        'F<sub>large</sub>: ', round(big_part_poc_flux,1), ' mg C m<sup>-2</sup> day<sup>-1</sup>'), x = 0.1, y = 0.85), yaxis = list(title = 'C<sub>p</sub> (m<sup>-1</sup>)', tickfont = list(size = 20), titlefont = list(size = 20)), xaxis = list(title = 'Time', tickfont = list(size = 20), titlefont = list(size = 20)), legend = list(orientation = 'h', xanchor = "center", x = 0.5, y = 1.1)) |>
+  #   config(displayModeBar = FALSE)
   
+    jump_plot <- plot_ly(tmp, x = ~dates, y = ~cp, type = 'scatter', mode = 'markers', color = ~colour, colors = c('#003366','#E31B23', '#FFC325')) |>
+    add_lines(data= part_slope_tmp, x = ~dates, y = ~cp, split = ~group, color = I('#DCEEF3'), showlegend = F) |>
+    layout(yaxis = list(title = 'C<sub>p</sub> (m<sup>-1</sup>)', tickfont = list(size = 20), titlefont = list(size = 20)), xaxis = list(title = 'Time', tickfont = list(size = 20), titlefont = list(size = 20)),
+           legend = list(font = list(size = 20), orientation = 'h', xanchor = "center", x = 0.5, y = 1.1)) |>
+    config(displayModeBar = FALSE)
   
   #return(jump_plot)
   return(list('jump_plot' = jump_plot, 'jump_table' = tmp3))
@@ -1001,53 +972,77 @@ output$jump_plot
 
 ::: {style="position:absolute;top:20%;left:60%;"}
 
-<span style="font-size: 30px;">Float 6904240 --- 21<sup>st</sup> cycle @1000 m<br><br>
-<span style="font-size: 30px;">New statistical jump (<span class="red-dot"></span> --- <span class="yellow-dot"></span>) detection approach<br><br>
+<span style="font-size: 30px;">New jump detection (<span class="red-dot"></span> --- <span class="yellow-dot"></span>)<br><br>
 F<sub>small</sub> $\propto$ weighted average <span style="border-bottom: 4px solid #DCEEF3;">ATN slope</span>
 F<sub>large</sub> $\propto$ sum of positive jumps (<span class="red-dot"></span>)
 
 :::
 
-## New --- 3 drifting depths instead of one
+## Four BGC-Argo floats deployed in May 2022
 
-::: {style="position:absolute;top:20%;"}
-```{r, dumbbell plot}
+::: {style="position:absolute;top:20%;left:-15%;"}
+```{r, study site Labrador}
 
-df <- tibble(park_depth = c(200, 500, 1000),
-             start = c(0.2,1.2,4.2),
-             end = c(1,4,9),
-             gap = c(0.8,3.8,4.8))
+float_6904240 <- vroom('/home/flo/dox/ArgoShine/6904240_FromNetCDF.csv')
+float_6904241 <- vroom('/home/flo/dox/ArgoShine/6904241_FromNetCDF.csv')
+float_4903634 <- vroom('/home/flo/dox/ArgoShine/4903634_FromNetCDF.csv')
+float_1902578 <- vroom('/home/flo/dox/ArgoShine/1902578_FromNetCDF.csv')
 
-# df_text <- tibble(instrument = c('OST - 48', 'UVP - 72', 'OST - 144', 'UVP - 36', 'OST - 240', 'UVP - 60'),
-#                   park_depth = c(175, 225, 475, 525, 975, 1025),
-#                   start = c(.5,.5,2.5,2.5,6.5,6.5))
+# combine all data
+all_floats <- rbind(float_6904240, float_6904241, float_4903634, float_1902578)
 
-df_text <- tibble(instrument = c('OST - 30 min', 'UVP - 20 min', 'OST - 30 min', 'UVP - 2h', 'OST - 30 min', 'UVP - 2h'),
-                  park_depth = c(150, 250, 450, 550, 950, 1050),
-                  start = c(.5,.5,2.5,2.5,6.5,6.5))
+# add levels for some field
+all_floats <- all_floats |> dplyr::mutate(wmo = factor(wmo, levels = c(6904240,4903634,6904241,1902578)), park_depth = factor(park_depth, levels = c('200 m', '500 m', '1000 m')))
 
-other_annotation <- tibble(text = c('Optical window cleaning','Optical window cleaning to avoid sensor drift','Optical window cleaning'), 
-                           start = c(1, 4, 9),
-                           park_depth = c(200,500,1000))
+# summarize localization of floats
+argo_map <- all_floats |> select(WMO = wmo, cycle, lat, lon) |> drop_na(lat) |> dplyr::group_by(WMO, cycle) |> dplyr::mutate(WMO = factor(WMO)) |>
+  dplyr::summarise(lat = mean(lat), lon = mean(lon))
 
-fig <- plot_ly(df, color = I("#003366"))
-fig |> add_segments(x = ~start, xend = ~end, y = ~park_depth, yend = ~park_depth, showlegend = F) |>
-  add_markers(x = ~start, y = ~park_depth, color = I('#003366'), showlegend = F) |>
-  add_markers(x = ~end, y = ~park_depth, color = I('#003366'), showlegend = F) |>
-  layout(
-    xaxis = list(title = 'Drifting time (days)', tickfont = list(size = 20), titlefont = list(size = 20), showgrid=F, showline = T), yaxis = list(title = list(text = 'Parking depth (m)', standoff = 15L), tickfont = list(size = 20), 
-                                                                                                             autorange="reversed", titlefont = list(size = 20), tickvals = c(200,500,1000, 2000), showgrid=F, showline = T),
-         shapes = list(list(type = 'line', x0 = 1, y0 = 200, x1 = 1.2, y1 = 500, line = list(dash = 'dash', color = 'black')),
-                       list(type = 'line', x0 = 4, y0 = 500, x1 = 4.2, y1 = 1000, line = list(dash = 'dash', color = 'black')),
-                       list(type = 'line', x0 = 0, y0 = 0, x1 = 0.2, y1 = 200, line = list(dash = 'dash', color = 'black')),
-                       list(type = 'line', x0 = 9, y0 = 1000, x1 = 9.2, y1 = 2000, line = list(dash = 'dash', color = 'black')),
-                       list(type = 'line', x0 = 9.2, y0 = 2000, x1 = 10, y1 = 0, line = list(dash = 'dash', color = 'black')))) |>
-  config(displayModeBar = FALSE) |>
-  add_trace(data = df_text, x = ~start, y = ~park_depth, type = 'scatter', mode = 'text', text = ~instrument, color = I('black')) |>
-  add_annotations(x = other_annotation$start, y = other_annotation$park_depth, text = other_annotation$text, ax = 20)
- 
+argo_map_first <- argo_map |> filter(cycle == 1)
+argo_map_last <- argo_map |> filter(cycle == max(cycle))
+
+# prepare data for geomapping, see https://mikkovihtakari.github.io/ggOceanMaps/
+argo_map_geo <- transform_coord(argo_map) |> dplyr::mutate(cycle = argo_map$cycle, WMO = as.factor(argo_map$WMO))
+argo_map_last_geo <- transform_coord(argo_map_last) |> mutate(WMO = as.factor(argo_map_last$WMO))
+
+p <- basemap(limits = c(-55,-40,55,65), bathymetry = T, lat.interval = 2.5, bathy.style = 'poly_blues', bathy.alpha = .5) 
+
+# Make the graticules:
+lims <- attributes(p)$limits 
+graticule <- sf::st_graticule(
+  c(lims[1], lims[3], lims[2], lims[4]), 
+  crs = attributes(p)$proj,
+  lon = attributes(p)$map.grid$lon.breaks, 
+  lat = attributes(p)$map.grid$lat.breaks
+)
+
+p <- p + 
+  geom_sf(data = graticule, color = "grey", size = LS(1)) + # graticules
+  coord_sf(xlim = lims[1:2], ylim = lims[3:4], # redefine limits
+           crs = attributes(p)$proj) 
+
+p +
+  geom_path(data = argo_map_geo, aes(lon, lat, colour = WMO), linewidth = 1) + 
+  geom_point(data = argo_map_geo, aes(x= lon, y = lat, colour = WMO), size = 2) +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  theme_bw() +
+  geom_point(data = transform_coord(argo_map_first), aes(lon, lat), shape = 17, size = 3) +
+  geom_point(data = argo_map_last_geo, aes(lon, lat, colour = WMO), size = 4) +
+  geom_point(data = argo_map_last_geo, aes(lon, lat), fill = 'black', size = 4, shape = 1) +
+  #https://aosmith.rbind.io/2020/07/09/ggplot2-override-aes/#suppress-aesthetics-from-part-of-the-legend
+  guides(color = guide_legend(override.aes = list(size = c(1.5,1.5,1.5,1.5),
+                                                  shape = c(NA, NA, NA, NA)))) +
+  annotation_scale(location = "br") + 
+  annotation_north_arrow(location = "tr", which_north = "true") 
+
 ```
 :::
+
+::: {style="position:absolute;top:20%;left:55%;"}
+▲ Deployment sites<br> {{< fa regular circle size=tiny >}} Last profile<br><br><br>Last updated on [`r format(Sys.time(), '%d %B, %Y', tz = 'UTC')`]{style="color: white;background-color:#001852;border-radius: 10px"}
+:::
+
 
 ## UVP6 particle abundance on profiling mode {.smaller}
 
@@ -1069,10 +1064,18 @@ particles <- all_floats |> filter(PhaseName == 'NPAR') |> select(juld, cycle, de
 particles_bis <- particles |> pivot_longer(cols = all_of(lpm_class), names_to = 'size', values_to = 'concentration') |> dplyr::mutate(size = size |> str_remove('NP_Size_') |> as.numeric()) 
 
 # remove buggy data from float 4903634 (negative depth for some reason)
-particles_bis <- particles_bis |> filter(depth >= 0)
+particles_bis <- particles_bis |> filter(depth >= 0) 
 
 # rel_conc
-particles_bis <- particles_bis |> dplyr::group_by(wmo, size) |> dplyr::mutate(rel_conc = (concentration-min(concentration))/(max(concentration) - min(concentration)))
+particles_bis <- particles_bis |> dplyr::group_by(wmo, size) |> dplyr::mutate(rel_conc = (concentration-min(concentration))/(max(concentration) - min(concentration))) |> mutate(wmo = as.character(wmo))
+
+# Assign updated values to specific float IDs
+particles_bis$wmo[particles_bis$wmo == 6904240] <- 'Orange float'
+particles_bis$wmo[particles_bis$wmo == 6904241] <- 'Yellow float'
+particles_bis$wmo[particles_bis$wmo == 4903634] <- 'Purple float'
+particles_bis$wmo[particles_bis$wmo == 1902578] <- 'Green float'
+
+particles_bis <- particles_bis |> mutate(wmo = factor(wmo, levels = c('Orange float', 'Purple float', 'Yellow float', 'Green float')))
 
 up_part <- particles_bis |> filter(depth < 2000, size < 512) |>
   #group_by(size) |>
@@ -1141,7 +1144,7 @@ p +
 :::
 :::
 
-## UVP6 particle abundance on drifting mode {.smaller}
+## UVP6 particle abundance on parking mode {.smaller}
 
 ```{r, mean uvp data}
 
@@ -1156,6 +1159,28 @@ mean_uvp_data <- uvp_data |> dplyr::group_by(cycle, WMO, size, park_depth, juld)
 ```
 
 ::: panel-tabset
+
+### 1000 m
+
+```{r, uvp drifting 1000 m, fig.width=8, fig.height=5}
+
+mean_uvp_data |> filter(park_depth == '1000 m') |> ggplot() + geom_point(aes(juld, mean_conc, colour = WMO, shape = WMO)) +
+  geom_smooth(aes(juld, mean_conc), colour = 'black') +
+  #scale_color_brewer(palette = 'Dark2') + 
+  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
+  scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
+  theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
+  scale_y_continuous(trans = 'log10') +
+  facet_wrap(~size, scales = 'free_y') 
+
+```
+
+::: {style="position:absolute;top:30%;left:65%;"}
+14 size classes (0.1 - 2.5 mm)<br><br>
+Similar measurements across floats<br><br> 
+Latent (seasonal) dynamics of the system?
+:::
+
 ### 200 m
 
 ```{r, uvp drifting 200 m, fig.width=8, fig.height=5}
@@ -1201,27 +1226,6 @@ mean_uvp_data |> filter(park_depth == '500 m') |> ggplot() + geom_point(aes(juld
 ~~Drifting~~ from February to March<br><br> Increase in April (bloom ?)
 :::
 
-### 1000 m
-
-```{r, uvp drifting 1000 m, fig.width=8, fig.height=5}
-
-mean_uvp_data |> filter(park_depth == '1000 m') |> ggplot() + geom_point(aes(juld, mean_conc, colour = WMO, shape = WMO)) +
-  geom_smooth(aes(juld, mean_conc), colour = 'black') +
-  #scale_color_brewer(palette = 'Dark2') + 
-  scale_colour_manual(values = c('#D95F02', '#7570B3', '#E6AB02', '#1B9E77')) +
-  scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
-  theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
-  scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') 
-
-```
-
-::: {style="position:absolute;top:30%;left:65%;"}
-Principal pattern <br><br>
-Similar measurements across floats<br><br> 
-Latent (seasonal) dynamics of the system?
-:::
-
 ### Float position
 
 ::: {style="position:absolute;top:20%;left:-15%;"}
@@ -1246,7 +1250,7 @@ p +
 :::
 :::
 
-## OST particle flux on drifting mode {.smaller}
+## OST particle flux on parking mode {.smaller}
 
 ::: panel-tabset
 ### OST
@@ -1474,7 +1478,7 @@ up / down
 ```
 
 ::: {style="position:absolute;top:30%;left:65%;"}
-@1000 m --- Similar to UVP6<br><br> Flux attenuation with depth
+[@1000 m --- Similar to UVP6]{style="color: white;background-color: #001852;border-radius: 10px"}
 :::
 
 ### MLD
@@ -1484,27 +1488,6 @@ mld_data <- vroom('/home/flo/dox/ArgoShine/npq_corrected_data.csv')
 # clean and smoothed chla data
 mld_data <- mld_data |> select(cycle, MLD, pres, juld, wmo, chla_npq) |> dplyr::mutate(date = as_date(juld), WMO = factor(wmo, levels = c(6904240,4903634,6904241,1902578)))
 mld_data <- mld_data |> group_by(date, WMO, pres, cycle) |> summarize(mean_chla = mean(chla_npq, na.rm=T), mld = unique(MLD))
-
-# reverselog_trans <- function(base = exp(1)) {
-#     trans <- function(x) -log(x, base)
-#     inv <- function(x) base^(-x)
-#     trans_new(paste0("reverselog-", format(base)), trans, inv, 
-#               log_breaks(base = base), 
-#               domain = c(1e-100, Inf))
-# }
-# 
-# mld_plot <- ggplot(mld_data) + geom_line(aes(x = date, y = mld, colour = WMO)) +
-#   labs(x = 'Month', y = 'MLD (m)') + scale_y_continuous(trans = reverselog_trans(10), breaks = c(10,50,200,400,750)) +
-#   scale_color_brewer(palette = 'Dark2') + 
-#   scale_x_date(labels = date_format("%m"), date_breaks = '1 month') + theme_bw()
-
-# reverselog_trans <- function(base = exp(1)) {
-#     trans <- function(x) -log(x, base)
-#     inv <- function(x) base^(-x)
-#     trans_new(paste0("reverselog-", format(base)), trans, inv, 
-#               log_breaks(base = base), 
-#               domain = c(1e-100, Inf))
-# }
 
 mld_plot <- ggplot(mld_data) + geom_line(aes(x = date, y = mld, colour = WMO), size = 1) +
   labs(x = 'Month', y = 'MLD (m)') + scale_y_reverse() +
@@ -1639,8 +1622,17 @@ comparison_flux_ost_uvp <- merge(parking_data, cflux) |> dplyr::mutate(total_flu
 # add guidi flux using fminsearch using the optimize function of scipy in python (see a paper of someoe who did it, see Giering 2020 ou willimaoson et giering 2022)
 comparison_flux_ost_uvp <- comparison_flux_ost_uvp |> dplyr::mutate(guidi_flux_fminsearch = compute_flux(21.98, 1.18, parking_spectra))
 
+# keep only full time series
+comparison_flux_ost_uvp <- comparison_flux_ost_uvp |> filter(wmo %in% c(6904240, 4903634)) |> mutate(wmo = as.character(wmo))
+
+# Assign updated values to specific float IDs
+comparison_flux_ost_uvp$wmo[comparison_flux_ost_uvp$wmo == 6904240] <- 'Orange float'
+comparison_flux_ost_uvp$wmo[comparison_flux_ost_uvp$wmo == 4903634] <- 'Purple float'
+
+comparison_flux_ost_uvp <- comparison_flux_ost_uvp |> mutate(wmo = factor(wmo, levels = c('Orange float', 'Purple float')))
+
 # https://stackoverflow.com/questions/41077199/how-to-use-r-ggplot-stat-summary-to-plot-median-and-quartiles
-ggplot(comparison_flux_ost_uvp) + geom_line(aes(x = date, y = total_flux), colour = 'black') + facet_wrap(~wmo~park_depth, scales = 'free_y', nrow = 4) +
+ggplot(comparison_flux_ost_uvp) + geom_line(aes(x = date, y = total_flux), colour = 'black') + facet_wrap(~wmo~park_depth, scales = 'free_y', nrow = 2) +
   geom_errorbar(aes(x = date, y = guidi_flux),
                       stat = 'summary',
                       #fun.min = function(z) {quantile(z, 0.25)},
@@ -1662,7 +1654,8 @@ ggplot(comparison_flux_ost_uvp) + geom_line(aes(x = date, y = total_flux), colou
 
 ```
 
-::: {style="position:absolute;top:27%;left:56%;"}
+::: {style="position:absolute;top:27%;left:60%;"}
+[OST]{style="color: white;background-color: #001852;border-radius: 10px"}
 ```{=tex}
 \begin{gather*}
 F_{total,~OST} = F_{small} + F_{large}
@@ -1670,7 +1663,11 @@ F_{total,~OST} = F_{small} + F_{large}
 ```
 :::
 
-::: {style="position:absolute;top:40%;left:56%;"}
+::: {style="position:absolute;top:50%;left:60%;"}
+[UVP6]{style="color: white;background-color: #001852;border-radius: 10px"}
+:::
+
+::: {style="position:absolute;top:53%;left:60%;"}
 ```{=tex}
 \begin{gather*}
 F_{total,~UVP} = \sum_{i}^{N}C_{i}Ad_{i}^{B}
@@ -1678,14 +1675,9 @@ F_{total,~UVP} = \sum_{i}^{N}C_{i}Ad_{i}^{B}
 ```
 :::
 
-::: {style="position:absolute;top:55%;left:57%;"}
-8 size classes (0.25 - 1.5 mm) <!-- A --- scale factor<br> --> <!-- B --- Fractal dimension<br><br> -->
-:::
-
-::: {style="position:absolute;top:68%;left:57%;"}
-[Guidi et al., (2008) --- (A, B) = (12.5, 3.81)]{style="color: #4774c5;"}<br> [Open ocean sites w/ low carbon fluxes]{style="color: #4774c5;"}
-
-[Iversen et al., (2010) --- (A, B) = (273.8, 4.27)]{style="color: #D01556FF;"} [Highly productive system (upwelling)]{style="color: #D01556FF;"}<br>
+::: {style="position:absolute;top:68%;left:60%;"}
+[(A, B) from Guidi et al., (2008)]{style="color: #4774c5;"}<br> [Open ocean sites w/ low carbon fluxes]{style="color: #4774c5;"}<br>
+[(A, B) from Iversen et al., (2010)<br>]{style="color: #D01556FF;"} [Highly productive system (upwelling)]{style="color: #D01556FF;"}<br>
 :::
 
 ### Correlations for full timeseries
@@ -1695,7 +1687,7 @@ F_{total,~UVP} = \sum_{i}^{N}C_{i}Ad_{i}^{B}
 
 correlations <- comparison_flux_ost_uvp |> dplyr::select(park_depth, wmo, cycle, guidi_flux, small_flux, large_flux, date, total_flux) |> dplyr::group_by(wmo, park_depth, cycle) |> dplyr::mutate(median_guidi_flux = median(guidi_flux)) |> dplyr::group_by(park_depth, wmo) |> dplyr::summarize(cor_small = round(cor(median_guidi_flux, small_flux),2), cor_large = round(cor(median_guidi_flux, large_flux),2), cor_total = round(cor(median_guidi_flux, total_flux),2))
 
-correlations <- correlations |> filter(wmo %in% c(6904240, 4903634))
+correlations <- correlations |> filter(wmo %in% c("Orange float", "Purple float"))
 
 correlations <- correlations |> pivot_wider(names_from = park_depth, values_from = c(cor_small, cor_large, cor_total))
 
@@ -1737,8 +1729,8 @@ Correlation ($\geq$ 0.7)
 :::
 
 ::: {style="position:absolute;top:65%;left:0%;"}
-6904241 --- OST malfunction since November 2022<br>
-1902578 --- Iceberg collision in late March?
+Yellow float --- OST malfunction since November 2022<br>
+Green float --- Iceberg collision in late March?
 :::
 
 ### Float position
@@ -1769,33 +1761,31 @@ p +
 
 ::: {.fragment .fade-in-then-semi-out}
 -   OST and UVP6 are well correlated, especially at [1000 m]{style="color: white;background-color: #001852;border-radius: 10px"}
+    - Do we need both instruments on a float ? (price?)
 :::
 
 ::: {.fragment .fade-in-then-semi-out}
-::: {style="position:absolute;top:22%;left:0%;"}
--   [Preliminary]{style="color: white;background-color: #001852;border-radius: 10px"} results (1 year of data)
-    -   New method for jump detection
-    -   Guidi (2008) \< Labrador Sea \< Iversen (2010) ?
+::: {style="position:absolute;top:34%;left:0%;"}
+-   [Exploratory]{style="color: white;background-color: #001852;border-radius: 10px"} work (1 year of data)
+    -   First OST-UVP comparison
+    -   Plenty of additional work
+        -   3 parking depths --- attenuation measurements
+        -   Other BGC variables (Chla, b<sub>bp</sub>, ...)
+        -   Nature of particles (embedded classification)
 :::
 :::
 
-::: {.fragment .fade-in-then-semi-out}
-::: {style="position:absolute;top:52%;left:0%;"}
--   Need to [investigate more]{style="color: white;background-color: #001852;border-radius: 10px"}
-    -   3 parking depths --- attenuation measurements
-    -   Environmental conditions (BGC variables)
-    -   Particle backscattering
-    -   Nature of particles (embedded classification)
-:::
-:::
+# {{< fa book >}} CONVERSE (4/5) {background-color="white" background-image="converse/ocean.jpg" background-opacity=0.5}
 
-# {{< fa book >}} CONVERSE (4/5) {background-color="white"}
+::: footer
+@Jeremy Bishop
+:::
 
 **CON**tinuous **VER**tical **SE**questration approach to carbon storage
 
-## Reminder --- Three export pathways
+## Reminder --- Global approach of the BCP while waiting for more BGC-Argo floats {.smaller}
 
-::: {style="position:absolute;top:15%;left:0%"}
+::: {style="position:absolute;top:25%;left:0%"}
 ```{r, bcp and its export pathways for converse, fig.width=6, fig.height=6}
 
 x <- rnorm(10)
@@ -1817,77 +1807,22 @@ x <- rnorm(10)
 ```
 :::
 
-::: {style="position:absolute;top:25%;left:50%"}
-```{r, sequestration timescale v2}
-
-df <- tibble(pump = c('Gravitational', 'Diel', 'Seasonal', 'Mixed layer', 'Eddy subduction', 'Large-scale subduction'),
-             group = c('bgp', rep('vmp',2), rep('mix',3)),
-             poc = c('X','X','X','X','X','X'),
-             doc = c('','','','X','X','X'),
-             sequestration_time = c('?', 'up to 250', 'up to 500', '25 - 100', 'up to 150', '25 - 100'),
-             sequestration_time_bis = c('142', '150', '?', '54', '?', '54'))
-
-df <- df |> mutate(pump = factor(pump, levels = c('Gravitational', 'Diel', 'Seasonal', 'Mixed layer', 'Eddy subduction', 'Large-scale subduction')))
-
-df |> group_by(group) |> gt() |>
-  cols_label(pump = md('**Pump**'),
-             poc = md('**POC**'),
-             doc = md('**DOC**'),
-             sequestration_time = md('**Boyd et al., (2019)**'),
-             sequestration_time_bis = md('**Nowicki et al., (2022)**')) |>
-  tab_spanner(label = md('**Sequestration time (years)**'), columns = 5:6) |>
-  tab_row_group(label = "Mixing pump - 20% export flux", rows = 4:6) |> 
-  tab_row_group(label = "Migrant pump - 10% export flux", rows = 2:3) |>
-    tab_row_group(label = "", rows = 1) |>
-  tab_options(row_group.font.weight = "bold") |>
-  tab_style_body(style = cell_fill(color = 'gray'),
-                 columns = 4,
-                 rows = 4:6,
-                 pattern = 'X') |>
-    cols_align("center") |>
-    tab_style(
-      style = list(cell_fill(color = '#f5e8c8')),
-      locations = cells_body(
-        columns = pump,
-        rows = 1
-      )
-    ) |>
-  tab_style(
-      style = list(cell_fill(color = '#001852')),
-      locations = cells_body(
-        columns = pump,
-        rows = 2:3
-      )
-    ) |>
-  tab_style(
-      style = list(cell_fill(color = '#e01f54')),
-      locations = cells_body(
-        columns = pump,
-        rows = 4:6
-      )
-    ) |>
-  tab_style(
-      style = list(cell_text(color = 'white')),
-      locations = cells_body(
-        columns = pump,
-        rows = 2:3
-      )
-    )
-```
+::: {style="position:absolute;top:35%;left:60%;"}
+<span style="color: black;background-color:#f5e8c8;border-radius: 10px">Gravitational --- 70% export flux</span><br><br>
+<span style="color: black;background-color:#e01f54;border-radius: 10px">Mixing --- 20% export flux</span><br>Sequestration from 25 to 150 years<br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">Migrant --- 10% export flux</span><br>Sequestration up to 250 years (diel)<br> up to 500 years (seasonal)<br>
 :::
 
 ## Sequestration can occur at any depth
 
 ![](converse/converse_fig1.svg){.absolute top=80 left=0 width="420" height="600" .my-image}
 
-::: {style="position:absolute;top:12%;left:40%;"}
-
-<span style="font-size: 30px;">Continuous vs. fixed sequestration depth (e.g. 1000 m)<br><br></span> 
+::: {style="position:absolute;top:15%;left:40%;"}
+<span style="font-size: 30px"><em>Sequestration occurs when DIC is hidden from the atmosphere for $\geq$ 100 years</em></span><br><br>
+<span style="font-size: 30px; color: white;background-color: #001852;border-radius: 10px;">Entire water column</span><span style="font-size: 30px;"> vs. fixed sequestration depth</span><br><br>
 <span style="font-size: 30px;">Gravitational + Migrant + Mixing pumps transport <span style="color: #528133;"><strong>F<sub>org</sub></strong></span><br><br></span> 
 <span style="font-size: 30px;"><span style="color: #528133;"><strong>F<sub>org</sub></strong></span> respired to CO<sub>2</sub> (<strong><span style="color: #D01556FF;"><strong>F<sub>remin</sub></strong></span></strong>) or sedimented <br><br></span>
 <span style="font-size: 30px;">Respiratory CO<sub>2</sub> = biogenic DIC (<strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span></strong>)<br><br></span>
-<span style="font-size: 30px;"><strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span> </strong> in the ocean for $\geq$ 100 years = sequestered (<strong><span style="color: #4774c5;"><strong>F<sub>seq</sub></strong></span></strong>)<br><br></span>
-<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">Carbon flux</span><span style="font-size: 30px;"> vs. ~~carbon inventory~~ &#8594; Pg C year<sup>-1</sup><br><br></span> 
 :::
 
 ::: {style="position:absolute;top:92%;left:0%;"}
@@ -1896,15 +1831,18 @@ df |> group_by(group) |> gt() |>
 
 ## F<sub>seq</sub> can be computed using f<sub>100</sub> and F<sub>remin</sub>
 
-![](converse/fig2_converse.svg){.absolute top=80 left=-80 width="800" height="600"}
+![](converse/Fig2_PHDPREZ.jpeg){.absolute top="20%" left="0%" width="650" height="450"}
 
 ::: {style="position:absolute;top:15%;left:59%;"}
 
 <span style="font-size: 30px;">f<sub>100</sub> --- <em>fraction of a water parcel at a given location and depth that will remain in the ocean (hidden from the atmosphere) for $\geq$ 100 years</em><br><br></span>
+
+<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px">f<sub>100</sub> = 1, F<sub>remin</sub> entirely sequestered</span><br><br>
+
 <span style="font-size: 30px;">f<sub>100 (avg)</sub> (530 m) = 0.3<br></span>
 <span style="font-size: 30px;">f<sub>100 (avg)</sub> (> 1000 m) = 0.87<br><br></span>
  
-<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px">F<sub>seq</sub> = f<sub>100</sub> x F<sub>remin</sub></span>
+<!-- <span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px">F<sub>seq</sub> = f<sub>100</sub> x F<sub>remin</sub></span> -->
 
 :::
 
@@ -1912,19 +1850,19 @@ df |> group_by(group) |> gt() |>
 
 ![](converse/Fig4_PHDPREZ.svg){.absolute top=40 left=-80 width="800" height="800"} 
 
-::: {style="position:absolute;top:15%;left:60%;"}
+::: {style="position:absolute;top:45%;left:60%;"}
 
-<span style="font-size: 30px;"><span style="color: #4774c5;">F<sub>seq</sub></span> max above 2000 m<br><br></span>
-<span style="font-size: 30px;">50% of F<sub>seq</sub> accumulation by 1000 m<br><br></span>
-<span style="font-size: 30px;">Fixed sequestration depth = missing most of <span style="color: #4774c5;">F<sub>seq</sub></span><br><br></span>
+<!-- <span style="font-size: 30px;"><span style="color: #4774c5;">F<sub>seq</sub></span> max above 2000 m<br><br></span> -->
+<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">50% of F<sub>seq</sub> accumulation by 1000 m</span>
+<!-- <span style="font-size: 30px;">Fixed sequestration depth = missing most of <span style="color: #4774c5;">F<sub>seq</sub></span><br><br></span> -->
 :::
 
-## Global F<sub>seq</sub>(BCP) > 2-3 F<sub>seq</sub>(POC, 1000 m)
+## Global F<sub>seq</sub>(BCP) > 2-3x F<sub>seq</sub>(POC, 1000 m)
 
-![](converse/Fig5PREZ_v2.svg){.absolute top=40 left=-120 width="800" height="600"}
+![](converse/Fig5PREZ.svg){.absolute top=80 left=-60 width="800" height="600"}
 
 ::: {style="position:absolute;top:18%;left:60%;"}
-<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">Magnitudes differ but same patterns<br><br></span>
+Magnitudes differ but same patterns<br><br>
 :::
 
 ::: {style="position:absolute;top:37%;left:60%;"}
@@ -1941,32 +1879,33 @@ df |> gt() |>
 :::
 
 ::: {style="position:absolute;top:70%;left:60%;"}
-<span style="font-size: 30px;">Mixing --- 11-23% of F<sub>seq</sub>(BCP)<br></span>
-<span style="font-size: 30px;">VMP --- 9-12% of F<sub>seq</sub>(BCP)</span>
+<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">Mixing --- 11-23% of F<sub>seq</sub>(BCP)<br></span>
+<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">Migrant --- 9-12% of F<sub>seq</sub>(BCP)</span>
 :::
 
 ## {{< fa check >}} Take-home message #3
 
 ::: {.fragment .fade-in-then-semi-out}
 -   Sequestration of DIC<sub>bio</sub> [not only in deep waters]{style="color: white;background-color: #001852;border-radius: 10px"}
+    -   Using a fixed sequestration depth underestimate F<sub>seq</sub>(BCP)
+        - Up to 3 times at 1000 m
+        - Up to 6 times at 2000 m
 :::
 
 ::: {.fragment .fade-in-then-semi-out}
--   Using a [fixed]{style="color: white;background-color: #001852;border-radius: 10px"} sequestration [depth underestimate]{style="color: white;background-color: #001852;border-radius: 10px"} F<sub>seq</sub>(BCP)
-    -   CONVERSE F<sub>seq</sub>(BCP) = 2-3 \> F<sub>seq</sub>(POC, 1000 m)
-    -   CONVERSE F<sub>seq</sub>(BCP) = 3-6 \> F<sub>seq</sub>(POC, 2000 m)
+-   Mixing and Migrant pumps are [important contributors]{style="color: white;background-color: #001852;border-radius: 10px"} to F<sub>seq</sub>(BCP)
+    -   Between 20 and 35%
 :::
 
-::: {.fragment .fade-in-then-semi-out}
--   [VMP]{style="color: white;background-color: #001852;border-radius: 10px"} and [Mixing]{style="color: white;background-color: #001852;border-radius: 10px"} pumps are [important contributors]{style="color: white;background-color: #001852;border-radius: 10px"} to F<sub>seq</sub>(BCP)
-    -   21-34%
-:::
+<!-- ::: {.fragment .fade-in-then-semi-out} -->
+<!-- -   CONVERSE could be applied for the evaluation of [mCDR strategies]{style="color: white;background-color: #001852;border-radius: 10px"} -->
+<!-- ::: -->
 
-::: {.fragment .fade-in-then-semi-out}
--   CONVERSE could be applied for the evaluation of [mCDR strategies]{style="color: white;background-color: #001852;border-radius: 10px"}
-:::
+# Perspectives (5/5) {background-image="labrador/float_on_site.jpeg" background-opacity=0.5}
 
-# Perspectives (5/5) {background-color="white"}
+::: footer
+T. Boniface @ERC-REFINE
+:::
 
 ## Improvement points {.smaller}
 
