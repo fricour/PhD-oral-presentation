@@ -138,7 +138,7 @@ plot_ly(DIC_data, x = ~mean_DIC, y = ~mids, type = 'scatter', mode = 'lines', co
 
 
 ::: {style="position:absolute;top:85%;left:0%;"}
-{{< fa question-circle >}} What processes act against the vertical mixing of DIC?
+{{< fa question-circle >}} What processes act <ins>against</ins> the vertical mixing of DIC?
 :::
 
 ::: footer
@@ -615,10 +615,9 @@ w <- rnorm(10)
 
 ::: {style="position:absolute;top:25%;left:65%;"}
 
-<span style="color: white;background-color:#001852;border-radius: 10px">Test set evaluation of Acantharia</span><br>
-<span style="font-size: 24px;">TP = 51 --- FP (col) = 6 --- FN (row) = 23 <br></span>
-<span style="font-size: 24px;">Precision = 51/(51+6) = 89%<br></span>
-<span style="font-size: 24px;">Recall (here diagonal) = 51/(51+23) = 69%</span><br><br>
+<span style="color: white;background-color:#001852;border-radius: 10px">Test set evaluation of labels</span><br>
+<span style="font-size: 24px;"><strong>Precision</strong> = true positives over true and false positives</span><br style="line-height: 0.5em;">
+<span style="font-size: 24px;"><strong>Recall</strong> = true positives over true positives and false negatives</span><br><br>
 
 <span style="color: white;background-color:#001852;border-radius: 10px">Merging labels</span> based on<br>
 <span style="font-size: 24px;">precision --- recall<br></span>
@@ -963,6 +962,16 @@ plot_jumps <- function(data){
   #return(jump_plot)
   return(list('jump_plot' = jump_plot, 'jump_table' = tmp3))
 }
+
+float_6904240 <- vroom('/home/flo/dox/ArgoShine/6904240_FromNetCDF.csv')
+float_6904241 <- vroom('/home/flo/dox/ArgoShine/6904241_FromNetCDF.csv')
+float_4903634 <- vroom('/home/flo/dox/ArgoShine/4903634_FromNetCDF.csv')
+float_1902578 <- vroom('/home/flo/dox/ArgoShine/1902578_FromNetCDF.csv')
+
+# combine all data
+all_floats <- rbind(float_6904240, float_6904241, float_4903634, float_1902578)
+
+# plot example
 ost_df <- float_6904240 |> filter(PhaseName == 'PAR', cycle == 21, park_depth == '1000 m') |> drop_na(cp) |>
       select(depth = pres, cp, dates = juld, park_depth)
 output <- plot_jumps(ost_df)
@@ -983,13 +992,13 @@ F<sub>large</sub> $\propto$ sum of positive jumps (<span class="red-dot"></span>
 ::: {style="position:absolute;top:20%;left:-15%;"}
 ```{r, study site Labrador}
 
-float_6904240 <- vroom('/home/flo/dox/ArgoShine/6904240_FromNetCDF.csv')
-float_6904241 <- vroom('/home/flo/dox/ArgoShine/6904241_FromNetCDF.csv')
-float_4903634 <- vroom('/home/flo/dox/ArgoShine/4903634_FromNetCDF.csv')
-float_1902578 <- vroom('/home/flo/dox/ArgoShine/1902578_FromNetCDF.csv')
-
-# combine all data
-all_floats <- rbind(float_6904240, float_6904241, float_4903634, float_1902578)
+# float_6904240 <- vroom('/home/flo/dox/ArgoShine/6904240_FromNetCDF.csv')
+# float_6904241 <- vroom('/home/flo/dox/ArgoShine/6904241_FromNetCDF.csv')
+# float_4903634 <- vroom('/home/flo/dox/ArgoShine/4903634_FromNetCDF.csv')
+# float_1902578 <- vroom('/home/flo/dox/ArgoShine/1902578_FromNetCDF.csv')
+# 
+# # combine all data
+# all_floats <- rbind(float_6904240, float_6904241, float_4903634, float_1902578)
 
 # add levels for some field
 all_floats <- all_floats |> dplyr::mutate(wmo = factor(wmo, levels = c(6904240,4903634,6904241,1902578)), park_depth = factor(park_depth, levels = c('200 m', '500 m', '1000 m')))
@@ -1049,7 +1058,7 @@ p +
 ::: panel-tabset
 ### 0.1 - 0.5 mm
 
-```{r, uvp6 profiling mode small part, fig.width=8, fig.height=5}
+```{r, uvp6 profiling mode small part, fig.width=8.5, fig.height=5}
 
 
 lpm_class <- c("NP_Size_102", "NP_Size_128", "NP_Size_161",
@@ -1077,33 +1086,71 @@ particles_bis$wmo[particles_bis$wmo == 1902578] <- 'Green float'
 
 particles_bis <- particles_bis |> mutate(wmo = factor(wmo, levels = c('Orange float', 'Purple float', 'Yellow float', 'Green float')))
 
+# facet_names <- c(`102` = '102 - 128 µm',
+#                  `128` = '128 - 161 µm',
+#                  `161` = '161 - 203 µm',
+#                  `203` = '203 - 256 µm',
+#                  `256` = '256 - 323 µm',
+#                  `323` = '323 - 406 µm',
+#                  `406` = '406 - 512 µm',
+#                  `6904240` = 'Orange float',
+#                  `6904241` = 'Yellow float',
+#                  `4903634` = 'Purple float',
+#                  `1902578` = 'Green float')
+
+facet_names_up <- c(`102` = '102 - 128 µm',
+                 `128` = '128 - 161 µm',
+                 `161` = '161 - 203 µm',
+                 `203` = '203 - 256 µm',
+                 `256` = '256 - 323 µm',
+                 `323` = '323 - 406 µm',
+                 `406` = '406 - 512 µm',
+                 'Orange float' = 'Orange float',
+                 'Yellow float' = 'Yellow float',
+                 'Purple float' = 'Purple float',
+                 'Green float' = 'Green float')
+
 up_part <- particles_bis |> filter(depth < 2000, size < 512) |>
   #group_by(size) |>
-  ggplot() + facet_grid(wmo~size) + theme_bw() +
+  ggplot() + facet_grid(wmo~size, labeller = as_labeller(facet_names_up)) + theme_bw() +
   geom_point(aes(x=juld, y=depth, colour=log10(rel_conc)), size=1, shape=15) +
   scale_colour_viridis(option = 'A', limits = c(-2.5,-1), oob = scales::squish, na.value = 'grey', direction = -1) + 
   scale_y_reverse() +
   scale_x_date(labels = date_format("%m"), date_breaks = '3 month') +
-  labs(colour = '#/L', x = 'Month', y = 'Depth (m)') 
+  labs(colour = '#/L', x = 'Month', y = 'Depth (m)')
+
+
 
 up_part
 ```
 
-::: {style="position:absolute;top:30%;left:65%;"}
+::: {style="position:absolute;top:30%;left:70%;"}
 7 size classes < 0.5 mm<br><br>
 Similar patterns across floats<br><br>
 Rapid emptying in November<br><br> 
 Particle increase in April<br><br>
-Signal dominated by seasonal dynamics
+[Seasonal dynamics]{style="color: white;background-color:#001852;border-radius: 10px"}
 :::
 
 ### 0.5 - 2.5 mm
 
-```{r, uvp6 profiling mode big part, fig.width=8, fig.height=5}
+```{r, uvp6 profiling mode big part, fig.width=8.5, fig.height=5}
+
+facet_names_down <- c(`512` = '512 - 645 µm',
+                 `645` = '645 - 813 µm',
+                 `813` = '0.81 - 1.02 mm',
+                 `1020` = '1.02 - 1.29 mm',
+                 `1290` = '1.29 - 1.63 mm',
+                 `1630` = '1.63 - 2.05 mm',
+                 `2050` = '2.05 - 2.50 mm',
+                 'Orange float' = 'Orange float',
+                 'Yellow float' = 'Yellow float',
+                 'Purple float' = 'Purple float',
+                 'Green float' = 'Green float')
 
 down_part <- particles_bis |> filter(depth < 2000, size >= 512) |>
   #group_by(size) |>
-  ggplot() + facet_grid(wmo~size) + theme_bw() +
+  ggplot() + facet_grid(wmo~size, labeller = as_labeller(facet_names_down)) + theme_bw() +
   geom_point(aes(x=juld, y=depth, colour=log10(rel_conc)), size=1, shape=15) +
   scale_colour_viridis(option = 'A', limits = c(-2.5,-1), oob = scales::squish, na.value = 'grey', direction = -1) + 
   scale_y_reverse() +
@@ -1115,9 +1162,9 @@ down_part
 
 ```
 
-::: {style="position:absolute;top:30%;left:65%;"}
+::: {style="position:absolute;top:30%;left:70%;"}
 7 size classes > 0.5 mm<br><br>
-Export event?<br><br> 1 profile every 10 days
+Export pulse?<br><br> 1 profile every 10 days
 :::
 
 ### Float position
@@ -1164,6 +1211,21 @@ mean_uvp_data <- uvp_data |> dplyr::group_by(cycle, WMO, size, park_depth, juld)
 
 ```{r, uvp drifting 1000 m, fig.width=8, fig.height=5}
 
+facet_all <- c(`102` = '102 - 128 µm',
+                 `128` = '128 - 161 µm',
+                 `161` = '161 - 203 µm',
+                 `203` = '203 - 256 µm',
+                 `256` = '256 - 323 µm',
+                 `323` = '323 - 406 µm',
+                 `406` = '406 - 512 µm',
+                 `512` = '512 - 645 µm',
+                 `645` = '645 - 813 µm',
+                 `813` = '0.81 - 1.02 mm',
+                 `1020` = '1.02 - 1.29 mm',
+                 `1290` = '1.29 - 1.63 mm',
+                 `1630` = '1.63 - 2.05 mm',
+                 `2050` = '2.05 - 2.50 mm')
+
 mean_uvp_data |> filter(park_depth == '1000 m') |> ggplot() + geom_point(aes(juld, mean_conc, colour = WMO, shape = WMO)) +
   geom_smooth(aes(juld, mean_conc), colour = 'black') +
   #scale_color_brewer(palette = 'Dark2') + 
@@ -1171,14 +1233,14 @@ mean_uvp_data |> filter(park_depth == '1000 m') |> ggplot() + geom_point(aes(jul
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') 
+  facet_wrap(~size, scales = 'free_y', labeller = as_labeller(facet_all)) 
 
 ```
 
 ::: {style="position:absolute;top:30%;left:65%;"}
 14 size classes (0.1 - 2.5 mm)<br><br>
 Similar measurements across floats<br><br> 
-Latent (seasonal) dynamics of the system?
+[Seasonal dynamics]{style="color: white;background-color:#001852;border-radius: 10px"}
 :::
 
 ### 200 m
@@ -1198,7 +1260,8 @@ fig200m <- mean_uvp_data |> filter(park_depth == '200 m') |> ggplot() + geom_poi
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') 
+  facet_wrap(~size, scales = 'free_y') +
+  facet_wrap(~size, scales = 'free_y', labeller = as_labeller(facet_all)) 
 
 fig200m
 ```
@@ -1218,7 +1281,8 @@ mean_uvp_data |> filter(park_depth == '500 m') |> ggplot() + geom_point(aes(juld
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') 
+  facet_wrap(~size, scales = 'free_y') +
+  facet_wrap(~size, scales = 'free_y', labeller = as_labeller(facet_all))
 
 ```
 
@@ -1685,7 +1749,11 @@ F_{total,~UVP} = \sum_{i}^{N}C_{i}Ad_{i}^{B}
 ::: {style="position:absolute;top:25%;left:0%;"}
 ```{r, flux correlations}
 
-correlations <- comparison_flux_ost_uvp |> dplyr::select(park_depth, wmo, cycle, guidi_flux, small_flux, large_flux, date, total_flux) |> dplyr::group_by(wmo, park_depth, cycle) |> dplyr::mutate(median_guidi_flux = median(guidi_flux)) |> dplyr::group_by(park_depth, wmo) |> dplyr::summarize(cor_small = round(cor(median_guidi_flux, small_flux),2), cor_large = round(cor(median_guidi_flux, large_flux),2), cor_total = round(cor(median_guidi_flux, total_flux),2))
+correlations <- comparison_flux_ost_uvp |> dplyr::select(park_depth, wmo, cycle, guidi_flux, small_flux, large_flux, date, total_flux) |> dplyr::group_by(wmo, park_depth, cycle) |> dplyr::mutate(median_guidi_flux = median(guidi_flux)) |> dplyr::group_by(park_depth, wmo) |> select(-guidi_flux) |> distinct() |> 
+  dplyr::summarize(n = n(), cor_small = round(cor(median_guidi_flux, small_flux),2), p_value_small = cor.test(median_guidi_flux, small_flux, method = "pearson", alternative = "greater")$p.value, cor_large = round(cor(median_guidi_flux, large_flux),2), p_value_large = cor.test(median_guidi_flux, large_flux, method = "pearson", alternative = "greater")$p.value, 
+                   cor_total = round(cor(median_guidi_flux, total_flux),2), p_value_total = cor.test(median_guidi_flux, total_flux, method = "pearson", alternative = "greater")$p.value)
+
+correlations <- correlations |> select(-c(n, p_value_small, p_value_large, p_value_total))
 
 correlations <- correlations |> filter(wmo %in% c("Orange float", "Purple float"))
 
@@ -1729,9 +1797,11 @@ Correlation ($\geq$ 0.7)
 :::
 
 ::: {style="position:absolute;top:65%;left:0%;"}
+All correlations are statistically significant (p-value < 0.01)<br><br>
 Yellow float --- OST malfunction since November 2022<br>
 Green float --- Iceberg collision in late March?
 :::
+
 
 ### Float position
 
@@ -1760,7 +1830,7 @@ p +
 ## {{< fa check >}} Take-home message #2
 
 ::: {.fragment .fade-in-then-semi-out}
--   OST and UVP6 are well correlated, especially at [1000 m]{style="color: white;background-color: #001852;border-radius: 10px"}
+-   OST and UVP6 are [well correlated]{style="color: white;background-color: #001852;border-radius: 10px"}
     - Do we need both instruments on a float ? (price?)
 :::
 
@@ -1770,7 +1840,7 @@ p +
     -   First OST-UVP comparison
     -   Plenty of additional work
         -   3 parking depths --- attenuation measurements
-        -   Other BGC variables (Chla, b<sub>bp</sub>, ...)
+        -   Other float variables (light, chlorophyll a, ...)
         -   Nature of particles (embedded classification)
 :::
 :::
@@ -1861,10 +1931,6 @@ x <- rnorm(10)
 
 ![](converse/Fig5PREZ.svg){.absolute top=80 left=-60 width="800" height="600"}
 
-::: {style="position:absolute;top:18%;left:60%;"}
-Magnitudes differ but same patterns<br><br>
-:::
-
 ::: {style="position:absolute;top:37%;left:60%;"}
 ```{r, converse data table}
 df <- tibble(seq_origin = c('BGP (CONVERSE)', 'BCP (CONVERSE)', '1000 m', '2000 m'),
@@ -1896,10 +1962,6 @@ df |> gt() |>
 -   Mixing and Migrant pumps are [important contributors]{style="color: white;background-color: #001852;border-radius: 10px"} to F<sub>seq</sub>(BCP)
     -   Between 20 and 35%
 :::
-
-<!-- ::: {.fragment .fade-in-then-semi-out} -->
-<!-- -   CONVERSE could be applied for the evaluation of [mCDR strategies]{style="color: white;background-color: #001852;border-radius: 10px"} -->
-<!-- ::: -->
 
 # Perspectives (5/5) {background-image="labrador/float_on_site.jpeg" background-opacity=0.5}
 
@@ -2183,20 +2245,10 @@ new_up / new_down
 
 ### <strong>{{< fa check >}} Way forward</strong>
 
-::: {.fragment .fade-in-then-semi-fade-out}
 -   Same method applied on [more regions (9)]{style="color: white;background-color: #001852;border-radius: 10px"}<br>
     -   High variability of carbon fluxes in different regions
     -   Generalization and reduction of uncertainties
-:::
 
-::: {.fragment .fade-in-then-semi-fade-out}
--   [Investigate]{style="color: white;background-color: #001852;border-radius: 10px"} POC - OST relationship
-:::
-
-::: {.fragment .fade-in-then-semi-fade-out}
--   Work on the pump [deconvolution]{style="color: white;background-color: #001852;border-radius: 10px"}
-    -   Multi-instruments approach
-:::
 :::
 
 ## Application of the UVP6 EC {.smaller}
