@@ -242,7 +242,7 @@ remineralization = respiration (DIC ↗)
 :::
 
 ::: footer
-Figure @ERC-REFINE
+Figure from T. Boniface @@ERC-REFINE
 :::
 
 ## Each export pathway has its own <ins>transport</ins> and <ins>sequestration</ins> potential {.smaller}
@@ -288,7 +288,7 @@ x <- rnorm(10)
 ::: {style="position:absolute;top:60%;"}
 ::: {.fragment .fade-in-then-out}
 {{< fa gears >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and a zooplankton <span style="color: white;background-color:#001852;border-radius: 10px">embedded classification</span><br><span style="color: black;background-color:white;border-radius: 10px">Zooplankton image classification model under strict energy constraints</span><br><br>
-<ins>Sensor development</ins> <span style="color: gray;">&#10230; Sensor application &#10230; Model</span> 
+<ins>Sensor development</ins> <span style="color: gray;">&#10230; Sensor application &#10230; Global model</span> 
 
 :::
 :::
@@ -315,7 +315,7 @@ Since 2008 --- UVP5 (small enough for CTD frames)<br> Since 2019 --- UVP6 on flo
 
 ::: {style="position:absolute;top:60%;"}
 {{< fa robot >}} <span style="color: white;background-color:#001852;border-radius: 10px">UVP6</span> and <span style="color: white;background-color:#001852;border-radius: 10px">OST</span> deployed in the Labrador Sea<br><span style="color: black;background-color:white;border-radius: 10px">Two independent measurements of particle and carbon flux dynamics</span><br><br>
-<span style="color: gray;">Sensor development &#10230; </span><ins>Sensor application</ins><span style="color: gray;"> &#10230; Model</span> 
+<span style="color: gray;">Sensor development &#10230; </span><ins>Sensor application</ins><span style="color: gray;"> &#10230; Global model</span> 
 :::
 
 ## {{< fa robot >}} BGC-Argo and two independent sensors to estimate particle and carbon fluxes
@@ -355,7 +355,7 @@ UVP6 &#8594;
 
 ::: {style="position:absolute;top:60%;"}
 {{< fa book >}} Reassessment of <span style="color: white;background-color:#001852;border-radius: 10px">global sequestration fluxes</span> by the <span style="color: white;background-color:#001852;border-radius: 10px">BCP</span><br><span style="color: black;background-color:white;border-radius: 10px">A continuous approach to carbon storage ($\geq$ 100 years)</span><br><br>
- <span style="color: gray;">Sensor development &#10230; Sensor application &#10230; </span><ins>Model</ins> 
+ <span style="color: gray;">Sensor development &#10230; Sensor application &#10230; </span><ins>Global model</ins> 
 :::
 
 ## {{< fa book >}} A continuous approach to carbon storage by the Biological Carbon Pump
@@ -376,12 +376,12 @@ Left figures (2) @Thomas Boniface --- Right figure @Euro-Argo
 
 ![](intro/refine_float.svg){.absolute top="30%" left="15%" width="200"}
 
-::: {.fragment .fade-out}
+::: {.fragment .fade-in-then-out}
 ![](intro/argomap.png){.absolute top="30%" left="40%" width="600"}
 :::
 
 ::: {.fragment .fade-in}
-![](intro/model.svg){.absolute top="40%" left="40%" width="600"}
+![](intro/model.svg){.absolute top="37%" left="40%" width="600"}
 :::
 
 
@@ -566,7 +566,7 @@ highchart(width = 550, height = 400) |>
 uvp6_labels <- uvp6_labels |> mutate(pc = 100*(n0/sum(n0)))
 ```
 
-### Using confusion matrices and good sense
+### Using confusion matrices (a lot)
 
 ```{r, confusion matrix and phylogeny}
  
@@ -1836,8 +1836,8 @@ p +
 
 ::: {.fragment .fade-in-then-semi-out}
 ::: {style="position:absolute;top:34%;left:0%;"}
--   [Exploratory]{style="color: white;background-color: #001852;border-radius: 10px"} work (1 year of data)
-    -   First OST-UVP comparison
+-   [Exploratory work]{style="color: white;background-color: #001852;border-radius: 10px"} (1 year of data)
+    -   First OST-UVP intercomparison
     -   Plenty of additional work
         -   3 parking depths --- attenuation measurements
         -   Other float variables (light, chlorophyll a, ...)
@@ -1855,32 +1855,22 @@ p +
 
 ## Reminder --- Global approach of the BCP while waiting for more BGC-Argo floats {.smaller}
 
-::: {style="position:absolute;top:25%;left:0%"}
-```{r, bcp and its export pathways for converse, fig.width=6, fig.height=6}
+![](images/UVP6_a.png){.absolute top="45%" width="75"}
 
-x <- rnorm(10)
+![](intro/refine_float.svg){.absolute top="30%" left="15%" width="200"}
 
-df <- tibble::tibble(pump = c('Gravitational', 'Diel', 'Seasonal', 'Mixed layer','Eddy subduction', 'Large-scale subduction'),
-             group = c(rep('Gravitational', 1), rep('Migrant', 2), rep('Mixing', 3)),
-             end = c(2500, 600, 1400, 1000, 400, 1000),
-             depth = c(0, 100, 500, 1000, 1500, 2500))
+![](intro/model.svg){.absolute top="37%" left="40%" width="600"}
 
-df <- df |> mutate(pump = factor(pump, levels = c('Gravitational', 'Diel', 'Seasonal', 'Mixed layer', 'Eddy subduction', 'Large-scale subduction')))
-
-df |> group_by(pump) |> plotly::plot_ly(x = ~pump, y = ~end, type = 'bar', color = ~group, colors = c("#f5e8c8", '#001852', '#e01f54'), showlegend = T) |>
-  plotly::layout(xaxis = list(title = '', tickfont = list(size = 20), showticklabels = F, titlefont = list(size = 20), showgrid = F, categoryorder = 'array', categoryarray = ~pump), 
-          yaxis = list(title = list(text = 'Depth (m)', standoff = 15L), barmode = "group", autorange="reversed", tickfont = list(size = 20), titlefont = list(size = 20), showgrid = T,
-          tickmode = "array", tickvals = c(400,600,1000,1400,2500), ticktext = c("400","600","1000","1400", 'sediment')),
-          legend = list(orientation = "h", xanchor = 'center', x = 0.5, y = 10)) |> plotly::config(displayModeBar = FALSE) 
-
-x <- rnorm(10)
-```
+::: footer
+Left figures (2) @Thomas Boniface 
 :::
 
-::: {style="position:absolute;top:35%;left:60%;"}
-<span style="color: black;background-color:#f5e8c8;border-radius: 10px">Gravitational --- 70% export flux</span><br><br>
-<span style="color: black;background-color:#e01f54;border-radius: 10px">Mixing --- 20% export flux</span><br>Sequestration from 25 to 150 years<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">Migrant --- 10% export flux</span><br>Sequestration up to 250 years (diel)<br> up to 500 years (seasonal)<br>
+::: {style="position:absolute;top:55%;left:30%;"}
+&#10230;
+:::
+
+::: {style="position:absolute;top:55%;left:10%;"}
+&#10230;
 :::
 
 ## Sequestration can occur at any depth
@@ -1929,7 +1919,19 @@ x <- rnorm(10)
 
 ## Global F<sub>seq</sub>(BCP) > 2-3x F<sub>seq</sub>(POC, 1000 m)
 
-![](converse/Fig5PREZ.svg){.absolute top=80 left=-60 width="800" height="600"}
+::: {style="position:absolute;top:22.5%;left:0%;"}
+<span style="font-size: 30px;color: black;background-color: #f5e8c8;border-radius: 10px;">F<sub>seq</sub> (gravitational)</span>
+:::
+
+::: {style="position:absolute;top:50.5%;left:0%;"}
+<span style="font-size: 30px;color: black;background-color: #e01f54;border-radius: 10px;">F<sub>seq</sub> (BCP)</span>
+:::
+
+::: {style="position:absolute;top:80.5%;left:0%;"}
+<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">F<sub>seq</sub> (POC, 1000 m)</span>
+:::
+
+![](converse/Fig5PREZ_100523.svg){.absolute top=80 left=75 width="800" height="600"}
 
 ::: {style="position:absolute;top:37%;left:60%;"}
 ```{r, converse data table}
@@ -1940,13 +1942,46 @@ df |> gt() |>
   cols_label(seq_origin = md('**F<sub>seq</sub>**'),
               min = md('**Min (Pg C y<sup>-1</sup>)**'),
               max = md('**Max (Pg C y<sup>-1</sup>)**')) |>
-  cols_align('center')
+  cols_align('center') |>
+  tab_style(
+      style = list(cell_fill(color = '#f5e8c8')),
+      locations = cells_body(
+        columns = 1:3,
+        rows = 1
+      )
+    ) |>
+    tab_style(
+      style = list(cell_fill(color = '#e01f54')),
+      locations = cells_body(
+        columns = 1:3,
+        rows = 2
+      )
+    ) |>
+    tab_style(
+      style = list(cell_fill(color = '#001852')),
+      locations = cells_body(
+        columns = 1:3,
+        rows = 3
+      )
+    ) |>
+    tab_style(
+      style = list(cell_text(color = 'white')),
+      locations = cells_body(
+        columns = 1:3,
+        rows = 3
+      )
+    )
+  
 ```
 :::
 
+::: {style="position:absolute;top:20%;left:60%;"}
+<span style="font-size: 30px;color: black;background-color: white;border-radius: 10px;">7 versions (left --- 4<sup>th</sup>)<br></span>
+:::
+
 ::: {style="position:absolute;top:70%;left:60%;"}
-<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">Mixing --- 11-23% of F<sub>seq</sub>(BCP)<br></span>
-<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">Migrant --- 9-12% of F<sub>seq</sub>(BCP)</span>
+<span style="font-size: 30px;color: black;background-color: white;border-radius: 10px;">Mixing --- 11-23% of F<sub>seq</sub>(BCP)<br></span>
+<span style="font-size: 30px;color: black;background-color: white;border-radius: 10px;">Migrant --- 9-12% of F<sub>seq</sub>(BCP)</span>
 :::
 
 ## {{< fa check >}} Take-home message #3
@@ -1969,23 +2004,25 @@ df |> gt() |>
 T. Boniface @ERC-REFINE
 :::
 
-## Improvement points {.smaller}
+## I said earlier that something was missing
 
-[Sensor]{style="color: white;background-color: #001852;border-radius: 10px"} scale<br>
+::: footer
+Left figures (2) @Thomas Boniface --- Right figure @Euro-Argo
+:::
 
--   20/40 classes in the model
--   New features (e.g. texture)
--   Deal differently with detritus
-    
-[Float]{style="color: white;background-color: #001852;border-radius: 10px"} scale<br>
+![](images/UVP6_a.png){.absolute top="35%" width="75"}
 
--   3 parking depths --- attenuation measurements
--   Environmental conditions (BGC variables)
--   Particle backscattering
--   Nature of particles (embedded classification)
-    
-[Global]{style="color: white;background-color: #001852;border-radius: 10px"} scale<br>
--   Wait to validate/calibrate with in-situ data (float)
+![](intro/refine_float.svg){.absolute top="25%" left="15%" width="200"}
+
+![](intro/argomap.png){.absolute top="25%" left="40%" width="600"}
+
+::: {style="position:absolute;top:45%;left:30%;"}
+&#10230;
+:::
+
+::: {style="position:absolute;top:45%;left:10%;"}
+&#10230;
+:::
 
 ## Application to key biogeochemical regions {.smaller}
 
@@ -2037,6 +2074,18 @@ p +
 
 ```{r, plot new floats}
 
+facet_names_up <- c(`102` = '102 - 128 µm',
+                 `128` = '128 - 161 µm',
+                 `161` = '161 - 203 µm',
+                 `203` = '203 - 256 µm',
+                 `256` = '256 - 323 µm',
+                 `323` = '323 - 406 µm',
+                 `406` = '406 - 512 µm',
+                 '1902593' = '1902593',
+                 '4903657' = '4903657',
+                 '6904240' = '6904240',
+                 '2903783' = '2903783')
+
 new_particles <- new_floats |> filter(PhaseName == 'NPAR') |> select(juld, cycle, depth = pres, wmo, all_of(lpm_class), MLD) |> drop_na(NP_Size_102) |> dplyr::mutate(juld = as_date(juld), wmo = factor(wmo, levels = c(1902593, 4903657, 6904240, 2903783)))
 
 new_particles_bis <- new_particles |> pivot_longer(cols = all_of(lpm_class), names_to = 'size', values_to = 'concentration') |> dplyr::mutate(size = size |> str_remove('NP_Size_') |> as.numeric()) 
@@ -2049,7 +2098,7 @@ new_particles_bis <- new_particles_bis |> dplyr::group_by(wmo, size) |> dplyr::m
 
 new_low_part <- new_particles_bis |> filter(depth < 2000, size < 512) |>
   #group_by(size) |>
-  ggplot() + facet_grid(wmo~size) + theme_bw() +
+  ggplot() + facet_grid(wmo~size, labeller = as_labeller(facet_names_up)) + theme_bw() +
   geom_point(aes(x=juld, y=depth, colour=log10(rel_conc)), size=1, shape=15) +
   scale_colour_viridis(option = 'A', limits = c(-2.5,-1), oob = scales::squish, na.value = 'white', direction = -1) + 
   scale_y_reverse() +
@@ -2068,9 +2117,21 @@ new_low_part
 
 ```{r, new floats uvp6 upper spectrum}
 
+facet_names_down <- c(`512` = '512 - 645 µm',
+                 `645` = '645 - 813 µm',
+                 `813` = '0.81 - 1.02 mm',
+                 `1020` = '1.02 - 1.29 mm',
+                 `1290` = '1.29 - 1.63 mm',
+                 `1630` = '1.63 - 2.05 mm',
+                 `2050` = '2.05 - 2.50 mm',
+                 '1902593' = '1902593',
+                 '4903657' = '4903657',
+                 '6904240' = '6904240',
+                 '2903783' = '2903783')
+
 new_up_part <- new_particles_bis |> filter(depth < 2000, size >= 512) |>
   #group_by(size) |>
-  ggplot() + facet_grid(wmo~size) + theme_bw() +
+  ggplot() + facet_grid(wmo~size, labeller = as_labeller(facet_names_down)) + theme_bw() +
   geom_point(aes(x=juld, y=depth, colour=log10(rel_conc)), size=1, shape=15) +
   scale_colour_viridis(option = 'A', limits = c(-2.5,-1), oob = scales::squish, na.value = 'white', direction = -1) + 
   scale_y_reverse() +
@@ -2108,8 +2169,8 @@ new_fig200m <-new_mean_uvp_data |> filter(park_depth == '200 m') |> ggplot() + g
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') +
-  theme(legend.position = 'none') 
+  facet_wrap(~size, scales = 'free_y', labeller = as_labeller(facet_all)) +
+  theme(legend.position = 'none')
 
 new_fig200m
 
@@ -2130,7 +2191,7 @@ new_fig500m <-new_mean_uvp_data |> filter(park_depth == '500 m') |> ggplot() + g
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') +
+  facet_wrap(~size, scales = 'free_y', labeller = as_labeller(facet_all)) +
   theme(legend.position = 'none') 
 
 new_fig500m
@@ -2152,7 +2213,7 @@ new_fig1000m <-new_mean_uvp_data |> filter(park_depth == '1000 m') |> ggplot() +
   scale_x_date(labels = date_format("%m"), date_breaks = '2 month') +
   theme_bw() + labs(x = 'Month', y = 'Particle abundance (#/L)') +
   scale_y_continuous(trans = 'log10') +
-  facet_wrap(~size, scales = 'free_y') +
+  facet_wrap(~size, scales = 'free_y', labeller = as_labeller(facet_all)) +
   theme(legend.position = 'none') 
 
 new_fig1000m
@@ -2245,7 +2306,7 @@ new_up / new_down
 
 ### <strong>{{< fa check >}} Way forward</strong>
 
--   Same method applied on [more regions (9)]{style="color: white;background-color: #001852;border-radius: 10px"}<br>
+-   Same method applied on [more regions (total of 9)]{style="color: white;background-color: #001852;border-radius: 10px"}<br>
     -   High variability of carbon fluxes in different regions
     -   Generalization and reduction of uncertainties
 
@@ -2306,5 +2367,52 @@ ggplot(taxo_kerguelen) + geom_point(aes(x = conc_object, y = depth, colour = dat
 :::
 :::
 
-# [Tha]{style="color: black;"}[nk y]{style="color: #E6AB02;"}[ou !]{style="color: #D01556FF;"} {background-color="white"}
+# Thank you ! {background-image="thanks/merci.jpg" background-opacity=0.5}
+
+::: footer
+@Me ! Maybe after my 150<sup>th</sup> Col d'Èze
+:::
+
+::: {style="font-size:30px;position:absolute;top:100%;left:0%;"}
+<strong>Jury Members</strong> --- M. Estapa - S. Henson - I. Cetinić - G. Neukermans - L. Stemmann<br>
+<strong>Supervisors</strong> --- Hervé - Lionel - Marilaure - Alexander<br>
+<strong>COMPLEx Team</strong> --- Jean-Olivier, Louis, Marc and everyone, I've learnt a lot from you all !<br><br>
+<strong>Office (and also {{< fa person-biking >}}) mates</strong> --- Thelma, Laetitia & Ophélie<br>
+<strong>Friends</strong> --- From Belgium, UK, Lebanon and even some French !<br>
+<strong>Family</strong> --- See you in one week ! {{< fa dragon >}}<br>
+<strong>Lucie</strong> --- Especially the last few weeks !<br><br>
+
+Thank you all for your support and everything :-)
+
+:::
+
+# Supplementary slides
+
+## Shiny App
+
+[Labrador floats](https://fricour.shinyapps.io/CARBON_REFINE/){preview-link="true"}
+
+## Example images for the final UVP6 model {.smaller}
+
+::: {style="position:absolute;top:18%;left:40%;"}
+Acantharia --- Actinopterygii --- Appendicularia --- artefact
+:::
+
+::: {style="position:absolute;top:35%;left:40%;"}
+Aulacanthidae --- Calanoida --- Chaetognatha --- Collodaria
+:::
+
+::: {style="position:absolute;top:52%;left:40%;"}
+Creseis --- crystal --- detritus --- fiber
+:::
+
+::: {style="position:absolute;top:69%;left:40%;"}
+Foraminifera --- other<living --- puff --- Rhizaria
+:::
+
+::: {style="position:absolute;top:86%;left:40%;"}
+Salpida --- small<Cnidaria --- solitary globule --- tuff
+:::
+
+![](suppMat/test.png)
 
