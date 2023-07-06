@@ -20,7 +20,7 @@ revealjs-plugins:
 editor: visual
 from: markdown+emoji
 execute: 
-  cache: true # need to put it to false when there is an update of data WITHOUT a change of code
+  cache: false # need to put it to false when there is an update of data WITHOUT a change of code
 ---
 
 ```{r, libraries + wordcloud, echo = F, include=F}
@@ -74,19 +74,18 @@ Sys.setlocale("LC_TIME", "en_GB.utf8")
 [Towards a]{style="font-size: 30px;"}<br> [<strong>new insight</strong>]{style="font-size: 50px;"}<br> [of the]{style="font-size: 30px;"}<br> [<strong>carbon transport</strong>]{style="font-size: 50px;"}<br> [in the]{style="font-size: 30px;"}<br> [<strong>global ocean</strong>]{style="font-size: 50px;"}<br>
 :::
 
-# <span style="color: black;">420 ppm and counting (1/5) </span> {background-image="intro/ppm.JPG" background-opacity=0.5}
+# [420 ppm and counting (1/5)]{style="color: black;"} {background-image="intro/ppm.JPG" background-opacity="0.5"}
+
+::: footer
+Mom, you were born at 320 ppm
+:::
 
 ## Absorbed CO<sub>2</sub> reacts with seawater
 
 ::: columns
 ::: {.column width="60%"}
-<br>Fossil fuel emissions --- 35 Gt CO<sub>2</sub> year<sup>-1</sup></sub><br>
-50% stays in the atmosphere<br><br>
-25% absorbed by land<br><br>
-[25%]{style="color: white;background-color: #001852;border-radius: 10px"} absorbed by <span style="color: white;background-color:#001852;border-radius: 10px">oceans</span><br>
-DIC = HCO<sub>3</sub><sup>-</sup> + CO<sub>3</sub><sup>2-</sup> + H<sub>2</sub>CO<sub>3</sub> + CO<sub>2</sub> (aq)
+<br>Fossil fuel emissions --- 35 Gt CO<sub>2</sub> year<sup>-1</sup></sub><br> 50% stays in the atmosphere<br><br> 25% absorbed by land<br><br> [25%]{style="color: white;background-color: #001852;border-radius: 10px"} absorbed by [oceans]{style="color: white;background-color:#001852;border-radius: 10px"}<br> DIC = HCO<sub>3</sub><sup>-</sup> + CO<sub>3</sub><sup>2-</sup> + H<sub>2</sub>CO<sub>3</sub> + CO<sub>2</sub> (aq)
 :::
-
 
 ::: {.column width="40%"}
 ```{r DIC}
@@ -117,7 +116,6 @@ df |>
   e_labels(fontSize = 15)
 
 ```
-
 :::
 :::
 
@@ -135,9 +133,8 @@ plot_ly(DIC_data, x = ~mean_DIC, y = ~mids, type = 'scatter', mode = 'lines', co
 
 ```
 
-
 ::: {style="position:absolute;top:85%;left:0%;"}
-{{< fa question-circle >}} What processes act <ins>against</ins> the vertical mixing of DIC?
+{{< fa question-circle >}} What processes act against the vertical mixing of DIC?
 :::
 
 ::: footer
@@ -177,7 +174,7 @@ df |>
 ```{=tex}
 \begin{gather*}
 pCO_{2}^{water~parcel} = \frac{[CO_{2}]}{K_{0}} \\
-K_{0} \approx f(T)
+K_{0} \approx f(T) 
 \end{gather*}
 ```
 ::: center-align
@@ -203,40 +200,37 @@ CO_{2} + H_{2}O \rightarrow CH_{2}O + O_{2}
 \end{gather*}
 ```
 ::: center-align
-Photosynthesis (DIC<sub>surf</sub>↘) <br>vs.<br>
-remineralization = respiration (DIC ↗)
+Photosynthesis (DIC<sub>surf</sub>↘) <br>vs.<br> remineralization = respiration (DIC ↗)
 :::
 :::
 :::
 :::
 
-## BCP --- Three <span style="color: white;background-color:#001852;border-radius: 30px">export</span> pathways 
+## BCP --- Three [export]{style="color: white;background-color:#001852;border-radius: 30px"} pathways
 
 ::: {.fragment .fade-in}
 ::: {style="position:absolute;top:16%;left:-5%;"}
-<strong>EZ</strong><br><br><br>
-<strong>TZ</strong>
+<strong>EZ</strong><br><br><br> <strong>TZ</strong>
 :::
+
 ![](images/refine/sysnthesis.svg){.absolute top="12%" left="0%" width="1200"}
 
 ![](blank.jpg){.absolute top="12%" left="35%" width="800"}
 :::
 
 ::: {.fragment .fade-in}
-![](images/refine/sysnthesis.svg){.absolute top="12%" left="0%" width="1200"}
-![](blank.jpg){.absolute top="12%" left="47%" width="800"}
+![](images/refine/sysnthesis.svg){.absolute top="12%" left="0%" width="1200"} ![](blank.jpg){.absolute top="12%" left="47%" width="800"}
 :::
 
 ::: {.fragment .fade-in}
-![](images/refine/sysnthesis.svg){.absolute top="12%" left="0%" width="1200"}
-![](blank.jpg){.absolute top="12%" left="65%" width="800"}
+![](images/refine/sysnthesis.svg){.absolute top="12%" left="0%" width="1200"} ![](blank.jpg){.absolute top="12%" left="65%" width="800"}
 :::
 
 ::: {.fragment .fade-in}
 ![](images/refine/sysnthesis.svg){.absolute top="12%" left="0%" width="1200"}
 
 ::: {style="position:absolute;top:87%;left:0%;"}
-<span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How much</span><span style="font-size: 24px;"> organic carbon is exported --- </span><span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How deep</span></span><span style="font-size: 24px;"> is it transported --- </span><span style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px">How long</span></span><span style="font-size: 24px;"> CO<sub>2</sub> is hidden from the atmosphere ?</span>
+[How much]{style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px"}[organic carbon is exported ---]{style="font-size: 24px;"}[How deep]{style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px"}</span>[is it transported ---]{style="font-size: 24px;"}[How long]{style="color: white;font-size: 24px;background-color:#001852;border-radius: 10px"}</span>[CO<sub>2</sub> is hidden from the atmosphere ?]{style="font-size: 24px;"}
 :::
 :::
 
@@ -268,34 +262,27 @@ x <- rnorm(10)
 ```
 
 ::: {style="position:absolute;top:35%;left:60%;"}
-<span style="color: black;background-color:#f5e8c8;border-radius: 10px">Gravitational --- 70% export flux</span><br><br>
-<span style="color: black;background-color:#e01f54;border-radius: 10px">Mixing --- 20% export flux</span><br>Sequestration from 25 to 150 years<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">Migrant --- 10% export flux</span><br>Sequestration up to 250 years (diel)<br> up to 500 years (seasonal)<br>
+[Gravitational --- 70% export flux]{style="color: black;background-color:#f5e8c8;border-radius: 10px"}<br><br> [Mixing --- 20% export flux]{style="color: black;background-color:#e01f54;border-radius: 10px"}<br>Sequestration from 25 to 150 years<br><br> [Migrant --- 10% export flux]{style="color: white;background-color:#001852;border-radius: 10px"}<br>Sequestration up to 250 years (diel)<br> up to 500 years (seasonal)<br>
 :::
 
 ## Main questions driving this work
 
 ::: {.fragment .fade-in-then-out}
 ::: {style="position:absolute;top:15%;"}
-<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
+[How much]{style="color: white;background-color:#001852;border-radius: 10px"} carbon is exported/injected by each pump?<br><br> [How deep]{style="color: white;background-color:#001852;border-radius: 10px"} is it exported/injected?<br><br> [How long]{style="color: white;background-color:#001852;border-radius: 10px"} CO<sub>2</sub> is sequestered from the atmosphere?<br><br>
 :::
 :::
 
 ::: {.fragment .fade-in}
 ::: {style="position:absolute;top:15%;"}
-<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px;opacity:0.25">How long</span><span style="opacity:0.25;"> CO<sub>2</sub> is sequestered from the atmosphere?</span><br><br><br>
-<span style="color:white;background-color:#001852;border-radius: 10px">Sensor development</span><span style="color: black;opacity:0.25"> &#10230; Sensor application &#10230; Global model</span>
+[How much]{style="color: white;background-color:#001852;border-radius: 10px"} carbon is exported/injected by each pump?<br><br> [How deep]{style="color: white;background-color:#001852;border-radius: 10px"} is it exported/injected?<br><br> [How long]{style="color: white;background-color:#001852;border-radius: 10px;opacity:0.25"}[CO<sub>2</sub> is sequestered from the atmosphere?]{style="opacity:0.25;"}<br><br><br> [Sensor development]{style="color:white;background-color:#001852;border-radius: 10px"}[⟶ Sensor application ⟶ Global model]{style="color: black;opacity:0.25"}
 :::
 :::
 
 ## UVPs --- Imaging particles since the 1990s
 
 ::: footer
-Left figures from Picheral et al. (2021)
+Right figures from Picheral et al. (2021)
 :::
 
 ![](images/uvp_historic.jpg){.absolute top="15%" width="859" height="389"}
@@ -305,16 +292,13 @@ Left figures from Picheral et al. (2021)
 ![](intro/gliderUVP6.png){.absolute top="50%" left="74.75%" width="200" height="250"}
 
 ::: {style="position:absolute;top:72%;"}
-Since 2008 --- UVP5 (small enough for CTD frames)<br> Since 2019 --- UVP6 on floats and gliders 
+Since 2008 --- UVP5 (small enough for CTD frames)<br> Since 2019 --- UVP6 on floats and gliders
 :::
 
 ## Main questions driving this work
 
 ::: {style="position:absolute;top:15%;"}
-<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
-<span style="opacity:0.25;"><span style="color: white;background-color:#001852;border-radius: 10px;">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?</span><br><br><br>
-<span style="color: black;opacity:0.25;">Sensor development &#10230; </span><span style="color:white;background-color:#001852;border-radius: 10px">Sensor application</span><span style="color: black;opacity:0.25;"> &#10230; Global model</span> 
+[How much]{style="color: white;background-color:#001852;border-radius: 10px"} carbon is exported/injected by each pump?<br><br> [How deep]{style="color: white;background-color:#001852;border-radius: 10px"} is it exported/injected?<br><br> [How long]{style="color: white;background-color:#001852;border-radius: 10px;"} CO<sub>2</sub> is sequestered from the atmosphere?<br><br><br> [Sensor development ⟶]{style="color: black;opacity:0.25;"}[Sensor application]{style="color:white;background-color:#001852;border-radius: 10px"}[⟶ Global model]{style="color: black;opacity:0.25;"}
 :::
 
 ## BGC-Argo and two independent sensors to estimate particle and carbon fluxes
@@ -331,40 +315,36 @@ Left figure @Thomas Boniface --- right figure from Claustre et al. (2020)
 :::
 
 ::: {.column width="60%"}
-
 ![](intro/claustre2020.jpeg){.absolute top="27%" left="45%" width="700" height="460"}
 :::
 :::
 
 ::: {style="position:absolute;top:50%;left:-7%;"}
-UVP6 &#8594;
+UVP6 →
 :::
 
 ::: {style="position:absolute;top:65%;left:14%;"}
-&#8592; Transmissometer
+← Transmissometer
 :::
 
 ## Main questions driving this work
 
 ::: {style="position:absolute;top:15%;"}
-<span style="opacity:0.25;"><span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?</span><br><br>
-<span style="opacity:0.25;"><span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?</span><br><br>
-<span style="opacity:1;"><span style="color: white;background-color:#001852;border-radius: 10px;">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?</span><br><br><br>
-<span style="color: black;opacity:0.25">Sensor development &#10230; Sensor application &#10230; </span><span style="color:white;background-color:#001852;border-radius: 10px">Global model</span>
+[How much]{style="color: white;background-color:#001852;border-radius: 10px"} carbon is exported/injected by each pump?<br><br> [How deep]{style="color: white;background-color:#001852;border-radius: 10px"} is it exported/injected?<br><br> [How long]{style="color: white;background-color:#001852;border-radius: 10px;"} CO<sub>2</sub> is sequestered from the atmosphere?<br><br><br> [Sensor development ⟶ Sensor application ⟶]{style="color: black;opacity:0.25"}[Global model]{style="color:white;background-color:#001852;border-radius: 10px"}
 :::
 
 ## A continuous approach to carbon storage by the Biological Carbon Pump
 
 ::: footer
-Left figures (2) @Thomas Boniface --- Right figure from https://biogeochemical-argo.org/
+Left figures (2) @Thomas Boniface --- right figure from https://biogeochemical-argo.org/
 :::
 
 ::: {style="position:absolute;top:55%;left:30%;"}
-&#10230;
+⟶
 :::
 
 ::: {style="position:absolute;top:55%;left:10%;"}
-&#10230;
+⟶
 :::
 
 ![](images/UVP6_a.png){.absolute top="45%" width="75"}
@@ -379,18 +359,13 @@ Left figures (2) @Thomas Boniface --- Right figure from https://biogeochemical-a
 ![](intro/model.svg){.absolute top="37%" left="40%" width="600"}
 :::
 
-
-## To summarize 
+## To summarize
 
 ::: {style="position:absolute;top:15%;"}
-<span style="color: white;background-color:#001852;border-radius: 10px">How much</span> carbon is exported/injected by each pump?<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">How deep</span> is it exported/injected?<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">How long</span> CO<sub>2</sub> is sequestered from the atmosphere?<br><br><br>
-<span style="color: black;">Sensor development &#10230; </span>Sensor application<span style="color: black;"> &#10230; Global model</span> 
+[How much]{style="color: white;background-color:#001852;border-radius: 10px"} carbon is exported/injected by each pump?<br><br> [How deep]{style="color: white;background-color:#001852;border-radius: 10px"} is it exported/injected?<br><br> [How long]{style="color: white;background-color:#001852;border-radius: 10px"} CO<sub>2</sub> is sequestered from the atmosphere?<br><br><br> [Sensor development ⟶]{style="color: black;"}Sensor application[⟶ Global model]{style="color: black;"}
 :::
 
-
-# UVP6 embedded classification (2/5) {background-image="images/uvp6_images/mozaic_best.png" background-opacity=0.5} 
+# UVP6 embedded classification (2/5) {background-image="images/uvp6_images/mozaic_best.png" background-opacity="0.5"}
 
 Zooplankton image classification model under strict energy constraints
 
@@ -448,7 +423,6 @@ Iridium cost<br> Biofouling and other hazards<br> [Power consumption]{style="col
 ![](intro/subargo.png){.absolute top="0%" left="60%" width="275"}
 :::
 
-
 ::: {.fragment .fade-in-then-semi-out}
 ::: columns
 ::: {.column width="55%"}
@@ -488,13 +462,13 @@ Figure from Geron et al. (2019)
 :::
 
 ::: {.column width="50%"}
-<span style="color: white;background-color:#001852;border-radius: 10px">Basic principle</span>
+[Basic principle]{style="color: white;background-color:#001852;border-radius: 10px"}
 
 ::: small-text
 Training set = image features<br><br> Left --- 3 predictors (decision trees)<br> Each one correcting its predecessor<br><br>Right --- Ensemble's prediction <br><br>
 :::
 
-<span style="color: white;background-color:#001852;border-radius: 10px">Energy constraints</span>
+[Energy constraints]{style="color: white;background-color:#001852;border-radius: 10px"}
 
 ::: small-text
 55 (handcrafted) features<br> 40 image categories (= <ins><strong>labels</strong></ins>) max<br> Model size (loading time \< 700 ms)<br><br>
@@ -502,7 +476,7 @@ Training set = image features<br><br> Left --- 3 predictors (decision trees)<br>
 :::
 :::
 
-## <span style="color: white;background-color:#001852;border-radius: 10px">Training set of extracted features</span> {background-image="images/uvp6_images/mozaic_best.png"} 
+## [Training set of extracted features]{style="color: white;background-color:#001852;border-radius: 10px"} {background-image="images/uvp6_images/mozaic_best.png"}
 
 ```{r, crop images}
 # path_to_images <- '/home/flo/Downloads/TESTTEST/inverted/'
@@ -538,7 +512,7 @@ highchart(width = 550, height = 400) |>
 ```
 
 ::: {style="position:absolute;top:25%;left:50%;"}
-{{< fa triangle-exclamation >}} 40 labels max<br><br>
+{{< fa triangle-exclamation >}} 40 labels max
 
 90% non-living<br> [80% detritus]{style="color: white;background-color:#001852;border-radius: 10px"}<br><br>
 
@@ -600,17 +574,11 @@ w <- rnorm(10)
 ```
 
 ::: {style="position:absolute;top:25%;left:65%;"}
+[Test set evaluation of labels]{style="color: white;background-color:#001852;border-radius: 10px"}<br> [<strong>Precision</strong> = true positives over true and false positives]{style="font-size: 24px;"}<br style="line-height: 0.5em;"> [<strong>Recall</strong> = true positives over true positives and false negatives]{style="font-size: 24px;"}<br><br>
 
-<span style="color: white;background-color:#001852;border-radius: 10px">Test set evaluation of labels</span><br>
-<span style="font-size: 24px;"><strong>Precision</strong> = true positives over true and false positives</span><br style="line-height: 0.5em;">
-<span style="font-size: 24px;"><strong>Recall</strong> = true positives over true positives and false negatives</span><br><br>
+[Merging labels]{style="color: white;background-color:#001852;border-radius: 10px"} based on<br> [precision --- recall<br>]{style="font-size: 24px;"} [scarcity --- confusion<br>]{style="font-size: 24px;"} [morphology --- ecology<br>]{style="font-size: 24px;"}<br>
 
-<span style="color: white;background-color:#001852;border-radius: 10px">Merging labels</span> based on<br>
-<span style="font-size: 24px;">precision --- recall<br></span>
-<span style="font-size: 24px;">scarcity --- confusion<br></span>
-<span style="font-size: 24px;">morphology --- ecology<br></span><br>
-
-<span style="color: white;background-color:#001852;border-radius: 10px">Often wrongly predicted as detritus</span>
+[Often wrongly predicted as detritus]{style="color: white;background-color:#001852;border-radius: 10px"}
 :::
 
 ### Final model
@@ -651,14 +619,9 @@ hc
 ```
 
 ::: {style="position:absolute;top:25%;left:50%;"}
-<br>16 biological labels<br> 
-4 non-living labels<br><br>
-<span style="color: white;background-color:#001852;border-radius: 10px">Global stats compared with a CNN</span><br>Accuracy --- 91% (CNN 94%)<br><br><span style="color: white;background-color:#001852;border-radius: 10px">Living weighted average</span><br>Precision --- 61% (CNN 71%)<br>Recall --- 56% (CNN 82%)
-
+<br>16 biological labels<br> 4 non-living labels<br><br> [Global stats compared with a CNN]{style="color: white;background-color:#001852;border-radius: 10px"}<br>Accuracy --- 91% (CNN 94%)<br><br>[Living weighted average]{style="color: white;background-color:#001852;border-radius: 10px"}<br>Precision --- 61% (CNN 71%)<br>Recall --- 56% (CNN 82%)
 :::
-
 :::
-
 
 ## {{< fa check >}} Take-home message #1
 
@@ -675,7 +638,7 @@ hc
     -   Deal differently with detritus
 :::
 
-# UVP6 and OST in the Labrador Sea (3/5) {background-image="labrador/float_on_site.jpeg" background-opacity=0.5}
+# UVP6 and OST in the Labrador Sea (3/5) {background-image="labrador/float_on_site.jpeg" background-opacity="0.5"}
 
 ::: footer
 T. Boniface @ERC-REFINE
@@ -683,7 +646,7 @@ T. Boniface @ERC-REFINE
 
 2 independent measurements of particle and carbon flux dynamics
 
-## [Reminder]{style="color: white;background-color:#001852;border-radius: 10px"} ---  From sensor development to sensor application
+## [Reminder]{style="color: white;background-color:#001852;border-radius: 10px"} --- From sensor development to sensor application
 
 ::: footer
 Left figure @Thomas Boniface
@@ -729,13 +692,12 @@ fig |> add_segments(x = ~start, xend = ~end, y = ~park_depth, yend = ~park_depth
 :::
 
 ::: {style="position:absolute;top:50%;left:-7%;"}
-UVP6 &#8594;
+UVP6 →
 :::
 
 ::: {style="position:absolute;top:65%;left:14%;"}
-&#8592; OST
+← OST
 :::
-
 
 ## Optical Sediment Trap (OST) during parking
 
@@ -774,14 +736,12 @@ Small (continuous accumulation) <br> Large (discontinuous - jumps) <br><br>
 [Downward POC flux]{style="color: white;background-color:#001852;border-radius: 10px"}<br>
 
 ::: small-text
-Small particle flux (F<sub>small</sub>)<br>
-Large particle flux (F<sub>large</sub>)
+Small particle flux (F<sub>small</sub>)<br> Large particle flux (F<sub>large</sub>)
 :::
 :::
 :::
 :::
 :::
-
 
 ## Example of OST during a parking at 1000 m
 
@@ -966,11 +926,7 @@ output$jump_plot
 :::
 
 ::: {style="position:absolute;top:20%;left:60%;"}
-
-<span style="font-size: 30px;">New jump detection (<span class="red-dot"></span> --- <span class="yellow-dot"></span>)<br><br>
-F<sub>small</sub> $\propto$ weighted average <span style="background-color:#DCEEF3;border-radius: 10px;">c<sub>p</sub> slope</span>
-F<sub>large</sub> $\propto$ sum of positive jumps (<span class="red-dot"></span>)
-
+<span style="font-size: 30px;">New jump detection ( --- )<br><br> F<sub>small</sub> $\propto$ weighted average [c<sub>p</sub> slope]{style="background-color:#DCEEF3;border-radius: 10px;"} F<sub>large</sub> $\propto$ sum of positive jumps ()
 :::
 
 ## Four BGC-Argo floats deployed in May 2022
@@ -1037,7 +993,6 @@ p +
 ::: {style="position:absolute;top:20%;left:55%;"}
 ▲ Deployment sites<br> {{< fa regular circle size=tiny >}} Last profile<br><br><br>Last updated on [`r format(Sys.time(), '%d %B, %Y', tz = 'UTC')`]{style="color: white;background-color:#001852;border-radius: 10px"}
 :::
-
 
 ## UVP6 particle abundance on profiling mode {.smaller}
 
@@ -1111,11 +1066,7 @@ up_part
 ```
 
 ::: {style="position:absolute;top:30%;left:70%;"}
-7 size classes < 0.5 mm<br><br>
-Similar patterns across floats<br><br>
-Rapid emptying in November<br><br> 
-Particle increase in April<br><br>
-[Seasonal dynamics]{style="color: white;background-color:#001852;border-radius: 10px"}
+7 size classes \< 0.5 mm<br><br> Similar patterns across floats<br><br> Rapid emptying in November<br><br> Particle increase in April<br><br> [Seasonal dynamics]{style="color: white;background-color:#001852;border-radius: 10px"}
 :::
 
 ### 0.5 - 2.5 mm
@@ -1149,8 +1100,7 @@ down_part
 ```
 
 ::: {style="position:absolute;top:30%;left:70%;"}
-7 size classes > 0.5 mm<br><br>
-Export pulse?<br><br> 1 profile every 10 days
+7 size classes \> 0.5 mm<br><br> Export pulse?<br><br> 1 profile every 10 days
 :::
 
 ### Float position
@@ -1192,7 +1142,6 @@ mean_uvp_data <- uvp_data |> dplyr::group_by(cycle, WMO, size, park_depth, juld)
 ```
 
 ::: panel-tabset
-
 ### 1000 m
 
 ```{r, uvp drifting 1000 m, fig.width=8, fig.height=5}
@@ -1224,9 +1173,7 @@ mean_uvp_data |> filter(park_depth == '1000 m') |> ggplot() + geom_point(aes(jul
 ```
 
 ::: {style="position:absolute;top:30%;left:65%;"}
-14 size classes (0.1 - 2.5 mm)<br><br>
-Similar measurements across floats<br><br> 
-[Seasonal dynamics]{style="color: white;background-color:#001852;border-radius: 10px"}
+14 size classes (0.1 - 2.5 mm)<br><br> Similar measurements across floats<br><br> [Seasonal dynamics]{style="color: white;background-color:#001852;border-radius: 10px"}
 :::
 
 ### 200 m
@@ -1528,7 +1475,7 @@ up / down
 ```
 
 ::: {style="position:absolute;top:30%;left:65%;"}
-[@1000 m --- Similar to UVP6]{style="color: white;background-color: #001852;border-radius: 10px"}
+@1000 [ m --- Similar to UVP6]{style="color: white;background-color: #001852;border-radius: 10px"}
 :::
 
 ### MLD
@@ -1629,7 +1576,6 @@ p +
 ## OST vs. UVP6 carbon flux estimations {.smaller}
 
 ::: panel-tabset
-
 ### Float position
 
 ::: {style="position:absolute;top:20%;left:-15%;"}
@@ -1683,7 +1629,7 @@ p +
 :::
 
 ::: {style="position:absolute;top:50%;left:60%;"}
-Floats with entire timeseries
+[Floats with entire timeseries]{style="color: white;background-color: #001852;border-radius: 10px"}
 :::
 
 ### Carbon fluxes
@@ -1763,6 +1709,7 @@ ggplot(comparison_flux_ost_uvp) + geom_line(aes(x = date, y = total_flux), colou
 
 ::: {style="position:absolute;top:27%;left:60%;"}
 [OST]{style="color: white;background-color: #001852;border-radius: 10px"}
+
 ```{=tex}
 \begin{gather*}
 F_{total,~OST} = F_{small} + F_{large}
@@ -1783,11 +1730,10 @@ F_{total,~UVP} = \sum_{i}^{N}C_{i}Ad_{i}^{B}
 :::
 
 ::: {style="position:absolute;top:68%;left:60%;"}
-[(A, B) from Guidi et al., (2008)]{style="color: #4774c5;"}<br> [Open ocean sites w/ low carbon fluxes]{style="color: #4774c5;"}<br>
-[(A, B) from Iversen et al., (2010)<br>]{style="color: #D01556FF;"} [Highly productive system (upwelling)]{style="color: #D01556FF;"}<br>
+[(A, B) from Guidi et al., (2008)]{style="color: #4774c5;"}<br> [Open ocean sites w/ low carbon fluxes]{style="color: #4774c5;"}<br> [(A, B) from Iversen et al., (2010)<br>]{style="color: #D01556FF;"} [Highly productive system (upwelling)]{style="color: #D01556FF;"}<br>
 :::
 
-### Correlations 
+### Correlations
 
 ::: {style="position:absolute;top:25%;left:0%;"}
 ```{r, flux correlations}
@@ -1850,7 +1796,7 @@ Correlation ($\geq$ 0.7)
 :::
 
 ::: {style="position:absolute;top:65%;left:0%;"}
-All correlations are statistically significant (p-value < 0.01)<br><br>
+All correlations are statistically significant (p-value \< 0.01)<br><br>
 :::
 :::
 
@@ -1858,7 +1804,7 @@ All correlations are statistically significant (p-value < 0.01)<br><br>
 
 ::: {.fragment .fade-in-then-semi-out}
 -   OST and UVP6 are [well correlated]{style="color: white;background-color: #001852;border-radius: 10px"}
-    - Do we need both instruments on a float ? (price?)
+    -   Further investigate export flux
 :::
 
 ::: {.fragment .fade-in-then-semi-out}
@@ -1872,7 +1818,7 @@ All correlations are statistically significant (p-value < 0.01)<br><br>
 :::
 :::
 
-# CONVERSE (4/5) {background-color="white" background-image="converse/ocean.jpg" background-opacity=0.5}
+# CONVERSE (4/5) {background-color="white" background-image="converse/ocean.jpg" background-opacity="0.5"}
 
 ::: footer
 @Jeremy Bishop
@@ -1889,31 +1835,27 @@ All correlations are statistically significant (p-value < 0.01)<br><br>
 ![](intro/model.svg){.absolute top="37%" left="40%" width="600"}
 
 ::: footer
-Left figures (2) @Thomas Boniface 
+Left figures (2) @Thomas Boniface
 :::
 
 ::: {style="position:absolute;top:55%;left:30%;"}
-&#10230;
+⟶
 :::
 
 ::: {style="position:absolute;top:55%;left:10%;"}
-&#10230;
+⟶
 :::
 
 ## Sequestration can occur at any depth
 
-![](converse/converse_fig1.svg){.absolute top=80 left=0 width="420" height="600" .my-image}
+![](converse/converse_fig1.svg){.absolute .my-image top="80" left="0" width="420" height="600"}
 
 ::: {style="position:absolute;top:15%;left:40%;"}
-<span style="font-size: 30px"><em>Sequestration occurs when DIC is hidden from the atmosphere for $\geq$ 100 years</em></span><br><br>
-<span style="font-size: 30px; color: white;background-color: #001852;border-radius: 10px;">Entire water column</span><span style="font-size: 30px;"> vs. fixed sequestration depth</span><br><br>
-<span style="font-size: 30px;">Gravitational + Migrant + Mixing pumps transport <span style="color: #528133;"><strong>F<sub>org</sub></strong></span><br><br></span> 
-<span style="font-size: 30px;"><span style="color: #528133;"><strong>F<sub>org</sub></strong></span> respired to CO<sub>2</sub> (<strong><span style="color: #D01556FF;"><strong>F<sub>remin</sub></strong></span></strong>) or sedimented <br><br></span>
-<span style="font-size: 30px;">Respiratory CO<sub>2</sub> = biogenic DIC (<strong><span style="color: #793da5;"><strong>DIC<sub>bio</sub></strong></span></strong>)<br><br></span>
+[<em>Sequestration occurs when DIC is hidden from the atmosphere for $\geq$ 100 years</em>]{style="font-size: 30px"}<br><br> [Entire water column]{style="font-size: 30px; color: white;background-color: #001852;border-radius: 10px;"}[vs. fixed sequestration depth]{style="font-size: 30px;"}<br><br> [Gravitational + Migrant + Mixing pumps transport]{style="font-size: 30px;"}[<strong>F<sub>org</sub></strong>]{style="color: #528133;"}<br><br> [<strong>F<sub>org</sub></strong>]{style="color: #528133;"} respired to CO<sub>2</sub> (<strong><strong>[F<sub>remin</sub></strong>]{style="color: #D01556FF;"}</strong>) or sedimented <br><br> [Respiratory CO<sub>2</sub> = biogenic DIC (<strong>]{style="font-size: 30px;"}[<strong>DIC<sub>bio</sub></strong>]{style="color: #793da5;"}</strong>)<br><br>
 :::
 
 ::: {style="position:absolute;top:92%;left:0%;"}
-<span style="font-size: 30px;"><span style="color: gray;">Ricour et al., (2023)</span> 
+<span style="font-size: 30px;">[Ricour et al., (2023)]{style="color: gray;"}
 :::
 
 ## F<sub>seq</sub> can be computed using f<sub>100</sub> and F<sub>remin</sub>
@@ -1921,44 +1863,40 @@ Left figures (2) @Thomas Boniface
 ![](converse/Fig2_PHDPREZ.jpeg){.absolute top="20%" left="0%" width="650" height="450"}
 
 ::: {style="position:absolute;top:15%;left:59%;"}
+[f<sub>100</sub> --- <em>fraction of a water parcel at a given location and depth that will remain in the ocean (hidden from the atmosphere) for $\geq$ 100 years</em><br><br>]{style="font-size: 30px;"}
 
-<span style="font-size: 30px;">f<sub>100</sub> --- <em>fraction of a water parcel at a given location and depth that will remain in the ocean (hidden from the atmosphere) for $\geq$ 100 years</em><br><br></span>
+[f<sub>100</sub> = 1, F<sub>remin</sub> entirely sequestered]{style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px"}<br><br>
 
-<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px">f<sub>100</sub> = 1, F<sub>remin</sub> entirely sequestered</span><br><br>
+[f<sub>100 (avg)</sub> (530 m) = 0.3<br>]{style="font-size: 30px;"} [f<sub>100 (avg)</sub> (\> 1000 m) = 0.87<br><br>]{style="font-size: 30px;"}
 
-<span style="font-size: 30px;">f<sub>100 (avg)</sub> (530 m) = 0.3<br></span>
-<span style="font-size: 30px;">f<sub>100 (avg)</sub> (> 1000 m) = 0.87<br><br></span>
- 
 <!-- <span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px">F<sub>seq</sub> = f<sub>100</sub> x F<sub>remin</sub></span> -->
-
 :::
 
-## Regional variations of <span style="color: #D01556FF;">F<sub>remin</sub></span> x <span style="color: #E6AB02;">f<sub>100</sub></span> = <span style="color: #4774c5;">F<sub>seq</sub></span>
+## Regional variations of [F<sub>remin</sub>]{style="color: #D01556FF;"} x [f<sub>100</sub>]{style="color: #E6AB02;"} = [F<sub>seq</sub>]{style="color: #4774c5;"}
 
-![](converse/Fig4_PHDPREZ.svg){.absolute top=40 left=-80 width="800" height="800"} 
+![](converse/Fig4_PHDPREZ.svg){.absolute top="40" left="-80" width="800" height="800"}
 
 ::: {style="position:absolute;top:45%;left:60%;"}
-
 <!-- <span style="font-size: 30px;"><span style="color: #4774c5;">F<sub>seq</sub></span> max above 2000 m<br><br></span> -->
-<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">50% of F<sub>seq</sub> accumulation by 1000 m</span>
-<!-- <span style="font-size: 30px;">Fixed sequestration depth = missing most of <span style="color: #4774c5;">F<sub>seq</sub></span><br><br></span> -->
+
+[50% of F<sub>seq</sub> accumulation by 1000 m]{style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;"} <!-- <span style="font-size: 30px;">Fixed sequestration depth = missing most of <span style="color: #4774c5;">F<sub>seq</sub></span><br><br></span> -->
 :::
 
-## Global F<sub>seq</sub>(BCP) > 2-3x F<sub>seq</sub>(POC, 1000 m)
+## Global F<sub>seq</sub>(BCP) \> 2-3x F<sub>seq</sub>(POC, 1000 m)
 
 ::: {style="position:absolute;top:22.5%;left:0%;"}
-<span style="font-size: 30px;color: black;background-color: #f5e8c8;border-radius: 10px;">F<sub>seq</sub> (gravitational)</span>
+[F<sub>seq</sub> (gravitational)]{style="font-size: 30px;color: black;background-color: #f5e8c8;border-radius: 10px;"}
 :::
 
 ::: {style="position:absolute;top:50.5%;left:0%;"}
-<span style="font-size: 30px;color: black;background-color: #e01f54;border-radius: 10px;">F<sub>seq</sub> (BCP)</span>
+[F<sub>seq</sub> (BCP)]{style="font-size: 30px;color: black;background-color: #e01f54;border-radius: 10px;"}
 :::
 
 ::: {style="position:absolute;top:80.5%;left:0%;"}
-<span style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;">F<sub>seq</sub> (POC, 1000 m)</span>
+[F<sub>seq</sub> (POC, 1000 m)]{style="font-size: 30px;color: white;background-color: #001852;border-radius: 10px;"}
 :::
 
-![](converse/Fig5PREZ_100523.svg){.absolute top=80 left=75 width="800" height="600"}
+![](converse/Fig5PREZ_100523.svg){.absolute top="80" left="75" width="800" height="600"}
 
 ::: {style="position:absolute;top:37%;left:60%;"}
 ```{r, converse data table}
@@ -2003,12 +1941,11 @@ df |> gt() |>
 :::
 
 ::: {style="position:absolute;top:20%;left:60%;"}
-<span style="font-size: 30px;color: black;background-color: white;border-radius: 10px;">7 versions (left --- 4<sup>th</sup>)<br></span>
+[7 versions (left --- 4<sup>th</sup>)<br>]{style="font-size: 30px;color: black;background-color: white;border-radius: 10px;"}
 :::
 
 ::: {style="position:absolute;top:70%;left:60%;"}
-<span style="font-size: 30px;color: black;background-color: white;border-radius: 10px;">Mixing --- 11-23% of F<sub>seq</sub>(BCP)<br></span>
-<span style="font-size: 30px;color: black;background-color: white;border-radius: 10px;">Migrant --- 9-12% of F<sub>seq</sub>(BCP)</span>
+[Mixing --- 11-23% of F<sub>seq</sub>(BCP)<br>]{style="font-size: 30px;color: black;background-color: white;border-radius: 10px;"} [Migrant --- 9-12% of F<sub>seq</sub>(BCP)]{style="font-size: 30px;color: black;background-color: white;border-radius: 10px;"}
 :::
 
 ## {{< fa check >}} Take-home message #3
@@ -2016,8 +1953,8 @@ df |> gt() |>
 ::: {.fragment .fade-in-then-semi-out}
 -   Sequestration of DIC<sub>bio</sub> [not only in deep waters]{style="color: white;background-color: #001852;border-radius: 10px"}
     -   Using a fixed sequestration depth underestimate F<sub>seq</sub>(BCP)
-        - Up to 3 times at 1000 m
-        - Up to 6 times at 2000 m
+        -   Up to 3 times at 1000 m
+        -   Up to 6 times at 2000 m
 :::
 
 ::: {.fragment .fade-in-then-semi-out}
@@ -2025,16 +1962,16 @@ df |> gt() |>
     -   Between 20 and 35%
 :::
 
-# Perspectives (5/5) {background-image="labrador/float_on_site.jpeg" background-opacity=0.5}
+# Perspectives (5/5) {background-image="labrador/float_on_site.jpeg" background-opacity="0.5"}
 
 ::: footer
 T. Boniface @ERC-REFINE
 :::
 
-## [Reminder]{style="color: white;background-color:#001852;border-radius: 10px"} --- From data to model to data to model to data to model to ...
+## [Reminder]{style="color: white;background-color:#001852;border-radius: 10px"} --- From data to model, from model to data, from data to model, ...
 
 ::: footer
-Left figures (2) @Thomas Boniface --- Right figure from https://biogeochemical-argo.org/
+Left figures (2) @Thomas Boniface --- right figure from https://biogeochemical-argo.org/
 :::
 
 ![](images/UVP6_a.png){.absolute top="35%" width="75"}
@@ -2044,11 +1981,11 @@ Left figures (2) @Thomas Boniface --- Right figure from https://biogeochemical-a
 ![](intro/bgc_argo_network.png){.absolute top="30%" left="40%" width="600"}
 
 ::: {style="position:absolute;top:45%;left:30%;"}
-&#10230;
+⟶
 :::
 
 ::: {style="position:absolute;top:45%;left:10%;"}
-&#10230;
+⟶
 :::
 
 ## Application to key biogeochemical regions {.smaller}
@@ -2336,10 +2273,9 @@ new_up / new_down
 -   Same method applied on [more regions (total of 9)]{style="color: white;background-color: #001852;border-radius: 10px"}<br>
     -   High variability of carbon fluxes in different regions
     -   Generalization and reduction of uncertainties
-
 :::
 
-## Application of the UVP6 EC {.smaller}
+## Application of the embedded classification {.smaller}
 
 ::: panel-tabset
 ### Kerguelen Plateau
@@ -2379,7 +2315,7 @@ ggplot(taxo_kerguelen) + geom_point(aes(x = conc_object, y = depth, colour = dat
 
 ::: {.fragment .fade-in-then-semi-fade-out}
 -   Interpretation with the [classification report]{style="color: white;background-color: #001852;border-radius: 10px"}
-    -   Precision and recall for each UVP6 class
+    -   Precision and recall for each UVP6 label
     -   [Contextualization]{style="color: white;background-color: #001852;border-radius: 10px"}
         -   Geographical and temporal distribution of species
         -   Position in the water column
@@ -2390,27 +2326,51 @@ ggplot(taxo_kerguelen) + geom_point(aes(x = conc_object, y = depth, colour = dat
 -   UVPec
     -   Available on GitHub
     -   [User-friendly]{style="color: white;background-color: #001852;border-radius: 10px"} toolbox to train alternative UVP6 classification models
-    -   up to 40 classes
+    -   up to 40 labels
 :::
 :::
 
-# Thank you ! {background-image="thanks/merci.jpg" background-opacity=0.75}
+## Combining new data and historical data {.smaller}
+
+::: {style="position:absolute;top:20%;left:0%;"}
+```{r map for UVP only}
+
+# light grey boundaries
+l <- list(color = toRGB("grey"), width = 0.5)
+
+# specify map projection/options
+g <- list(
+  showframe = T,
+  showcoastlines = T,
+  projection = list(type = 'robinson'),
+  showland = T,
+  landcolor = toRGB("grey"),
+  lonaxis = list(showgrid = F),
+  lataxis = list(showgrid = F)
+)
+
+historical_data <- vroom::vroom('perspectives/historical_data.csv')
+plot_geo(historical_data, x = ~lon, y = ~lat, color=~source, colors = c('#D95F02', '#7570B3', '#E6AB02'), width = 800, height = 450) |>
+  layout(geo=g, legend = list(orientation = 'h', xanchor = "center", x = 0.5)) |>
+   config(displayModeBar = FALSE)
+
+```
+:::
+
+::: {style="position:absolute;top:25%;left:70%;"}
+[Sediment traps]{style="color: black;background-color: #D95F02;border-radius: 10px"} + [Thorium 234]{style="color: black;background-color: #7570B3;border-radius: 10px"}<br><br> [\~9000 UVP5 profiles]{style="color: black;background-color: #E6AB02;border-radius: 10px"}<br><br> Adding UVP6 profiles<br><br> [There is work to do !]{style="font-size: 40px; color: white; black;background-color: #001852;border-radius: 10px"}
+:::
+
+# Thank you ! {background-image="thanks/merci.jpg" background-opacity="0.75"}
 
 ::: footer
-<span style="color:black;">@Col d'Èze {{< fa person-biking >}}</span>
+@Col [ d'Èze {{< fa person-biking >}}]{style="color:black;"}
 :::
 
 ::: {style="font-size:30px;position:absolute;top:100%;left:0%;"}
-<strong>Jury Members</strong> --- M. Estapa - S. Henson - I. Cetinić - G. Neukermans - L. Stemmann<br>
-<strong>Supervisors</strong> --- Hervé - Lionel - Marilaure - Alexander<br>
-<strong>COMPLEx Team</strong> --- Jean-Olivier, Louis, Marc and everyone, I've learnt a lot from you all !<br><br>
-<strong>Office (and also {{< fa person-biking >}}) mates</strong> --- Thelma, Laetitia & Ophélie<br>
-<strong>Friends</strong> --- From Belgium, UK, Lebanon and even some French !<br>
-<strong>Family</strong> --- See you in one week ! {{< fa dragon >}}<br>
-<strong>Lucie</strong> --- Especially the last few weeks !<br><br>
+<strong>Jury Members</strong> --- M. Estapa - S. Henson - I. Cetinić - G. Neukermans - L. Stemmann<br> <strong>Supervisors</strong> --- Hervé - Lionel - Marilaure - Alexander<br> <strong>COMPLEx Team</strong> --- Jean-Olivier, Louis, Marc and everyone, I've learnt a lot from you all !<br><br> [<strong>Office (and also {{< fa person-biking >}}) mates</strong> --- Thelma, Laetitia & Ophélie<br> <strong>Friends</strong> --- From Belgium, UK, Lebanon and even some French !<br> <strong>Family</strong> --- See you in one week ! {{< fa dragon >}}<br> <strong>Lucie</strong> --- Especially the last few weeks !]{style="color: black;"}<br><br>
 
-Thank you all for your support and everything :-)
-
+[Thank you all for your support and everything :-)]{style="color: black;"}
 :::
 
 # Supplementary slides
@@ -2434,12 +2394,11 @@ Creseis --- crystal --- detritus --- fiber
 :::
 
 ::: {style="position:absolute;top:69%;left:40%;"}
-Foraminifera --- other<living --- puff --- Rhizaria
+Foraminifera --- other\<living --- puff --- Rhizaria
 :::
 
 ::: {style="position:absolute;top:86%;left:40%;"}
-Salpida --- small<Cnidaria --- solitary globule --- tuff
+Salpida --- small\<Cnidaria --- solitary globule --- tuff
 :::
 
 ![](suppMat/test.png)
-

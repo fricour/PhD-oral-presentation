@@ -1,0 +1,104 @@
+---
+format: 
+  revealjs:
+    #chalkboard: true
+    #theme: dark
+    transition: slide 
+    slide-number: c
+    #embed-resources: true
+    progress: true
+editor: visual
+from: markdown+emoji
+#filters:
+  #- shinylive
+---
+
+# Introduction
+
+```{r test}
+
+# library(echarts4r)
+# 
+# # mtcars |> 
+# #   head() |> 
+# #   tibble::rownames_to_column("model") |> 
+# #   e_charts(model) |> 
+# #   e_pie(hp, roseType = "radius")
+# liquid <- data.frame(val = c(0.6, 0.5, 0.4))
+# 
+# liquid |> 
+#   e_charts() |> 
+#   e_liquid(val) 
+```
+
+## teste 2
+sdggdsgdsqg
+```{r t2, fig.width=8, fig.height=6}
+
+library(plotly)
+d <- diamonds[sample(nrow(diamonds), 500), ]
+plot_ly(d, x = d$carat, y = d$price, 
+        text = paste("Clarity: ", d$clarity),
+        mode = "markers", color = d$carat, size = d$carat) |>
+  layout(width = 800, height = 400)
+
+# fig <- fig |> plotly::config(responsive = FALSE, autosizable = FALSE, fillFrame = FALSE)
+# fig
+
+
+```
+
+## test 3
+
+```{r check}
+
+a <- ggplot(d, aes(x = carat, y = price)) + geom_point()
+
+ggplotly(a)
+
+```
+
+# test 4
+
+:::: {.columns}
+
+::: {.column width="70%"}
+```{r, t4}
+
+library(echarts4r)
+
+library(echarts4r)
+
+df <- data.frame(
+  x = seq(50),
+  y = rnorm(50, 10, 3),
+  z = rnorm(50, 11, 2),
+  w = rnorm(50, 9, 2)
+)
+
+df |> 
+  head(10) |> 
+  e_charts(x, renderer="svg") |> 
+  e_effect_scatter(y, z) |> 
+  e_visual_map(z) |> # scale color
+  e_legend(FALSE) # hide legend
+
+```
+:::
+
+::: {.column width="30%"}
+```{r, t5}
+liquid <- data.frame(val = c(0.6, 0.9, 0.2))
+
+liquid |> 
+  e_charts( renderer="svg") |> 
+  e_liquid(val) 
+
+```
+:::
+
+::::
+
+
+
+

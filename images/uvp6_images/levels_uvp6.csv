@@ -1,0 +1,121 @@
+level0,n0,level2.5,n2.5
+puff,7427,puff,7427
+tuff,4863,tuff,21839
+Rhizaria,2154,Rhizaria,3542
+fuzzy,184,Acantharia,595
+spiky<Acantharia,201,other<living,21839
+star<Acantharia,411,Acantharia,595
+Tuscaroridae,5,Rhizaria,3542
+Aulacanthidae,293,Aulacanthidae,295
+colonial<Aulacanthidae,2,Aulacanthidae,295
+Coelodendridae,112,Rhizaria,3542
+Coelographis,59,Rhizaria,3542
+colonial<Coelodendridae,36,Rhizaria,3542
+spiky<Coelodendridae,109,Rhizaria,3542
+star<Coelodendridae,4,Rhizaria,3542
+Medusettidae,33,Rhizaria,3542
+Aulosphaeridae,354,Rhizaria,3542
+Aulatractus,106,Rhizaria,3542
+colonial<Aulatractus,5,Rhizaria,3542
+colonial<Aulosphaeridae,10,Rhizaria,3542
+Cannosphaeridae,2,Rhizaria,3542
+Foraminifera,188,Foraminifera,188
+Collodaria,654,Collodaria,1049
+cloud,242,Collodaria,1049
+colonial<Collodaria,4,Collodaria,1049
+solitaryblack,149,Collodaria,1049
+solitaryglobule,247,solitaryglobule,247
+colonial<Rhizaria,8,Rhizaria,3542
+rhizaria like,545,Rhizaria,3542
+Annelida,106,other<living,21839
+Alciopidae,63,other<living,21839
+Lopadorrhynchidae,1,other<living,21839
+Phyllodocida,129,other<living,21839
+Tomopteridae,43,other<living,21839
+Poeobius,34,other<living,21839
+Swima,236,other<living,21839
+Crustacea,28,other<living,21839
+Eumalacostraca,1274,other<living,21839
+Amphipoda,182,other<living,21839
+Hyperiidea,68,other<living,21839
+Phronimidae,1,other<living,21839
+Scinidae,21,other<living,21839
+Brachyura,10,other<living,21839
+Euphausiacea,27,other<living,21839
+Copepoda,6119,other<living,21839
+Calanoida,13429,Calanoida,14383
+Calanidae,877,Calanoida,14383
+Euchaetidae,17,Calanoida,14383
+antenna<Calanoida,339,detritus,509726
+copepoda eggs,195,other<living,15478
+like<Copepoda,2717,other<living,15478
+Ostracoda,541,other<living,15478
+Chaetognatha,553,Chaetognatha,572
+Eukrohnia,19,Chaetognatha,572
+Actinopterygii,110,Actinopterygii,110
+Appendicularia,144,Appendicularia,144
+dead<house,909,detritus,509726
+Pyrosomatida,7,other<living,15478
+tetrazoid,6,other<living,15478
+Salpida,207,Salpida,360
+chain<Cyclosalpa bakeri,6,Salpida,360
+chain<Salpida,147,Salpida,360
+Hydrozoa,363,other<living,15478
+Leptothecata,3,other<living,15478
+Siphonophorae,118,other<living,15478
+Physonectae,1,other<living,15478
+Physophora,3,other<living,15478
+Narcomedusae,77,other<living,15478
+Aeginidae,4,other<living,15478
+Solmundella bitentaculata,32,other<living,15478
+Trachymedusae,38,other<living,15478
+Halicreatidae,8,other<living,15478
+Botrynema,41,other<living,15478
+small-bell<Hydrozoa,927,small<Cnidaria,927
+Scyphozoa,15,other<living,15478
+Atolla,6,other<living,21839
+Paraphyllina,6,other<living,21839
+Periphylla periphylla,19,other<living,21839
+tentacle<Cnidaria,372,detritus,509726
+Ctenophora<Metazoa,204,other<living,21839
+tentacle<Ctenophora,42,detritus,509726
+pluteus<Echinoidea,20,other<living,21839
+larvae<Echinodermata,12,other<living,21839
+pluteus<Echinodermata,72,other<living,21839
+tornaria larvae,3,other<living,21839
+Clionidae,4,other<living,21839
+Thecosomata,18,other<living,21839
+Cavoliniidae,19,other<living,21839
+Cavolinia inflexa,66,other<living,21839
+Diacria trispinosa,1,other<living,21839
+Cliidae,6,other<living,21839
+Creseidae,26,other<living,21839
+Creseis acicula,153,Creseis,153
+Creseis virgula,3,other<living,21839
+Limacinidae,42,other<living,21839
+veliger,11,other<living,21839
+egg sac<egg,72,other<living,21839
+multiple<other,19,other<living,21839
+othertocheck,1330,other<living,21839
+darksphere,340,other<living,21839
+artefact,30095,artefact,30139
+bubble,44,artefact,30139
+reflection,2750,artefact,4593
+crystal,3770,crystal,3770
+detritus,508039,detritus,509726
+fiber<detritus,32592,fiber,35898
+filament<detritus,3306,fiber,35898
+t001,17,detritus,509726
+t002,55,Calanoida,14383
+t003,5,Calanoida,14383
+t004,249,other<living,21839
+t007,8,detritus,509726
+t009,9,other<living,21839
+t010,19,other<living,21839
+t011,111,other<living,111
+t012,37,other<living,21839
+t013,12,other<living,21839
+t014,4,other<living,21839
+t016,2,other<living,21839
+t018,24,other<living,21839
+t020,1843,artefact,4593
